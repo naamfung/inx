@@ -6,10 +6,10 @@ import (
 	"log/slog"
 	"strings"
 
-	"reasonix/internal/bot"
-	"reasonix/internal/config"
-	"reasonix/internal/control"
-	"reasonix/internal/event"
+	"inx/internal/bot"
+	"inx/internal/config"
+	"inx/internal/control"
+	"inx/internal/event"
 )
 
 // 本文件是 botBridgeHub 对 App 的全部胶水：会话枚举（含后台 detached）、

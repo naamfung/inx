@@ -16,8 +16,8 @@ import (
 	"github.com/go-ole/go-ole/oleutil"
 	"golang.org/x/sys/windows"
 
-	"reasonix/internal/appidentity"
-	"reasonix/internal/installlayout"
+	"inx/internal/appidentity"
+	"inx/internal/installlayout"
 )
 
 var (
@@ -35,11 +35,11 @@ func repairDesktopIconIntegration() error {
 	if err != nil || installRoot == "" {
 		return nil
 	}
-	launcher := filepath.Join(installRoot, "reasonix-launcher.exe")
+	launcher := filepath.Join(installRoot, "inx-launcher.exe")
 	if info, err := os.Lstat(launcher); err != nil || !info.Mode().IsRegular() {
 		return nil
 	}
-	paths, err := reasonixWindowsShortcutPaths()
+	paths, err := inxWindowsShortcutPaths()
 	if err != nil {
 		return err
 	}
@@ -49,15 +49,15 @@ func repairDesktopIconIntegration() error {
 	)
 }
 
-func reasonixWindowsShortcutPaths() ([]string, error) {
+func inxWindowsShortcutPaths() ([]string, error) {
 	desktop, desktopErr := windowsKnownFolderPath(windows.FOLDERID_Desktop, windows.KF_FLAG_DEFAULT)
 	programs, programsErr := windowsKnownFolderPath(windows.FOLDERID_Programs, windows.KF_FLAG_DEFAULT)
 	if desktopErr != nil || programsErr != nil {
 		return nil, errors.Join(desktopErr, programsErr)
 	}
 	return []string{
-		filepath.Join(desktop, "Reasonix.lnk"),
-		filepath.Join(programs, "Reasonix.lnk"),
+		filepath.Join(desktop, "Inx.lnk"),
+		filepath.Join(programs, "Inx.lnk"),
 	}, nil
 }
 
@@ -121,7 +121,7 @@ func repairWindowsShortcut(shortcutPath, launcher string) (bool, error) {
 	}
 	target := targetValue.ToString()
 	_ = targetValue.Clear()
-	if !reasonixWindowsShortcutTarget(target, launcher) {
+	if !inxWindowsShortcutTarget(target, launcher) {
 		return false, nil
 	}
 	iconValue, err := oleutil.GetProperty(shortcut, "IconLocation")
@@ -135,7 +135,7 @@ func repairWindowsShortcut(shortcutPath, launcher string) (bool, error) {
 		return false, nil
 	}
 	if repointTarget {
-		// A version-scoped target points into versions/<v>/reasonix-desktop.exe,
+		// A version-scoped target points into versions/<v>/inx-desktop.exe,
 		// which the updater deletes when it switches or prunes versions. Repoint
 		// it at the stable launcher so the shortcut survives updates.
 		result, err := oleutil.PutProperty(shortcut, "TargetPath", launcher)
@@ -169,7 +169,7 @@ func repairWindowsShortcut(shortcutPath, launcher string) (bool, error) {
 	return err == nil, err
 }
 
-func reasonixWindowsShortcutTarget(target, launcher string) bool {
+func inxWindowsShortcutTarget(target, launcher string) bool {
 	target = filepath.Clean(strings.TrimSpace(target))
 	launcher = filepath.Clean(strings.TrimSpace(launcher))
 	if target == "." || launcher == "." {
@@ -178,21 +178,21 @@ func reasonixWindowsShortcutTarget(target, launcher string) bool {
 	root := filepath.Dir(launcher)
 	for _, owned := range []string{
 		launcher,
-		filepath.Join(root, "Reasonix.exe"),
-		filepath.Join(root, "reasonix-desktop.exe"),
+		filepath.Join(root, "Inx.exe"),
+		filepath.Join(root, "inx-desktop.exe"),
 	} {
 		if strings.EqualFold(target, owned) {
 			return true
 		}
 	}
-	return reasonixWindowsVersionedTarget(target, launcher)
+	return inxWindowsVersionedTarget(target, launcher)
 }
 
-// reasonixWindowsVersionedTarget reports whether target points into this
-// install's versions/<version>/reasonix-desktop.exe, a version-scoped path
+// inxWindowsVersionedTarget reports whether target points into this
+// install's versions/<version>/inx-desktop.exe, a version-scoped path
 // that the updater deletes when it switches or prunes versions. Such targets
 // dangle after an update, so repair must repoint them at the stable launcher.
-func reasonixWindowsVersionedTarget(target, launcher string) bool {
+func inxWindowsVersionedTarget(target, launcher string) bool {
 	root := filepath.Dir(filepath.Clean(strings.TrimSpace(launcher)))
 	rel, err := filepath.Rel(root, filepath.Clean(strings.TrimSpace(target)))
 	if err != nil || rel == "." || rel == ".." || strings.HasPrefix(rel, ".."+string(filepath.Separator)) {
@@ -200,7 +200,7 @@ func reasonixWindowsVersionedTarget(target, launcher string) bool {
 	}
 	parts := strings.Split(rel, string(filepath.Separator))
 	return len(parts) == 3 && strings.EqualFold(parts[0], "versions") &&
-		strings.EqualFold(parts[2], "reasonix-desktop.exe")
+		strings.EqualFold(parts[2], "inx-desktop.exe")
 }
 
 // repairWindowsShortcutPlan decides which owned-shortcut properties need
@@ -208,10 +208,10 @@ func reasonixWindowsVersionedTarget(target, launcher string) bool {
 // directory the updater can delete; fixIcon is true when IconLocation points
 // at the versioned desktop binary instead of the stable launcher.
 func repairWindowsShortcutPlan(target, iconLocation, launcher string) (repointTarget, fixIcon bool) {
-	return reasonixWindowsVersionedTarget(target, launcher), reasonixWindowsStaleIcon(iconLocation, launcher)
+	return inxWindowsVersionedTarget(target, launcher), inxWindowsStaleIcon(iconLocation, launcher)
 }
 
-func reasonixWindowsStaleIcon(iconLocation, launcher string) bool {
+func inxWindowsStaleIcon(iconLocation, launcher string) bool {
 	iconPath := strings.TrimSpace(iconLocation)
 	if comma := strings.LastIndex(iconPath, ","); comma >= 0 {
 		if _, err := strconv.Atoi(strings.TrimSpace(iconPath[comma+1:])); err == nil {
@@ -229,7 +229,7 @@ func reasonixWindowsStaleIcon(iconLocation, launcher string) bool {
 	}
 	parts := strings.Split(rel, string(filepath.Separator))
 	return len(parts) == 3 && strings.EqualFold(parts[0], "versions") &&
-		strings.EqualFold(parts[2], "reasonix-desktop.exe")
+		strings.EqualFold(parts[2], "inx-desktop.exe")
 }
 
 func notifyWindowsShortcutChanged(path string) {

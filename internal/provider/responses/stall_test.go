@@ -12,7 +12,7 @@ import (
 	"testing"
 	"time"
 
-	"reasonix/internal/provider"
+	"inx/internal/provider"
 )
 
 func flush(w http.ResponseWriter) {

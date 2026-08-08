@@ -10,8 +10,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"reasonix/internal/diff"
-	"reasonix/internal/tool"
+	"inx/internal/diff"
+	"inx/internal/tool"
 )
 
 func init() { tool.RegisterBuiltin(deleteSymbol{}) }

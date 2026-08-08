@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"reasonix/internal/event"
+	"inx/internal/event"
 )
 
 type approvalBlockingRunner struct {

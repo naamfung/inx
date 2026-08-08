@@ -32,10 +32,10 @@ func (a *App) createAppMenu() *menu.Menu {
 			runtime.WindowExecJS(a.ctx, `window.webkit.messageHandlers.external.postMessage("wails:openInspector");`)
 		}
 	})
-	fileMenu.AddText("Show Reasonix", nil, func(_ *menu.CallbackData) {
+	fileMenu.AddText("Show Inx", nil, func(_ *menu.CallbackData) {
 		a.showMainWindow()
 	})
-	fileMenu.AddText("Quit Reasonix", keys.CmdOrCtrl("q"), func(_ *menu.CallbackData) {
+	fileMenu.AddText("Quit Inx", keys.CmdOrCtrl("q"), func(_ *menu.CallbackData) {
 		a.quitApp()
 	})
 	m.Append(menu.EditMenu())

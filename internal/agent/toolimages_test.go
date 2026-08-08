@@ -6,9 +6,9 @@ import (
 	"strings"
 	"testing"
 
-	"reasonix/internal/event"
-	"reasonix/internal/provider"
-	"reasonix/internal/tool"
+	"inx/internal/event"
+	"inx/internal/provider"
+	"inx/internal/tool"
 )
 
 // fakeImageTool implements tool.ImageTool: text and images travel on separate

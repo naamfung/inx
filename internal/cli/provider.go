@@ -6,8 +6,8 @@ import (
 
 	tea "charm.land/bubbletea/v2"
 
-	"reasonix/internal/config"
-	"reasonix/internal/i18n"
+	"inx/internal/config"
+	"inx/internal/i18n"
 )
 
 // runProviderCommand handles "/provider": with no argument it opens the provider

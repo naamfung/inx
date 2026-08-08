@@ -6,9 +6,9 @@ import (
 
 	"github.com/charmbracelet/x/ansi"
 
-	"reasonix/internal/event"
-	"reasonix/internal/i18n"
-	"reasonix/internal/provider"
+	"inx/internal/event"
+	"inx/internal/i18n"
+	"inx/internal/provider"
 )
 
 const (

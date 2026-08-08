@@ -10,10 +10,10 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"reasonix/internal/event"
-	"reasonix/internal/jobs"
-	"reasonix/internal/provider"
-	"reasonix/internal/tool"
+	"inx/internal/event"
+	"inx/internal/jobs"
+	"inx/internal/provider"
+	"inx/internal/tool"
 )
 
 // fakeProgressClock drives the merger's pacing deterministically: tests advance

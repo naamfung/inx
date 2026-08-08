@@ -10,7 +10,7 @@ import (
 	"syscall"
 	"testing"
 
-	"reasonix/internal/agent"
+	"inx/internal/agent"
 )
 
 // Platform errnos for the blocked-file classes. Windows values follow the

@@ -5,8 +5,8 @@ import (
 	"strconv"
 	"strings"
 
-	"reasonix/internal/agent"
-	"reasonix/internal/i18n"
+	"inx/internal/agent"
+	"inx/internal/i18n"
 )
 
 // runRenameCommand handles "/rename": with no argument it shows usage;

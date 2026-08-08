@@ -7,10 +7,10 @@ import (
 	"regexp"
 	"strings"
 
-	"reasonix/internal/evidence"
-	"reasonix/internal/jobs"
-	"reasonix/internal/planmode"
-	"reasonix/internal/tool"
+	"inx/internal/evidence"
+	"inx/internal/jobs"
+	"inx/internal/planmode"
+	"inx/internal/tool"
 )
 
 // bash_output / kill_shell / wait operate the background jobs registered by

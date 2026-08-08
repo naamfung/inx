@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"strings"
 
-	"reasonix/internal/agent"
-	"reasonix/internal/control"
-	"reasonix/internal/provider"
+	"inx/internal/agent"
+	"inx/internal/control"
+	"inx/internal/provider"
 )
 
 // Rebuild builds a replacement runtime for old, migrating session state.

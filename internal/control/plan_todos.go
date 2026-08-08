@@ -8,9 +8,9 @@ import (
 	"slices"
 	"strings"
 
-	"reasonix/internal/event"
-	"reasonix/internal/evidence"
-	"reasonix/internal/provider"
+	"inx/internal/event"
+	"inx/internal/evidence"
+	"inx/internal/provider"
 )
 
 type seedTodo struct {

@@ -8,11 +8,11 @@ import (
 	"testing"
 	"time"
 
-	"reasonix/internal/agent"
-	"reasonix/internal/config"
-	"reasonix/internal/control"
-	"reasonix/internal/event"
-	"reasonix/internal/provider"
+	"inx/internal/agent"
+	"inx/internal/config"
+	"inx/internal/control"
+	"inx/internal/event"
+	"inx/internal/provider"
 )
 
 // TestRuntimeRebuildsEmitRuntimeRebuiltForTab pins the frontend contract the

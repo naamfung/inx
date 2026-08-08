@@ -8,8 +8,8 @@ import (
 	"unicode"
 	"unicode/utf8"
 
-	"reasonix/internal/agent"
-	"reasonix/internal/capability"
+	"inx/internal/agent"
+	"inx/internal/capability"
 )
 
 const (

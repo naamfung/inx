@@ -11,11 +11,11 @@ import (
 	"sort"
 	"strings"
 
-	"reasonix/internal/agent"
-	"reasonix/internal/fileutil"
-	"reasonix/internal/provider"
-	"reasonix/internal/secrets"
-	"reasonix/internal/store"
+	"inx/internal/agent"
+	"inx/internal/fileutil"
+	"inx/internal/provider"
+	"inx/internal/secrets"
+	"inx/internal/store"
 )
 
 // RedactSessionsOptions controls historical session-log redaction.
@@ -35,9 +35,9 @@ type RedactSessionsResult struct {
 	Errors         []string `json:"errors,omitempty"`
 }
 
-// RedactSessions masks credential-shaped values already persisted in Reasonix
+// RedactSessions masks credential-shaped values already persisted in Inx
 // session transcripts, event logs, branch metadata, goal state, and
-// background-job artifacts. It is intentionally scoped to known Reasonix
+// background-job artifacts. It is intentionally scoped to known Inx
 // session directories; it is not a general-purpose filesystem scrubber.
 //
 // Every JSON-bearing artifact is decoded before masking and re-encoded after:

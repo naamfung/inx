@@ -6,9 +6,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	"reasonix/internal/boot"
-	"reasonix/internal/config"
-	"reasonix/internal/control"
+	"inx/internal/boot"
+	"inx/internal/config"
+	"inx/internal/control"
 )
 
 // TestBuildTabControllerIgnoresRetiredAutoRecoveryKillSwitch exercises the
@@ -31,13 +31,13 @@ name = "test-model"
 kind = "openai"
 base_url = "https://example.invalid"
 model = "x"
-api_key_env = "REASONIX_TEST_KEY_UNSET"
+api_key_env = "INX_TEST_KEY_UNSET"
 `), 0o644); err != nil {
 		t.Fatalf("write user config: %v", err)
 	}
 
 	root := robustTempDir(t)
-	if err := os.WriteFile(filepath.Join(root, "reasonix.toml"), []byte(`
+	if err := os.WriteFile(filepath.Join(root, "inx.toml"), []byte(`
 default_model = "test-model"
 
 [agent]
@@ -48,7 +48,7 @@ name = "test-model"
 kind = "openai"
 base_url = "https://example.invalid"
 model = "x"
-api_key_env = "REASONIX_TEST_KEY_UNSET"
+api_key_env = "INX_TEST_KEY_UNSET"
 `), 0o644); err != nil {
 		t.Fatalf("write project config: %v", err)
 	}

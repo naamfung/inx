@@ -22,23 +22,23 @@ import (
 	"charm.land/lipgloss/v2"
 	"github.com/charmbracelet/x/ansi"
 
-	"reasonix/internal/agent"
-	"reasonix/internal/command"
-	"reasonix/internal/config"
-	"reasonix/internal/control"
-	"reasonix/internal/event"
-	"reasonix/internal/hook"
-	"reasonix/internal/i18n"
-	"reasonix/internal/memory"
-	"reasonix/internal/migration"
-	"reasonix/internal/outputstyle"
-	"reasonix/internal/permission"
-	"reasonix/internal/plugin"
-	"reasonix/internal/provider"
-	"reasonix/internal/recovery"
-	"reasonix/internal/sandbox"
-	"reasonix/internal/skill"
-	"reasonix/internal/tool"
+	"inx/internal/agent"
+	"inx/internal/command"
+	"inx/internal/config"
+	"inx/internal/control"
+	"inx/internal/event"
+	"inx/internal/hook"
+	"inx/internal/i18n"
+	"inx/internal/memory"
+	"inx/internal/migration"
+	"inx/internal/outputstyle"
+	"inx/internal/permission"
+	"inx/internal/plugin"
+	"inx/internal/provider"
+	"inx/internal/recovery"
+	"inx/internal/sandbox"
+	"inx/internal/skill"
+	"inx/internal/tool"
 )
 
 // chatTUI is a bubbletea Model that normally owns the terminal with an
@@ -64,9 +64,9 @@ type chatTUI struct {
 	// mouseCaptureOff releases mouse ownership back to the terminal (View() sets
 	// tea.MouseModeNone instead of MouseModeCellMotion) so its native
 	// click-drag selection and right-click context menu work again. Toggled by
-	// "/mouse" or REASONIX_DISABLE_MOUSE at startup; trades away in-app
+	// "/mouse" or INX_DISABLE_MOUSE at startup; trades away in-app
 	// drag-select, the transcript scrollbar, and wheel-scroll while it's on,
-	// since the terminal no longer forwards those events to Reasonix.
+	// since the terminal no longer forwards those events to Inx.
 	mouseCaptureOff bool
 
 	input       textarea.Model
@@ -326,7 +326,7 @@ type chatTUI struct {
 	// (/mcp) from it.
 	host *plugin.Host
 
-	// commands are custom slash commands loaded from .reasonix/commands; each renders
+	// commands are custom slash commands loaded from .inx/commands; each renders
 	// its template with the typed args and sends the result as a turn.
 	commands []command.Command
 
@@ -671,7 +671,7 @@ func transcriptContentWidth(termW int, nativeScrollback bool) int {
 // menu and click-drag selection matter more than the scrollbar and
 // wheel-scroll) without having to type "/mouse" each session.
 func mouseCaptureOffByDefault() bool {
-	v := strings.TrimSpace(os.Getenv("REASONIX_DISABLE_MOUSE"))
+	v := strings.TrimSpace(os.Getenv("INX_DISABLE_MOUSE"))
 	return v != "" && v != "0"
 }
 
@@ -1060,7 +1060,7 @@ func (m chatTUI) update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		return m, nil
 
 	case tea.MouseClickMsg:
-		// Match the complete terminal right-click convention while Reasonix owns
+		// Match the complete terminal right-click convention while Inx owns
 		// the mouse: copy an active selection, otherwise paste clipboard text into
 		// the visible composer. Left-press begins a selection unless it lands on
 		// the transcript scrollbar or a shell-output hint line.
@@ -1182,7 +1182,7 @@ func (m chatTUI) update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.composerSel = composerSelection{}
 				return m, nil
 			}
-			// The terminal cannot see Reasonix's application-owned highlight, and
+			// The terminal cannot see Inx's application-owned highlight, and
 			// macOS commonly consumes Cmd+C before it reaches the TUI. Copy on drag
 			// release just like transcript selection so the visible selection always
 			// has a usable clipboard result.
@@ -1516,7 +1516,7 @@ func (m chatTUI) update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			// Terminal-convention copy without Ctrl+C's destructive side
 			// effects: copy an active selection if there is one, otherwise do
 			// nothing (no clear-input, no cancel, no quit). The selection lives
-			// in-app because Reasonix owns the mouse, so the terminal's own
+			// in-app because Inx owns the mouse, so the terminal's own
 			// Ctrl+Insert (which copies the terminal selection) would see an
 			// empty one.
 			if sel.active && !sel.empty() {
@@ -4106,7 +4106,7 @@ func (m *chatTUI) toggleVerboseReasoning(notify bool) {
 		_ = m.cfg.SetShowReasoning(m.showReasoning)
 		path := config.SourcePath()
 		if path == "" {
-			path = "reasonix.toml"
+			path = "inx.toml"
 		}
 		saveErr = config.EditConfigFile(path, func(cfg *config.Config) error {
 			return cfg.SetShowReasoning(m.showReasoning)
@@ -4126,7 +4126,7 @@ func (m *chatTUI) toggleVerboseReasoning(notify bool) {
 	}
 }
 
-// toggleMouseCapture flips whether Reasonix owns the mouse. It's session-only
+// toggleMouseCapture flips whether Inx owns the mouse. It's session-only
 // (unlike /verbose, this accommodates the terminal/multiplexer at hand rather
 // than recording a lasting preference) — mirrors nativeScrollback, which is
 // likewise never persisted to config. Clears any in-app selection/scrollbar
@@ -4819,7 +4819,7 @@ func (m *chatTUI) showStatusDetails() {
 	m.commitLine(strings.Join(lines, "\n"))
 }
 
-// activeConfigTag names the config file actually in effect. A ./reasonix.toml
+// activeConfigTag names the config file actually in effect. A ./inx.toml
 // outranks the user-global file, so a session started in a directory holding
 // one silently ignores global edits unless the source is visible (#3317).
 func activeConfigTag() string {
@@ -4972,7 +4972,7 @@ func (m *chatTUI) runExportCommand(input string) {
 	}
 
 	var b strings.Builder
-	b.WriteString("# reasonix session\n\n")
+	b.WriteString("# inx session\n\n")
 	lastRole := provider.Role("")
 	exportedMessages := 0
 	for _, msg := range msgs {
@@ -5185,8 +5185,8 @@ func (m *chatTUI) notice(note string) {
 }
 
 // showRemoteHosts renders a read-only summary of configured remote hosts. The
-// remote session lives in a `reasonix serve` on the remote host, so connecting
-// happens from a terminal (`reasonix remote connect`), not inside this chat.
+// remote session lives in a `inx serve` on the remote host, so connecting
+// happens from a terminal (`inx remote connect`), not inside this chat.
 func (m *chatTUI) showRemoteHosts() {
 	cfg, err := config.Load()
 	if err != nil {
@@ -5208,7 +5208,7 @@ func (m *chatTUI) showRemoteHosts() {
 		}
 		fmt.Fprintf(&b, "  · %s  %s\n", h.Name, target)
 	}
-	fmt.Fprintf(&b, "  run `reasonix remote connect <name>` in a terminal to open the remote workspace")
+	fmt.Fprintf(&b, "  run `inx remote connect <name>` in a terminal to open the remote workspace")
 	m.commitLine(dim(b.String()))
 }
 
@@ -5306,7 +5306,7 @@ func interruptedTurnDisplayNotice() string {
 // at the top of the session.
 func renderTUIBanner(label, missing string, width int) string {
 	var b strings.Builder
-	b.WriteString(accent("◆") + " " + bold("reasonix") + "  " + dim("· "+label) + "\n")
+	b.WriteString(accent("◆") + " " + bold("inx") + "  " + dim("· "+label) + "\n")
 	b.WriteString(dim("  "+i18n.M.ChatTip) + "\n")
 	if missing != "" {
 		b.WriteString(wrapForViewport("  ! "+missing, width, activeCLITheme.warn) + "\n")
@@ -5337,7 +5337,7 @@ func renderUserBubble(line string, width int, planMode bool) string {
 	return "  " + accent(prefix+line)
 }
 
-var cliImageRefRe = regexp.MustCompile(`(?:^|\s)@\.reasonix/attachments/clipboard-\d{8}-\d{6}\.\d+(?:-(?:\d{6}|[a-f0-9]{8}))?\.(?:png|jpg|jpeg|gif|webp)`)
+var cliImageRefRe = regexp.MustCompile(`(?:^|\s)@\.inx/attachments/clipboard-\d{8}-\d{6}\.\d+(?:-(?:\d{6}|[a-f0-9]{8}))?\.(?:png|jpg|jpeg|gif|webp)`)
 
 func displayLineForImageRefs(line string) string {
 	idx := 0

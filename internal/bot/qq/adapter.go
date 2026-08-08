@@ -13,8 +13,8 @@ import (
 	"sync"
 	"time"
 
-	"reasonix/internal/bot"
-	"reasonix/internal/config"
+	"inx/internal/bot"
+	"inx/internal/config"
 
 	"golang.org/x/net/websocket"
 )

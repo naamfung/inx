@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strings"
 
-	"reasonix/internal/config"
-	"reasonix/internal/skill"
-	"reasonix/internal/tool"
+	"inx/internal/config"
+	"inx/internal/skill"
+	"inx/internal/tool"
 )
 
 // SkillHealthOptions configures skill/MCP capability diagnostics for doctor.

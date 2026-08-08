@@ -12,9 +12,9 @@ import (
 	"testing"
 	"time"
 
-	"reasonix/internal/control"
-	"reasonix/internal/event"
-	"reasonix/internal/i18n"
+	"inx/internal/control"
+	"inx/internal/event"
+	"inx/internal/i18n"
 )
 
 func TestTUIDiagnosticsKeepProcessAndPluginLogsOffTerminal(t *testing.T) {

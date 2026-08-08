@@ -6,8 +6,8 @@ import (
 	"slices"
 	"strings"
 
-	"reasonix/internal/fileutil"
-	fileenc "reasonix/internal/fileutil/encoding"
+	"inx/internal/fileutil"
+	fileenc "inx/internal/fileutil/encoding"
 )
 
 // readFileEncoded reads a file and decodes its encoding to UTF-8.

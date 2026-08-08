@@ -7,12 +7,12 @@ import (
 	"strings"
 	"testing"
 
-	"reasonix/internal/agent/testutil"
-	"reasonix/internal/event"
-	"reasonix/internal/provider"
-	"reasonix/internal/tool"
+	"inx/internal/agent/testutil"
+	"inx/internal/event"
+	"inx/internal/provider"
+	"inx/internal/tool"
 
-	_ "reasonix/internal/tool/builtin"
+	_ "inx/internal/tool/builtin"
 )
 
 type stubBash struct{}

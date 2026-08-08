@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"reasonix/internal/event"
+	"inx/internal/event"
 )
 
 // recordingRecorder captures lifecycle calls for assertions.

@@ -7,12 +7,12 @@ import (
 	"testing"
 	"time"
 
-	"reasonix/internal/config"
-	"reasonix/internal/control"
-	fileencoding "reasonix/internal/fileutil/encoding"
+	"inx/internal/config"
+	"inx/internal/control"
+	fileencoding "inx/internal/fileutil/encoding"
 )
 
-func TestHeartbeatConfigPathUsesReasonixUserStateDir(t *testing.T) {
+func TestHeartbeatConfigPathUsesInxUserStateDir(t *testing.T) {
 	isolateDesktopUserDirs(t)
 	engine := &HeartbeatEngine{}
 	want := filepath.Join(config.MemoryUserDir(), "heartbeat-tasks.json")

@@ -7,11 +7,11 @@ import (
 	"strings"
 	"testing"
 
-	"reasonix/internal/event"
-	"reasonix/internal/provider"
-	"reasonix/internal/sandbox"
-	"reasonix/internal/tool"
-	"reasonix/internal/tool/builtin"
+	"inx/internal/event"
+	"inx/internal/provider"
+	"inx/internal/sandbox"
+	"inx/internal/tool"
+	"inx/internal/tool/builtin"
 )
 
 func TestBindWritePathsRebindsBashWriteRoots(t *testing.T) {

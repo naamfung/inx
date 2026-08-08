@@ -5,10 +5,10 @@ import (
 	"strings"
 	"testing"
 
-	"reasonix/internal/agent/testutil"
-	"reasonix/internal/event"
-	"reasonix/internal/provider"
-	"reasonix/internal/tool"
+	"inx/internal/agent/testutil"
+	"inx/internal/event"
+	"inx/internal/provider"
+	"inx/internal/tool"
 )
 
 func TestMaybeCompactIgnoresRetryAggregateBelowContextThreshold(t *testing.T) {

@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"reasonix/internal/config"
-	"reasonix/internal/provider"
+	"inx/internal/config"
+	"inx/internal/provider"
 )
 
 type recordingTitleProvider struct {

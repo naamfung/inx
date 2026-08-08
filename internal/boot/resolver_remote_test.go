@@ -3,8 +3,8 @@ package boot
 import (
 	"testing"
 
-	"reasonix/internal/config"
-	"reasonix/internal/provider"
+	"inx/internal/config"
+	"inx/internal/provider"
 )
 
 func TestRemoteResolverMetadataOverridesHostProviderWithSameRef(t *testing.T) {

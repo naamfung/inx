@@ -6,7 +6,7 @@ import (
 	"errors"
 	"testing"
 
-	"reasonix/internal/diff"
+	"inx/internal/diff"
 )
 
 type fakeWriter struct {

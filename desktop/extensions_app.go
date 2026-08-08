@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"reasonix/internal/control"
+	"inx/internal/control"
 )
 
 // ExtensionActionView is the JSON twin of control.ExtensionActionView for the

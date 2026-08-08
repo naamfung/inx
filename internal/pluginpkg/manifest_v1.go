@@ -17,24 +17,24 @@ import (
 	"strings"
 )
 
-// ManifestAPIVersionV1 is the only plugin manifest apiVersion this Reasonix
-// parses. A native manifest (reasonix-plugin.json) WITHOUT an apiVersion
+// ManifestAPIVersionV1 is the only plugin manifest apiVersion this Inx
+// parses. A native manifest (inx-plugin.json) WITHOUT an apiVersion
 // takes the legacy path and parses exactly as it always has; any manifest
 // that declares one is routed here.
-const ManifestAPIVersionV1 = "reasonix.io/plugin/v1"
+const ManifestAPIVersionV1 = "inx.io/plugin/v1"
 
 // PluginRootEnvVar is the variable a v1 runtime command may use to address
 // files inside its own installed package. It expands at launch time, never
 // through a shell.
-const PluginRootEnvVar = "${REASONIX_PLUGIN_ROOT}"
+const PluginRootEnvVar = "${INX_PLUGIN_ROOT}"
 
-// apiVersionPattern matches reasonix.io/plugin/v<major>[.<minor>].
-var apiVersionPattern = regexp.MustCompile(`^reasonix\.io/plugin/v([0-9]+)(?:\.([0-9]+))?$`)
+// apiVersionPattern matches inx.io/plugin/v<major>[.<minor>].
+var apiVersionPattern = regexp.MustCompile(`^inx\.io/plugin/v([0-9]+)(?:\.([0-9]+))?$`)
 
 // RuntimeSpec declares a plugin-owned runtime process (Manifest v1). The
-// command is exec form only: Reasonix never runs it through a shell, so
+// command is exec form only: Inx never runs it through a shell, so
 // pipes, && and ; carry no special meaning. Command may start with
-// ${REASONIX_PLUGIN_ROOT} to address a binary inside the installed package;
+// ${INX_PLUGIN_ROOT} to address a binary inside the installed package;
 // the expansion happens at launch time (see ExpandRuntimeCommand for the
 // diagnostics-time equivalent).
 type RuntimeSpec struct {
@@ -82,10 +82,10 @@ func checkAPIVersion(v string) error {
 	}
 	m := apiVersionPattern.FindStringSubmatch(v)
 	if m == nil {
-		return fmt.Errorf("%s: invalid apiVersion %q: want reasonix.io/plugin/v<major>[.<minor>] (this Reasonix supports %s)", NativeManifest, v, ManifestAPIVersionV1)
+		return fmt.Errorf("%s: invalid apiVersion %q: want inx.io/plugin/v<major>[.<minor>] (this Inx supports %s)", NativeManifest, v, ManifestAPIVersionV1)
 	}
 	if major, _ := strconv.Atoi(m[1]); major != 1 {
-		return fmt.Errorf("%s: unsupported apiVersion %q (this Reasonix supports %s)", NativeManifest, v, ManifestAPIVersionV1)
+		return fmt.Errorf("%s: unsupported apiVersion %q (this Inx supports %s)", NativeManifest, v, ManifestAPIVersionV1)
 	}
 	return nil
 }
@@ -234,7 +234,7 @@ func parseNativeV1(b []byte, root, apiVersion string) (Package, []string, error)
 	if err != nil {
 		return Package{}, warnings, err
 	}
-	pkg := Package{Root: root, ManifestKind: "reasonix", Manifest: manifest}
+	pkg := Package{Root: root, ManifestKind: "inx", Manifest: manifest}
 	pkg.Compatibility = compatibilityFor(pkg, issues)
 	return pkg, warnings, nil
 }
@@ -732,7 +732,7 @@ func globThemePattern(root, pattern string) ([]string, error) {
 	return matches, nil
 }
 
-// ExpandRuntimeCommand substitutes the ${REASONIX_PLUGIN_ROOT} prefix with
+// ExpandRuntimeCommand substitutes the ${INX_PLUGIN_ROOT} prefix with
 // the package root. Launch-time expansion lives with the runtime supervisor
 // (a later stage); this exists so diagnostics can resolve the on-disk path.
 func ExpandRuntimeCommand(command, root string) string {

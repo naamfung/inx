@@ -21,20 +21,20 @@ import (
 
 	"golang.org/x/sync/errgroup"
 
-	"reasonix/internal/agent"
-	"reasonix/internal/boot"
-	"reasonix/internal/botruntime"
-	"reasonix/internal/config"
-	"reasonix/internal/control"
-	"reasonix/internal/provider"
-	"reasonix/internal/sandbox"
+	"inx/internal/agent"
+	"inx/internal/boot"
+	"inx/internal/botruntime"
+	"inx/internal/config"
+	"inx/internal/control"
+	"inx/internal/provider"
+	"inx/internal/sandbox"
 )
 
 // settings_app.go is the desktop Settings panel's command surface: it reads the
 // resolved config and applies edits through internal/config/edit.go (the
 // purpose-built mutation API), then rebuilds the controller so the change takes
 // effect live — the same snapshot→reload→resume pattern as SetModel. Secrets are
-// the exception: they go to Reasonix's global .env (upsertDotEnv), since config
+// the exception: they go to Inx's global .env (upsertDotEnv), since config
 // stores only the env-var name, not the key.
 
 // read
@@ -309,7 +309,7 @@ type SettingsView struct {
 	ExpandThinking    bool   `json:"expandThinking"`
 	ConversationWidth string `json:"conversationWidth,omitempty"`
 	ConfigPath        string `json:"configPath"`
-	// ShadowedByPath is the workspace reasonix.toml that outranks the file this
+	// ShadowedByPath is the workspace inx.toml that outranks the file this
 	// panel writes, so an edit here can be overridden with nothing on screen to
 	// explain it (#4333). Empty when the panel's file is the one in effect.
 	ShadowedByPath string `json:"shadowedByPath,omitempty"`
@@ -349,7 +349,7 @@ type DesktopStartupSettingsView struct {
 
 // shadowingConfigPath returns the config file that outranks writePath for the
 // workspace at root, or "" when writePath is the one in effect. A project
-// reasonix.toml beats the user config, so settings written here would otherwise
+// inx.toml beats the user config, so settings written here would otherwise
 // look ignored (#4333).
 func shadowingConfigPath(writePath, root string) string {
 	effective := config.SourcePathForRoot(root)
@@ -942,7 +942,7 @@ func (a *App) DesktopStartupSettings() DesktopStartupSettingsView {
 	if err != nil {
 		view := desktopStartupSettingsFromConfig(nil)
 		view.ConfigWarnings = []string{
-			"user configuration could not be loaded; using built-in defaults. Run: reasonix doctor repair",
+			"user configuration could not be loaded; using built-in defaults. Run: inx doctor repair",
 		}
 		view.ConfigPath = config.UserConfigPath()
 		return view
@@ -1305,7 +1305,7 @@ func botDomainOrDefault(domain string) string {
 // applyConfigChange mutates the user-global config and rebuilds the controller so
 // the change takes effect this session. Desktop settings such as providers and
 // keys are account-level, not per-project: writing them to the global config
-// rather than the cwd's reasonix.toml is what lets them survive a workspace switch.
+// rather than the cwd's inx.toml is what lets them survive a workspace switch.
 func (a *App) applyConfigChange(mutate func(*config.Config) error) error {
 	_, err := a.applyConfigChangeWithWarning("settings", mutate)
 	return err
@@ -1477,7 +1477,7 @@ func (a *App) loadDesktopUserConfigForEditForRoot(root string) (*config.Config, 
 // config.LockUserConfigEdits(). Legacy migrations (provider-access normalize,
 // legacy bot-config merge) are applied to the returned copy in memory only;
 // the on-disk file migrates the first time a locked write path runs
-// loadDesktopUserConfigForEdit. Credentials (Reasonix global .env) are not
+// loadDesktopUserConfigForEdit. Credentials (Inx global .env) are not
 // loaded; callers that hand the config to a runtime resolving secrets from the
 // process env must use loadDesktopUserConfigForViewWithCredentials.
 func (a *App) loadDesktopUserConfigForView() (*config.Config, string, error) {
@@ -1489,7 +1489,7 @@ func (a *App) loadDesktopUserConfigForViewForRoot(root string) (*config.Config, 
 }
 
 // loadDesktopUserConfigForViewWithCredentials is loadDesktopUserConfigForView
-// plus credential resolution: like config.LoadForEdit it loads Reasonix's
+// plus credential resolution: like config.LoadForEdit it loads Inx's
 // global .env into the process env. Use it for read-only loads whose result
 // feeds a runtime that resolves env-based secrets — the bot runtime
 // (app-secret/control-token envs) and MCP server connects. It still never
@@ -2487,7 +2487,7 @@ func (a *App) SaveProviderModelCatalogs(updates []ProviderModelCatalogUpdate) ([
 			return err
 		}
 		defer unlockCredentials()
-		// Re-read while holding the same lock as every Reasonix credential
+		// Re-read while holding the same lock as every Inx credential
 		// writer, then keep that lock through the config commit. A rotation that
 		// won the race therefore invalidates the request fingerprint.
 		credentialsRevision := providerCredentialsRevision()
@@ -2660,7 +2660,7 @@ func (a *App) AddProviderPresetAccess(id, key string) (string, error) {
 
 // ResetProviderPresetAccess intentionally overwrites same-name provider entries
 // with the curated preset template. It only mutates config; provider secrets stay
-// in Reasonix home .env under whichever api_key_env the resulting preset uses.
+// in Inx home .env under whichever api_key_env the resulting preset uses.
 func (a *App) ResetProviderPresetAccess(id string) error {
 	preset, ok := config.CuratedProviderPreset(id)
 	if !ok {
@@ -3139,7 +3139,7 @@ func (a *App) rebuildActiveSettingRuntimeMutationLocked(setting string) error {
 	return a.rebuildSettingTurnLocked(setting, tab, true, false)
 }
 
-// SetProviderKey writes a secret to Reasonix's global .env under the given
+// SetProviderKey writes a secret to Inx's global .env under the given
 // env-var name (the one a provider's api_key_env points at) and rebuilds so it
 // resolves immediately.
 func (a *App) SetProviderKey(apiKeyEnv, value string) (string, error) {
@@ -3230,7 +3230,7 @@ func (a *App) ensureProviderAccessForKey(apiKeyEnv string) error {
 	return cfg.SaveTo(path)
 }
 
-// ClearProviderKey removes a provider secret from Reasonix's global .env
+// ClearProviderKey removes a provider secret from Inx's global .env
 // and rebuilds so the provider immediately becomes unauthenticated.
 func (a *App) ClearProviderKey(apiKeyEnv string) error {
 	if strings.TrimSpace(apiKeyEnv) == "" {

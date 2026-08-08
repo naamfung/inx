@@ -179,7 +179,7 @@ func RepairOwnedShortcuts(installRoot string) error {
 	for _, path := range paths {
 		info, err := os.Lstat(path)
 		if err != nil {
-			if !os.IsNotExist(err) && reasonixShortcutName(path) {
+			if !os.IsNotExist(err) && inxShortcutName(path) {
 				repairErr = errors.Join(repairErr, err)
 			}
 			continue
@@ -189,7 +189,7 @@ func RepairOwnedShortcuts(installRoot string) error {
 		}
 		changed, err := repairOwnedShortcut(path, installRoot)
 		if err != nil {
-			if reasonixShortcutName(path) {
+			if inxShortcutName(path) {
 				repairErr = errors.Join(repairErr, fmt.Errorf("%s: %w", path, err))
 			}
 			continue
@@ -216,7 +216,7 @@ func shortcutCandidates(installRoot string) ([]string, error) {
 		seen[key] = struct{}{}
 		paths = append(paths, path)
 	}
-	addReasonixLinks := func(dir string) error {
+	addInxLinks := func(dir string) error {
 		entries, err := os.ReadDir(dir)
 		if err != nil {
 			if os.IsNotExist(err) {
@@ -225,38 +225,38 @@ func shortcutCandidates(installRoot string) ([]string, error) {
 			return err
 		}
 		for _, entry := range entries {
-			if !entry.IsDir() && reasonixShortcutName(entry.Name()) {
+			if !entry.IsDir() && inxShortcutName(entry.Name()) {
 				add(filepath.Join(dir, entry.Name()))
 			}
 		}
 		return nil
 	}
 
-	add(filepath.Join(installRoot, "Reasonix.lnk"))
+	add(filepath.Join(installRoot, "Inx.lnk"))
 	var resultErr error
-	resultErr = errors.Join(resultErr, addReasonixLinks(installRoot))
+	resultErr = errors.Join(resultErr, addInxLinks(installRoot))
 	for _, folderID := range []*windows.KNOWNFOLDERID{windows.FOLDERID_Desktop, windows.FOLDERID_Programs} {
 		folder, err := knownFolderPath(folderID, windows.KF_FLAG_DEFAULT)
 		if err != nil {
 			resultErr = errors.Join(resultErr, err)
 			continue
 		}
-		add(filepath.Join(folder, "Reasonix.lnk"))
+		add(filepath.Join(folder, "Inx.lnk"))
 	}
 	roaming, err := knownFolderPath(windows.FOLDERID_RoamingAppData, windows.KF_FLAG_DEFAULT)
 	if err != nil {
 		resultErr = errors.Join(resultErr, err)
 	} else {
 		pinned := filepath.Join(roaming, "Microsoft", "Internet Explorer", "Quick Launch", "User Pinned", "TaskBar")
-		resultErr = errors.Join(resultErr, addReasonixLinks(pinned))
+		resultErr = errors.Join(resultErr, addInxLinks(pinned))
 	}
 	return paths, resultErr
 }
 
-func reasonixShortcutName(path string) bool {
+func inxShortcutName(path string) bool {
 	name := filepath.Base(strings.TrimSpace(path))
 	return strings.EqualFold(filepath.Ext(name), ".lnk") &&
-		strings.HasPrefix(strings.ToLower(strings.TrimSuffix(name, filepath.Ext(name))), "reasonix")
+		strings.HasPrefix(strings.ToLower(strings.TrimSuffix(name, filepath.Ext(name))), "inx")
 }
 
 func repairOwnedShortcut(path, installRoot string) (bool, error) {
@@ -293,9 +293,9 @@ func ownedShortcutTarget(target, installRoot string) bool {
 		return false
 	}
 	for _, candidate := range []string{
-		filepath.Join(installRoot, "reasonix-launcher.exe"),
-		filepath.Join(installRoot, "Reasonix.exe"),
-		filepath.Join(installRoot, "reasonix-desktop.exe"),
+		filepath.Join(installRoot, "inx-launcher.exe"),
+		filepath.Join(installRoot, "Inx.exe"),
+		filepath.Join(installRoot, "inx-desktop.exe"),
 	} {
 		if sameWindowsPathOrFile(target, candidate) {
 			return true
@@ -305,13 +305,13 @@ func ownedShortcutTarget(target, installRoot string) bool {
 	if err == nil && rel != "." && rel != ".." && !strings.HasPrefix(rel, ".."+string(filepath.Separator)) {
 		parts := strings.Split(rel, string(filepath.Separator))
 		if len(parts) == 3 && strings.EqualFold(parts[0], "versions") &&
-			strings.EqualFold(parts[2], "reasonix-desktop.exe") {
+			strings.EqualFold(parts[2], "inx-desktop.exe") {
 			return true
 		}
 	}
 	versionDir := filepath.Dir(target)
 	versionsDir := filepath.Dir(versionDir)
-	return strings.EqualFold(filepath.Base(target), "reasonix-desktop.exe") &&
+	return strings.EqualFold(filepath.Base(target), "inx-desktop.exe") &&
 		strings.EqualFold(filepath.Base(versionsDir), "versions") &&
 		sameWindowsFile(filepath.Dir(versionsDir), installRoot)
 }

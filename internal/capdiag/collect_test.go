@@ -8,8 +8,8 @@ import (
 	"strings"
 	"testing"
 
-	"reasonix/internal/capdiag"
-	"reasonix/internal/pluginpkg"
+	"inx/internal/capdiag"
+	"inx/internal/pluginpkg"
 )
 
 func TestCollectStaticNoNetworkSideEffects(t *testing.T) {
@@ -17,32 +17,32 @@ func TestCollectStaticNoNetworkSideEffects(t *testing.T) {
 	home := t.TempDir()
 	t.Setenv("HOME", home)
 	t.Setenv("USERPROFILE", home)
-	t.Setenv("REASONIX_HOME", filepath.Join(home, ".reasonix"))
+	t.Setenv("INX_HOME", filepath.Join(home, ".inx"))
 	// Shadowed skill + missing description + command override.
-	write(t, filepath.Join(root, ".reasonix", "skills", "demo", "SKILL.md"),
+	write(t, filepath.Join(root, ".inx", "skills", "demo", "SKILL.md"),
 		"---\nname: demo\ndescription: project demo\n---\nbody\n")
-	write(t, filepath.Join(home, ".reasonix", "skills", "demo", "SKILL.md"),
+	write(t, filepath.Join(home, ".inx", "skills", "demo", "SKILL.md"),
 		"---\nname: demo\ndescription: global demo\n---\nbody\n")
-	write(t, filepath.Join(root, ".reasonix", "skills", "nodesc", "SKILL.md"),
+	write(t, filepath.Join(root, ".inx", "skills", "nodesc", "SKILL.md"),
 		"---\nname: nodesc\n---\nbody\n")
-	write(t, filepath.Join(root, ".reasonix", "commands", "hi.md"),
+	write(t, filepath.Join(root, ".inx", "commands", "hi.md"),
 		"---\ndescription: project hi\n---\nP $ARGUMENTS\n")
-	write(t, filepath.Join(home, ".reasonix", "commands", "hi.md"),
+	write(t, filepath.Join(home, ".inx", "commands", "hi.md"),
 		"---\ndescription: home hi\n---\nH $ARGUMENTS\n")
 
 	// Project hooks load automatically.
-	write(t, filepath.Join(root, ".reasonix", "settings.json"), `{
+	write(t, filepath.Join(root, ".inx", "settings.json"), `{
   "hooks": {
     "PreToolUse": [{"match": "(", "command": "echo bad"}, {"match": ".*", "command": "echo ok"}]
   }
 }`)
 
 	// MCP with missing command.
-	write(t, filepath.Join(root, "reasonix.toml"), `
+	write(t, filepath.Join(root, "inx.toml"), `
 [[plugins]]
 name = "broken"
 type = "stdio"
-command = "definitely-not-a-real-binary-xyzzy-reasonix"
+command = "definitely-not-a-real-binary-xyzzy-inx"
 auto_start = false
 `)
 
@@ -52,7 +52,7 @@ auto_start = false
 	r := capdiag.Collect(capdiag.Options{
 		Root:            root,
 		HomeDir:         home,
-		ReasonixHomeDir: filepath.Join(home, ".reasonix"),
+		InxHomeDir: filepath.Join(home, ".inx"),
 		Live:            false,
 	})
 
@@ -66,7 +66,7 @@ auto_start = false
 		t.Fatalf("MCP servers = %+v, want one effective entry", r.MCP.Servers)
 	}
 	mcp := r.MCP.Servers[0]
-	if !mcp.Effective || mcp.Source != "project_config" || mcp.SourcePath != "<workspace>/reasonix.toml" {
+	if !mcp.Effective || mcp.Source != "project_config" || mcp.SourcePath != "<workspace>/inx.toml" {
 		t.Fatalf("effective MCP provenance = %+v", mcp)
 	}
 	// Missing convention dirs should not produce warnings.
@@ -109,7 +109,7 @@ auto_start = false
 	// Deterministic JSON round.
 	j1, _ := capdiag.RenderJSON(r)
 	r2 := capdiag.Collect(capdiag.Options{
-		Root: root, HomeDir: home, ReasonixHomeDir: filepath.Join(home, ".reasonix"),
+		Root: root, HomeDir: home, InxHomeDir: filepath.Join(home, ".inx"),
 	})
 	j2, _ := capdiag.RenderJSON(r2)
 	if j1 != j2 {
@@ -122,11 +122,11 @@ auto_start = false
 	}
 }
 
-func TestCollectUsesExactReasonixHomeForGlobalHooks(t *testing.T) {
+func TestCollectUsesExactInxHomeForGlobalHooks(t *testing.T) {
 	root := t.TempDir()
 	home := t.TempDir()
-	reasonixHome := filepath.Join(home, "AppData", "Roaming", "reasonix")
-	write(t, filepath.Join(reasonixHome, "settings.json"), `{
+	inxHome := filepath.Join(home, "AppData", "Roaming", "inx")
+	write(t, filepath.Join(inxHome, "settings.json"), `{
   "hooks": {
     "SessionStart": [{"command": "echo exact-home"}]
   }
@@ -135,7 +135,7 @@ func TestCollectUsesExactReasonixHomeForGlobalHooks(t *testing.T) {
 	report := capdiag.Collect(capdiag.Options{
 		Root:            root,
 		HomeDir:         home,
-		ReasonixHomeDir: reasonixHome,
+		InxHomeDir: inxHome,
 	})
 	if report.Summary.Hooks != 1 || len(report.Hooks.Entries) != 1 {
 		t.Fatalf("hooks = %+v, summary = %+v", report.Hooks, report.Summary)
@@ -143,12 +143,12 @@ func TestCollectUsesExactReasonixHomeForGlobalHooks(t *testing.T) {
 	for _, source := range report.Hooks.Sources {
 		if source.Scope == "global" {
 			if source.Status != "ok" || source.HookCount != 1 {
-				t.Fatalf("global hook source = %+v, want exact Reasonix home settings", source)
+				t.Fatalf("global hook source = %+v, want exact Inx home settings", source)
 			}
-			if source.Path != "<reasonix-home>/settings.json" && source.Path != "<reasonix-home>\\settings.json" {
+			if source.Path != "<inx-home>/settings.json" && source.Path != "<inx-home>\\settings.json" {
 				// displayPath uses ToSlash
-				if !strings.Contains(source.Path, "<reasonix-home>") {
-					t.Fatalf("global path = %q, want <reasonix-home> prefix", source.Path)
+				if !strings.Contains(source.Path, "<inx-home>") {
+					t.Fatalf("global path = %q, want <inx-home> prefix", source.Path)
 				}
 			}
 			return
@@ -161,9 +161,9 @@ func TestMissingConventionDirsNoWarning(t *testing.T) {
 	root := t.TempDir()
 	home := t.TempDir()
 	t.Setenv("HOME", home)
-	t.Setenv("REASONIX_HOME", filepath.Join(home, ".reasonix"))
+	t.Setenv("INX_HOME", filepath.Join(home, ".inx"))
 	r := capdiag.Collect(capdiag.Options{
-		Root: root, HomeDir: home, ReasonixHomeDir: filepath.Join(home, ".reasonix"),
+		Root: root, HomeDir: home, InxHomeDir: filepath.Join(home, ".inx"),
 	})
 	if r.Issues == nil {
 		t.Fatal("empty issues must be a non-nil slice for JSON consumers")
@@ -188,12 +188,12 @@ func TestProjectHooksEnabledByDefault(t *testing.T) {
 	root := t.TempDir()
 	home := t.TempDir()
 	t.Setenv("HOME", home)
-	t.Setenv("REASONIX_HOME", filepath.Join(home, ".reasonix"))
-	write(t, filepath.Join(root, ".reasonix", "settings.json"), `{
+	t.Setenv("INX_HOME", filepath.Join(home, ".inx"))
+	write(t, filepath.Join(root, ".inx", "settings.json"), `{
   "hooks": {"Stop": [{"command": "echo done"}]}
 }`)
 	r := capdiag.Collect(capdiag.Options{
-		Root: root, HomeDir: home, ReasonixHomeDir: filepath.Join(home, ".reasonix"),
+		Root: root, HomeDir: home, InxHomeDir: filepath.Join(home, ".inx"),
 	})
 	if !r.Hooks.TrustedProject {
 		t.Fatal("compatibility field trusted_project should reflect default enablement")
@@ -219,8 +219,8 @@ func TestLoadForRootReadOnlyDoesNotRewriteTier(t *testing.T) {
 	root := t.TempDir()
 	home := t.TempDir()
 	t.Setenv("HOME", home)
-	t.Setenv("REASONIX_HOME", filepath.Join(home, ".reasonix"))
-	userCfg := filepath.Join(home, ".reasonix", "config.toml")
+	t.Setenv("INX_HOME", filepath.Join(home, ".inx"))
+	userCfg := filepath.Join(home, ".inx", "config.toml")
 	if err := os.MkdirAll(filepath.Dir(userCfg), 0o755); err != nil {
 		t.Fatal(err)
 	}
@@ -229,7 +229,7 @@ func TestLoadForRootReadOnlyDoesNotRewriteTier(t *testing.T) {
 		t.Fatal(err)
 	}
 	_ = capdiag.Collect(capdiag.Options{
-		Root: root, HomeDir: home, ReasonixHomeDir: filepath.Join(home, ".reasonix"),
+		Root: root, HomeDir: home, InxHomeDir: filepath.Join(home, ".inx"),
 	})
 	raw, err := os.ReadFile(userCfg)
 	if err != nil {
@@ -244,14 +244,14 @@ func TestUnknownHookEventIsReported(t *testing.T) {
 	root := t.TempDir()
 	home := t.TempDir()
 	t.Setenv("HOME", home)
-	t.Setenv("REASONIX_HOME", filepath.Join(home, ".reasonix"))
-	write(t, filepath.Join(root, ".reasonix", "settings.json"), `{
+	t.Setenv("INX_HOME", filepath.Join(home, ".inx"))
+	write(t, filepath.Join(root, ".inx", "settings.json"), `{
   "hooks": {
     "NotARealEvent": [{"command": "echo hi"}]
   }
 }`)
 	r := capdiag.Collect(capdiag.Options{
-		Root: root, HomeDir: home, ReasonixHomeDir: filepath.Join(home, ".reasonix"),
+		Root: root, HomeDir: home, InxHomeDir: filepath.Join(home, ".inx"),
 	})
 	found := false
 	for _, is := range r.Issues {
@@ -268,17 +268,17 @@ func TestUnknownHookEventIsReported(t *testing.T) {
 func TestCollectIgnoresMatchersOnNonToolHookEvents(t *testing.T) {
 	root := t.TempDir()
 	home := t.TempDir()
-	reasonixHome := filepath.Join(home, ".reasonix")
+	inxHome := filepath.Join(home, ".inx")
 	t.Setenv("HOME", home)
-	t.Setenv("REASONIX_HOME", reasonixHome)
-	write(t, filepath.Join(reasonixHome, "settings.json"), `{
+	t.Setenv("INX_HOME", inxHome)
+	write(t, filepath.Join(inxHome, "settings.json"), `{
   "hooks": {
     "Stop": [{"match": "(", "command": "echo done"}]
   }
 }`)
 
 	r := capdiag.Collect(capdiag.Options{
-		Root: root, HomeDir: home, ReasonixHomeDir: reasonixHome,
+		Root: root, HomeDir: home, InxHomeDir: inxHome,
 	})
 	if len(r.Hooks.Entries) != 1 {
 		t.Fatalf("hook entries = %+v, want one Stop hook", r.Hooks.Entries)
@@ -293,11 +293,11 @@ func TestCollectIgnoresMatchersOnNonToolHookEvents(t *testing.T) {
 func TestCollectRejectsNonRegularPluginContextFile(t *testing.T) {
 	root := t.TempDir()
 	home := t.TempDir()
-	reasonixHome := filepath.Join(home, ".reasonix")
+	inxHome := filepath.Join(home, ".inx")
 	t.Setenv("HOME", home)
-	t.Setenv("REASONIX_HOME", reasonixHome)
+	t.Setenv("INX_HOME", inxHome)
 
-	pluginRoot := filepath.Join(reasonixHome, "plugins", "demo")
+	pluginRoot := filepath.Join(inxHome, "plugins", "demo")
 	write(t, filepath.Join(pluginRoot, pluginpkg.NativeManifest), `{
   "name": "demo",
   "hooks": {
@@ -307,14 +307,14 @@ func TestCollectRejectsNonRegularPluginContextFile(t *testing.T) {
 	if err := os.MkdirAll(filepath.Join(pluginRoot, "CLAUDE.md"), 0o755); err != nil {
 		t.Fatal(err)
 	}
-	if err := pluginpkg.Upsert(reasonixHome, pluginpkg.InstalledPlugin{
-		Name: "demo", Root: "plugins/demo", ManifestKind: "reasonix", Enabled: true,
+	if err := pluginpkg.Upsert(inxHome, pluginpkg.InstalledPlugin{
+		Name: "demo", Root: "plugins/demo", ManifestKind: "inx", Enabled: true,
 	}); err != nil {
 		t.Fatal(err)
 	}
 
 	r := capdiag.Collect(capdiag.Options{
-		Root: root, HomeDir: home, ReasonixHomeDir: reasonixHome,
+		Root: root, HomeDir: home, InxHomeDir: inxHome,
 	})
 	for _, issue := range r.Issues {
 		if issue.Code == "hook.missing_context_file" {
@@ -327,21 +327,21 @@ func TestCollectRejectsNonRegularPluginContextFile(t *testing.T) {
 func TestPluginPackageCommandsAreReported(t *testing.T) {
 	root := t.TempDir()
 	home := t.TempDir()
-	reasonixHome := filepath.Join(home, ".reasonix")
+	inxHome := filepath.Join(home, ".inx")
 	t.Setenv("HOME", home)
-	t.Setenv("REASONIX_HOME", reasonixHome)
+	t.Setenv("INX_HOME", inxHome)
 
-	pluginRoot := filepath.Join(reasonixHome, "plugins", "demo")
+	pluginRoot := filepath.Join(inxHome, "plugins", "demo")
 	write(t, filepath.Join(pluginRoot, pluginpkg.NativeManifest), `{"name":"demo","commands":["commands"]}`)
 	write(t, filepath.Join(pluginRoot, "commands", "ship.md"), "---\ndescription: ship it\n---\nShip $ARGUMENTS\n")
-	if err := pluginpkg.Upsert(reasonixHome, pluginpkg.InstalledPlugin{
-		Name: "demo", Root: "plugins/demo", ManifestKind: "reasonix", Enabled: true,
+	if err := pluginpkg.Upsert(inxHome, pluginpkg.InstalledPlugin{
+		Name: "demo", Root: "plugins/demo", ManifestKind: "inx", Enabled: true,
 	}); err != nil {
 		t.Fatal(err)
 	}
 
 	r := capdiag.Collect(capdiag.Options{
-		Root: root, HomeDir: home, ReasonixHomeDir: reasonixHome,
+		Root: root, HomeDir: home, InxHomeDir: inxHome,
 	})
 	if len(r.Plugins.Packages) != 1 {
 		t.Fatalf("plugin packages = %+v, want demo", r.Plugins.Packages)
@@ -363,7 +363,7 @@ func TestDisplayPathExternal(t *testing.T) {
 	root := t.TempDir()
 	home := t.TempDir()
 	ext := filepath.Join(t.TempDir(), "secret-user-bin", "tool")
-	write(t, filepath.Join(root, "reasonix.toml"), `
+	write(t, filepath.Join(root, "inx.toml"), `
 [[plugins]]
 name = "ext"
 type = "stdio"
@@ -375,7 +375,7 @@ command = "`+filepath.ToSlash(ext)+`"
 		_ = os.Chmod(ext, 0o755)
 	}
 	r := capdiag.Collect(capdiag.Options{
-		Root: root, HomeDir: home, ReasonixHomeDir: filepath.Join(home, ".reasonix"),
+		Root: root, HomeDir: home, InxHomeDir: filepath.Join(home, ".inx"),
 	})
 	raw, _ := json.Marshal(r)
 	if strings.Contains(string(raw), "secret-user-bin") {

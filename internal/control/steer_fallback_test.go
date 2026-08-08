@@ -6,11 +6,11 @@ import (
 	"testing"
 	"time"
 
-	"reasonix/internal/agent"
-	"reasonix/internal/event"
-	"reasonix/internal/provider"
-	"reasonix/internal/skill"
-	"reasonix/internal/tool"
+	"inx/internal/agent"
+	"inx/internal/event"
+	"inx/internal/provider"
+	"inx/internal/skill"
+	"inx/internal/tool"
 )
 
 func steerFallbackController(t *testing.T) (*Controller, *agent.Agent) {

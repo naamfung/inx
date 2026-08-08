@@ -9,7 +9,7 @@ import {
 } from "./release-channels.js";
 import { initTheme } from "./theme.js";
 
-// Reasonix site — vanilla interactions
+// Inx site — vanilla interactions
 (function () {
   initTheme();
   const motionOK = () =>
@@ -155,7 +155,7 @@ import { initTheme } from "./theme.js";
   });
 
   /* language switch */
-  const LANG_KEY = "reasonix-lang";
+  const LANG_KEY = "inx-lang";
   const langBtns = Array.from(document.querySelectorAll(".lang-switch button"));
   const setLang = (l, alignHash) => {
     document.body.dataset.lang = l;
@@ -238,7 +238,7 @@ import { initTheme } from "./theme.js";
 
   /* public official releases */
   const releaseModels = { desktop: null, cli: null };
-  const releasesPage = "https://github.com/esengine/DeepSeek-Reasonix/releases";
+  const releasesPage = "https://github.com/esengine/DeepSeek-Inx/releases";
   const reflectPaneURL = (surface) => {
     const nextURL = downloadURLForPane(window.location.href, surface, "");
     if (nextURL) window.history.replaceState(null, "", nextURL);
@@ -291,12 +291,12 @@ import { initTheme } from "./theme.js";
   if (requestedPane) reflectPaneURL(requestedPane);
 
   fetchFirstJSON([
-    "https://dl.reasonix.io/latest/latest.json",
-    "https://crash.reasonix.io/v1/desktop/releases/stable/latest.json",
+    "https://dl.inx.io/latest/latest.json",
+    "https://crash.inx.io/v1/desktop/releases/stable/latest.json",
   ], fetch, (manifest) => Boolean(desktopReleaseModel(manifest)))
     .then((manifest) => desktopReleaseModel(manifest))
     .catch(() => fetchFirstJSON(
-      ["https://api.github.com/repos/esengine/DeepSeek-Reasonix/releases/latest"],
+      ["https://api.github.com/repos/esengine/DeepSeek-Inx/releases/latest"],
       fetch,
       (release) => Boolean(desktopGitHubReleaseModel(release)),
     ).then(desktopGitHubReleaseModel))
@@ -310,12 +310,12 @@ import { initTheme } from "./theme.js";
   let githubCLIReleases;
   const fallbackCLIReleases = () => {
     githubCLIReleases ??= fetchFirstJSON([
-      "https://api.github.com/repos/esengine/DeepSeek-Reasonix/releases?per_page=100",
+      "https://api.github.com/repos/esengine/DeepSeek-Inx/releases?per_page=100",
     ]).catch(() => null);
     return githubCLIReleases;
   };
   fetchFirstJSON(
-    ["https://crash.reasonix.io/v1/cli/releases/stable/latest.json"],
+    ["https://crash.inx.io/v1/cli/releases/stable/latest.json"],
     fetch,
     (payload) => Boolean(cliReleaseModel(Array.isArray(payload) ? payload : [payload])),
   )

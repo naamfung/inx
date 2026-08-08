@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"reasonix/internal/provider"
+	"inx/internal/provider"
 )
 
 func TestBuildRequestExcludesToolExecution(t *testing.T) {

@@ -6,10 +6,10 @@ import (
 	"strings"
 	"testing"
 
-	"reasonix/internal/event"
-	"reasonix/internal/hook"
-	"reasonix/internal/provider"
-	"reasonix/internal/tool"
+	"inx/internal/event"
+	"inx/internal/hook"
+	"inx/internal/provider"
+	"inx/internal/tool"
 )
 
 func TestToolHooksMayMutateWorkspaceUsesRunnerCapabilities(t *testing.T) {

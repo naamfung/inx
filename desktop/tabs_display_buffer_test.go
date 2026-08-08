@@ -7,8 +7,8 @@ import (
 	"testing"
 	"time"
 
-	"reasonix/internal/event"
-	"reasonix/internal/provider"
+	"inx/internal/event"
+	"inx/internal/provider"
 )
 
 func TestDisplayTurnBufferPreservesStreamingReplacementAndTools(t *testing.T) {

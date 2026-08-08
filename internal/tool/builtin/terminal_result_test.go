@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"reasonix/internal/tool"
+	"inx/internal/tool"
 )
 
 func TestApplyTerminalResultTypedOutcomes(t *testing.T) {

@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strings"
 
-	"reasonix/internal/tool"
+	"inx/internal/tool"
 )
 
 // forgetTool deletes a saved memory the model judges wrong or stale. Like

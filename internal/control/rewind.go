@@ -7,10 +7,10 @@ import (
 	"log/slog"
 	"sync/atomic"
 
-	"reasonix/internal/checkpoint"
-	"reasonix/internal/diff"
-	"reasonix/internal/event"
-	"reasonix/internal/provider"
+	"inx/internal/checkpoint"
+	"inx/internal/diff"
+	"inx/internal/event"
+	"inx/internal/provider"
 )
 
 // ErrRewindCoverageConfirmationRequired is returned by the compatibility

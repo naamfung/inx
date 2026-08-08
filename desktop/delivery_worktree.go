@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strings"
 
-	"reasonix/internal/boot"
-	"reasonix/internal/config"
-	"reasonix/internal/worktree"
+	"inx/internal/boot"
+	"inx/internal/config"
+	"inx/internal/worktree"
 )
 
 var (
@@ -15,7 +15,7 @@ var (
 )
 
 // DeliveryWorktreeOpenResult is returned after an isolated Git workspace has
-// been created and opened as a normal Reasonix project.
+// been created and opened as a normal Inx project.
 type DeliveryWorktreeOpenResult struct {
 	WorkspaceRoot string  `json:"workspaceRoot"`
 	WorktreeRoot  string  `json:"worktreeRoot"`
@@ -49,7 +49,7 @@ func (a *App) CreateDeliveryWorktree(workspaceRoot string) (DeliveryWorktreeOpen
 		tab, err = a.ensureBlankTab("project", created.WorkspaceRoot, boot.TokenModeDelivery)
 	}
 	if err != nil {
-		return DeliveryWorktreeOpenResult{}, fmt.Errorf("isolated worktree was created at %s but Reasonix could not open it: %w", created.WorktreeRoot, err)
+		return DeliveryWorktreeOpenResult{}, fmt.Errorf("isolated worktree was created at %s but Inx could not open it: %w", created.WorktreeRoot, err)
 	}
 	return DeliveryWorktreeOpenResult{
 		WorkspaceRoot: created.WorkspaceRoot,

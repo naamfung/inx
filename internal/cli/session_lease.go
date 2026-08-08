@@ -5,17 +5,17 @@ import (
 	"path/filepath"
 	"strings"
 
-	"reasonix/internal/agent"
-	"reasonix/internal/control"
+	"inx/internal/agent"
+	"inx/internal/control"
 )
 
-// sessionLeaseResumeRefusal is the startup-time refusal for `reasonix
-// [--resume|--continue]` and `reasonix run --resume/--continue`: it names the
+// sessionLeaseResumeRefusal is the startup-time refusal for `inx
+// [--resume|--continue]` and `inx run --resume/--continue`: it names the
 // holder and offers the two ways out (close the holder, or continue in a
 // duplicated session via --copy).
 func sessionLeaseResumeRefusal(err error) string {
 	return control.SessionInUseMessage(err) +
-		"; close the other Reasonix window or process, or rerun with --copy to continue in a duplicated session"
+		"; close the other Inx window or process, or rerun with --copy to continue in a duplicated session"
 }
 
 // sessionLeaseHeldNotice is the in-TUI refusal for /resume and /switch, where

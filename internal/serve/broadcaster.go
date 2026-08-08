@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"sync"
 
-	"reasonix/internal/event"
-	"reasonix/internal/eventwire"
+	"inx/internal/event"
+	"inx/internal/eventwire"
 )
 
 // Broadcaster is the event.Sink the controller emits to in server mode. It

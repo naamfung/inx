@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"reasonix/internal/tool"
+	"inx/internal/tool"
 )
 
 type discardWriteCloser struct{}

@@ -6,8 +6,8 @@ import (
 
 	tea "charm.land/bubbletea/v2"
 
-	"reasonix/internal/config"
-	"reasonix/internal/i18n"
+	"inx/internal/config"
+	"inx/internal/i18n"
 )
 
 func (m *chatTUI) runCurrencySubcommand(input string) tea.Cmd {

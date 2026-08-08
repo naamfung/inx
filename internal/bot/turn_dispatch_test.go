@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"reasonix/internal/control"
+	"inx/internal/control"
 )
 
 // approvalBlockingController is a botController whose RunTurn blocks the way a

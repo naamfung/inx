@@ -4,8 +4,8 @@ package eventwire
 import (
 	"encoding/json"
 
-	"reasonix/internal/event"
-	"reasonix/internal/provider"
+	"inx/internal/event"
+	"inx/internal/provider"
 )
 
 // Event is the JSON-friendly form shared by event frontends.

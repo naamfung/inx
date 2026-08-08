@@ -13,11 +13,11 @@ import (
 	"syscall"
 	"time"
 
-	"reasonix/internal/agent"
-	"reasonix/internal/config"
-	"reasonix/internal/filelock"
-	"reasonix/internal/fileutil"
-	"reasonix/internal/store"
+	"inx/internal/agent"
+	"inx/internal/config"
+	"inx/internal/filelock"
+	"inx/internal/fileutil"
+	"inx/internal/store"
 )
 
 // sessions.go holds the desktop-only session-management state that the shared
@@ -166,7 +166,7 @@ func sessionTrashArtifacts(sessionPath, key string) []sessionTrashArtifact {
 // errSessionBusyElsewhere is the sanitized error surfaced when a destructive
 // session operation is blocked by a live owner. It intentionally carries no
 // writer id, hostname, or path.
-var errSessionBusyElsewhere = errors.New("session is in use by another Reasonix window or process")
+var errSessionBusyElsewhere = errors.New("session is in use by another Inx window or process")
 
 // acquireSessionRemovalGuard wraps agent.TryAcquireSessionRemovalGuard with
 // the sanitized busy error. The guard holds the session's save and lease

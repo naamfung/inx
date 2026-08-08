@@ -9,9 +9,9 @@ import (
 	"testing"
 	"time"
 
-	"reasonix/internal/event"
-	"reasonix/internal/i18n"
-	"reasonix/internal/sandbox"
+	"inx/internal/event"
+	"inx/internal/i18n"
+	"inx/internal/sandbox"
 )
 
 // collectSink returns a Sink that collects events and a channel that receives

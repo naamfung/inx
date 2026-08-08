@@ -8,11 +8,11 @@ import (
 	"testing"
 	"time"
 
-	"reasonix/internal/checkpoint"
-	"reasonix/internal/event"
-	"reasonix/internal/jobs"
-	"reasonix/internal/provider"
-	"reasonix/internal/tool"
+	"inx/internal/checkpoint"
+	"inx/internal/event"
+	"inx/internal/jobs"
+	"inx/internal/provider"
+	"inx/internal/tool"
 )
 
 // TestBackgroundTaskReturnsBeforeSlotFrees ensures run_in_background returns a

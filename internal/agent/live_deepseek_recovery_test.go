@@ -17,10 +17,10 @@ import (
 	"testing"
 	"time"
 
-	"reasonix/internal/event"
-	"reasonix/internal/provider"
-	"reasonix/internal/provider/openai"
-	"reasonix/internal/tool"
+	"inx/internal/event"
+	"inx/internal/provider"
+	"inx/internal/provider/openai"
+	"inx/internal/tool"
 )
 
 // TestLiveDeepSeekFlashMissingReasoningRecovery exercises the production agent

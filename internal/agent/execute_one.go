@@ -6,17 +6,17 @@ import (
 	"fmt"
 	"strings"
 
-	"reasonix/internal/checkpoint"
-	"reasonix/internal/event"
-	"reasonix/internal/evidence"
-	"reasonix/internal/instruction"
-	"reasonix/internal/jobs"
-	"reasonix/internal/memory"
-	"reasonix/internal/permission"
-	"reasonix/internal/planmode"
-	"reasonix/internal/provider"
-	"reasonix/internal/sandbox"
-	"reasonix/internal/tool"
+	"inx/internal/checkpoint"
+	"inx/internal/event"
+	"inx/internal/evidence"
+	"inx/internal/instruction"
+	"inx/internal/jobs"
+	"inx/internal/memory"
+	"inx/internal/permission"
+	"inx/internal/planmode"
+	"inx/internal/provider"
+	"inx/internal/sandbox"
+	"inx/internal/tool"
 )
 
 // toolCallPlan holds the resolved, policy-checked state for one tool call.

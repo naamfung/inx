@@ -14,17 +14,17 @@ import (
 	"strings"
 	"time"
 
-	"reasonix/internal/ablation"
-	"reasonix/internal/checkpoint"
-	"reasonix/internal/event"
-	"reasonix/internal/evidence"
-	"reasonix/internal/jobs"
-	"reasonix/internal/permission"
-	"reasonix/internal/planmode"
-	"reasonix/internal/provider"
-	"reasonix/internal/sessiontemp"
-	"reasonix/internal/tool"
-	"reasonix/internal/workspacelease"
+	"inx/internal/ablation"
+	"inx/internal/checkpoint"
+	"inx/internal/event"
+	"inx/internal/evidence"
+	"inx/internal/jobs"
+	"inx/internal/permission"
+	"inx/internal/planmode"
+	"inx/internal/provider"
+	"inx/internal/sessiontemp"
+	"inx/internal/tool"
+	"inx/internal/workspacelease"
 )
 
 // withSubagentSessionTemp installs a fresh session-private temporary directory

@@ -7,11 +7,11 @@ import (
 	"reflect"
 	"strings"
 
-	"reasonix/internal/event"
-	"reasonix/internal/extension"
-	"reasonix/internal/extension/dispatch"
-	"reasonix/internal/extension/providerconv"
-	"reasonix/internal/provider"
+	"inx/internal/event"
+	"inx/internal/extension"
+	"inx/internal/extension/dispatch"
+	"inx/internal/extension/providerconv"
+	"inx/internal/provider"
 )
 
 // Extension Protocol v1 agent-side wiring (stage 6b2). The agent consults the

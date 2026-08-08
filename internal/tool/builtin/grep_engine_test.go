@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"reasonix/internal/sandbox"
+	"inx/internal/sandbox"
 )
 
 func TestGrepTimeoutClamp(t *testing.T) {

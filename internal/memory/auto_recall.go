@@ -10,7 +10,7 @@ import (
 	"unicode"
 	"unicode/utf8"
 
-	"reasonix/internal/retrieval"
+	"inx/internal/retrieval"
 )
 
 const (

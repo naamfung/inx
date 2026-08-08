@@ -3,8 +3,8 @@ package agent
 import (
 	"testing"
 
-	"reasonix/internal/ablation"
-	"reasonix/internal/evidence"
+	"inx/internal/ablation"
+	"inx/internal/evidence"
 )
 
 func TestEvidenceAblationStandsDownTheReadinessGate(t *testing.T) {

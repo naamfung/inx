@@ -14,23 +14,23 @@ import (
 
 	"mvdan.cc/sh/v3/syntax"
 
-	"reasonix/internal/ablation"
-	"reasonix/internal/capability"
-	"reasonix/internal/checkpoint"
-	"reasonix/internal/diff"
-	"reasonix/internal/event"
-	"reasonix/internal/evidence"
-	"reasonix/internal/extension/dispatch"
-	"reasonix/internal/instruction"
-	"reasonix/internal/jobs"
-	"reasonix/internal/memory"
-	"reasonix/internal/nilutil"
-	"reasonix/internal/planmode"
-	"reasonix/internal/provider"
-	"reasonix/internal/sandbox"
-	"reasonix/internal/shellparse"
-	"reasonix/internal/tool"
-	"reasonix/internal/workspacelease"
+	"inx/internal/ablation"
+	"inx/internal/capability"
+	"inx/internal/checkpoint"
+	"inx/internal/diff"
+	"inx/internal/event"
+	"inx/internal/evidence"
+	"inx/internal/extension/dispatch"
+	"inx/internal/instruction"
+	"inx/internal/jobs"
+	"inx/internal/memory"
+	"inx/internal/nilutil"
+	"inx/internal/planmode"
+	"inx/internal/provider"
+	"inx/internal/sandbox"
+	"inx/internal/shellparse"
+	"inx/internal/tool"
+	"inx/internal/workspacelease"
 )
 
 // maxToolOutputBytes caps a single tool result before it goes into the model's
@@ -380,7 +380,7 @@ type Agent struct {
 	sandboxEscapeApprover sandbox.EscapeApprover
 
 	// configWriteApprover, when non-nil, can ask the user whether a file tool
-	// may write a Reasonix-managed config file outside the workspace roots.
+	// may write a Inx-managed config file outside the workspace roots.
 	configWriteApprover tool.ConfigWriteApprover
 
 	// hooks, when non-nil, fires PreToolUse / PostToolUse shell hooks around each
@@ -694,7 +694,7 @@ func (a *Agent) SetSandboxEscapeApprover(g sandbox.EscapeApprover) {
 }
 
 // SetConfigWriteApprover installs the optional per-write approval path used by
-// the file tools when a target is a Reasonix-managed config file outside the
+// the file tools when a target is a Inx-managed config file outside the
 // workspace write roots.
 func (a *Agent) SetConfigWriteApprover(g tool.ConfigWriteApprover) {
 	if nilutil.IsNil(g) {
@@ -776,7 +776,7 @@ func (a *Agent) Session() *Session {
 }
 
 // SetSession replaces the agent's conversation wholesale. Used by
-// `reasonix --resume` to load a saved JSONL transcript before the first turn,
+// `inx --resume` to load a saved JSONL transcript before the first turn,
 // so the model picks up exactly where it left off. Callers serialise it against a
 // running turn (it only fires while idle); sessMu guards the pointer swap itself.
 func (a *Agent) SetSession(s *Session) {
@@ -1027,7 +1027,7 @@ type Options struct {
 	// enforced OS sandbox fails. nil keeps fail-closed behavior.
 	SandboxEscapeApprover sandbox.EscapeApprover
 
-	// ConfigWriteApprover confirms file-tool writes to Reasonix-managed config
+	// ConfigWriteApprover confirms file-tool writes to Inx-managed config
 	// files outside the workspace roots. nil keeps fail-closed behavior.
 	ConfigWriteApprover tool.ConfigWriteApprover
 

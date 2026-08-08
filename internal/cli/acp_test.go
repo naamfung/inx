@@ -7,14 +7,14 @@ import (
 	"strings"
 	"testing"
 
-	"reasonix/internal/acp"
-	"reasonix/internal/config"
-	"reasonix/internal/event"
-	"reasonix/internal/netclient"
-	"reasonix/internal/provider"
-	"reasonix/internal/tool"
+	"inx/internal/acp"
+	"inx/internal/config"
+	"inx/internal/event"
+	"inx/internal/netclient"
+	"inx/internal/provider"
+	"inx/internal/tool"
 
-	_ "reasonix/internal/tool/builtin"
+	_ "inx/internal/tool/builtin"
 )
 
 const acpTestProviderKind = "acp-test-provider"
@@ -64,7 +64,7 @@ func TestACPInitializesWithoutAPIKey(t *testing.T) {
 			t.Fatalf("Run --acp initialize rc = %d, want 0", rc)
 		}
 	})
-	if !strings.Contains(out, `"protocolVersion":1`) || !strings.Contains(out, `"name":"reasonix"`) {
+	if !strings.Contains(out, `"protocolVersion":1`) || !strings.Contains(out, `"name":"inx"`) {
 		t.Fatalf("initialize output = %s", out)
 	}
 }
@@ -84,7 +84,7 @@ func TestACPRejectsInvalidSupervisorFlags(t *testing.T) {
 func TestACPSupervisorRuntimeStateUsesHardOverrides(t *testing.T) {
 	isolateCLIConfigHome(t)
 	project := t.TempDir()
-	if err := os.WriteFile(filepath.Join(project, "reasonix.toml"), []byte(`
+	if err := os.WriteFile(filepath.Join(project, "inx.toml"), []byte(`
 [agent]
 planner_model = "configured-planner"
 
@@ -117,7 +117,7 @@ allow_write = ["../outside"]
 func TestACPSupervisorRuntimeStateDegradesWhenSandboxIsUnavailable(t *testing.T) {
 	isolateCLIConfigHome(t)
 	project := t.TempDir()
-	if err := os.WriteFile(filepath.Join(project, "reasonix.toml"), []byte("[sandbox]\nbash = \"enforce\"\n"), 0o644); err != nil {
+	if err := os.WriteFile(filepath.Join(project, "inx.toml"), []byte("[sandbox]\nbash = \"enforce\"\n"), 0o644); err != nil {
 		t.Fatal(err)
 	}
 	unavailable := func() bool { return false }
@@ -161,11 +161,11 @@ func TestEffectiveACPPlannerModeMatchesSelectedRuntime(t *testing.T) {
 
 func TestACPFactoryLoadsSessionCwdProjectConfig(t *testing.T) {
 	home := isolateCLIConfigHome(t)
-	if _, err := config.SetCredential("REASONIX_TEST_KEY", "test-key"); err != nil {
+	if _, err := config.SetCredential("INX_TEST_KEY", "test-key"); err != nil {
 		t.Fatalf("SetCredential: %v", err)
 	}
 	project := t.TempDir()
-	if err := os.WriteFile(filepath.Join(project, "reasonix.toml"), []byte(`
+	if err := os.WriteFile(filepath.Join(project, "inx.toml"), []byte(`
 default_model = "local"
 
 [[providers]]
@@ -173,11 +173,11 @@ name = "local"
 kind = "acp-test-provider"
 base_url = "http://example.invalid"
 model = "fake-model"
-api_key_env = "REASONIX_TEST_KEY"
+api_key_env = "INX_TEST_KEY"
 `), 0o644); err != nil {
 		t.Fatal(err)
 	}
-	cmdDir := filepath.Join(project, ".reasonix", "commands")
+	cmdDir := filepath.Join(project, ".inx", "commands")
 	if err := os.MkdirAll(cmdDir, 0o755); err != nil {
 		t.Fatal(err)
 	}
@@ -204,11 +204,11 @@ api_key_env = "REASONIX_TEST_KEY"
 
 func TestACPFactoryClearsEffortOverrideForUnsupportedModel(t *testing.T) {
 	isolateCLIConfigHome(t)
-	if _, err := config.SetCredential("REASONIX_TEST_KEY", "test-key"); err != nil {
+	if _, err := config.SetCredential("INX_TEST_KEY", "test-key"); err != nil {
 		t.Fatalf("SetCredential: %v", err)
 	}
 	project := t.TempDir()
-	if err := os.WriteFile(filepath.Join(project, "reasonix.toml"), []byte(`
+	if err := os.WriteFile(filepath.Join(project, "inx.toml"), []byte(`
 default_model = "reasoner/reasoning-model"
 
 [[providers]]
@@ -216,7 +216,7 @@ name = "reasoner"
 kind = "acp-test-provider"
 base_url = "http://example.invalid"
 model = "reasoning-model"
-api_key_env = "REASONIX_TEST_KEY"
+api_key_env = "INX_TEST_KEY"
 supported_efforts = ["low", "high"]
 
 [[providers]]
@@ -224,7 +224,7 @@ name = "plain"
 kind = "acp-test-provider"
 base_url = "http://example.invalid"
 model = "plain-model"
-api_key_env = "REASONIX_TEST_KEY"
+api_key_env = "INX_TEST_KEY"
 effort = "high"
 `), 0o644); err != nil {
 		t.Fatal(err)
@@ -261,11 +261,11 @@ effort = "high"
 
 func TestACPFactoryAdvertisesAndNormalizesRuntimeProfiles(t *testing.T) {
 	isolateCLIConfigHome(t)
-	if _, err := config.SetCredential("REASONIX_TEST_KEY", "test-key"); err != nil {
+	if _, err := config.SetCredential("INX_TEST_KEY", "test-key"); err != nil {
 		t.Fatalf("SetCredential: %v", err)
 	}
 	project := t.TempDir()
-	if err := os.WriteFile(filepath.Join(project, "reasonix.toml"), []byte(`
+	if err := os.WriteFile(filepath.Join(project, "inx.toml"), []byte(`
 default_model = "local"
 
 [[providers]]
@@ -273,7 +273,7 @@ name = "local"
 kind = "acp-test-provider"
 base_url = "http://example.invalid"
 model = "fake-model"
-api_key_env = "REASONIX_TEST_KEY"
+api_key_env = "INX_TEST_KEY"
 `), 0o644); err != nil {
 		t.Fatal(err)
 	}

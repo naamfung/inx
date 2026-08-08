@@ -8,9 +8,9 @@ import (
 	"sync"
 	"time"
 
-	"reasonix/internal/event"
-	"reasonix/internal/evidence"
-	"reasonix/internal/fileutil"
+	"inx/internal/event"
+	"inx/internal/evidence"
+	"inx/internal/fileutil"
 )
 
 // SourceUsage is one Usage origin's share of a run. Steps counts every billed

@@ -36,8 +36,8 @@ import (
 	"sync/atomic"
 	"time"
 
-	"reasonix/internal/netclient"
-	"reasonix/internal/provider"
+	"inx/internal/netclient"
+	"inx/internal/provider"
 )
 
 // defaultStreamIdleTimeout caps how long a started SSE stream may go without any
@@ -1130,7 +1130,7 @@ func normaliseUsage(u *wireUsage) *provider.Usage {
 		(u.InputTokens != 0 || u.CacheCreationInputTokens != 0 || u.CacheReadInputTokens != 0)
 	if anthropicPrompt {
 		// Anthropic-style input_tokens excludes both cache reads and cache
-		// writes, while Reasonix PromptTokens represents the complete input.
+		// writes, while Inx PromptTokens represents the complete input.
 		prompt = u.InputTokens + u.CacheCreationInputTokens + u.CacheReadInputTokens
 	}
 	completion := u.CompletionTokens
@@ -1153,7 +1153,7 @@ func normaliseUsage(u *wireUsage) *provider.Usage {
 	if miss == 0 {
 		switch {
 		case anthropicPrompt:
-			// Cache writes are still uncached input for Reasonix pricing and
+			// Cache writes are still uncached input for Inx pricing and
 			// cache-ratio accounting.
 			miss = u.InputTokens + u.CacheCreationInputTokens
 		case hit > 0 && prompt > hit:

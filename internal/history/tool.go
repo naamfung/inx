@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strings"
 
-	"reasonix/internal/tool"
+	"inx/internal/tool"
 )
 
 type historyTool struct {

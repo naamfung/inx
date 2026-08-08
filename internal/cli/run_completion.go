@@ -4,8 +4,8 @@ import (
 	"context"
 	"errors"
 
-	"reasonix/internal/agent"
-	"reasonix/internal/event"
+	"inx/internal/agent"
+	"inx/internal/event"
 )
 
 type runCompletion struct {

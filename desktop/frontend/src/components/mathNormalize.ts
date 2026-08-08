@@ -24,13 +24,13 @@ import { expandYoungDiagrams } from "./youngDiagrams";
 // rather than split at stray $ signs inside \text{}.
 const TEXT_MODE_PAIR = /\$\s*(\\[A-Za-z]+\{(?:[^{}]|\{[^{}]*\})*\}[^$]*?)\s*\$/g;
 
-const DM = "__REASONIX_MATH_DISPLAY__";
-const IM = "__REASONIX_MATH_INLINE__";
-const LB = "__REASONIX_LATEX_LINEBREAK__";
-const ED_BASE = "REASONIXESCAPEDDOLLAR";
-const INLINE_SOURCE_PREFIX = "\\reasonixInternalSourceV1{";
-const INLINE_RENDER_SOURCE_PREFIX = "\\reasonixInternalRenderV1";
-const INLINE_RENDER_SOURCE_RE = /\\reasonixInternalRenderV1\{([^}]*)\}\{([^}]*)\}/g;
+const DM = "__INX_MATH_DISPLAY__";
+const IM = "__INX_MATH_INLINE__";
+const LB = "__INX_LATEX_LINEBREAK__";
+const ED_BASE = "INXESCAPEDDOLLAR";
+const INLINE_SOURCE_PREFIX = "\\inxInternalSourceV1{";
+const INLINE_RENDER_SOURCE_PREFIX = "\\inxInternalRenderV1";
+const INLINE_RENDER_SOURCE_RE = /\\inxInternalRenderV1\{([^}]*)\}\{([^}]*)\}/g;
 
 export function normalizeMath(s: string): string {
   const protectedCode = protectMarkdownCode(s);
@@ -207,11 +207,11 @@ function protectMarkdownCode(s: string): { text: string; prefix: string; segment
 }
 
 function unusedPlaceholderPrefix(s: string): string {
-  let prefix = "__REASONIX_PROTECTED_CODE__";
+  let prefix = "__INX_PROTECTED_CODE__";
   let n = 0;
   while (s.includes(prefix)) {
     n += 1;
-    prefix = `__REASONIX_PROTECTED_CODE_${n}__`;
+    prefix = `__INX_PROTECTED_CODE_${n}__`;
   }
   return prefix;
 }

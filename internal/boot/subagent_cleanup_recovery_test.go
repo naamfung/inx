@@ -5,8 +5,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"reasonix/internal/agent"
-	"reasonix/internal/tool"
+	"inx/internal/agent"
+	"inx/internal/tool"
 )
 
 func prepareRunningSubagent(t *testing.T, sessionDir string) string {

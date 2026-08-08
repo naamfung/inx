@@ -5,10 +5,10 @@ import (
 	"strings"
 	"testing"
 
-	"reasonix/internal/agent"
-	"reasonix/internal/event"
-	"reasonix/internal/provider"
-	"reasonix/internal/tool"
+	"inx/internal/agent"
+	"inx/internal/event"
+	"inx/internal/provider"
+	"inx/internal/tool"
 )
 
 // scriptedTurns is a provider that replays a distinct chunk set per Stream call,

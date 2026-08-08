@@ -5,7 +5,7 @@ import (
 	"sync"
 	"testing"
 
-	"reasonix/internal/event"
+	"inx/internal/event"
 )
 
 // All tabEventSink context mutations go through the locked setContext /

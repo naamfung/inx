@@ -10,7 +10,7 @@ import (
 
 	"golang.org/x/crypto/ssh"
 
-	"reasonix/internal/remote/sshtest"
+	"inx/internal/remote/sshtest"
 )
 
 // dialSSHClient connects to the sshtest server as a real ssh client.

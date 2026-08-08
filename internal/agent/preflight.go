@@ -8,8 +8,8 @@ import (
 	"strings"
 	"time"
 
-	"reasonix/internal/event"
-	"reasonix/internal/provider"
+	"inx/internal/event"
+	"inx/internal/provider"
 )
 
 // ErrCompactionRequired is returned when the prompt exceeds the provider limit

@@ -3,8 +3,8 @@ package boot
 import (
 	"testing"
 
-	"reasonix/internal/ablation"
-	"reasonix/internal/config"
+	"inx/internal/ablation"
+	"inx/internal/config"
 )
 
 func TestPlannerOffHasHighestPrecedence(t *testing.T) {

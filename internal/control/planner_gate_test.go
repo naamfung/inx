@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"reasonix/internal/agent"
+	"inx/internal/agent"
 )
 
 func TestTaskWarrantsPlanner(t *testing.T) {

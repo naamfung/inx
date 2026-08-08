@@ -19,10 +19,10 @@
     "cmd/e2ebench/mutation.go": {
       "essay": 1
     },
-    "cmd/reasonix-legacy-migrator/main.go": {
+    "cmd/inx-legacy-migrator/main.go": {
       "essay": 1
     },
-    "cmd/reasonix-plugin-example/main.go": {
+    "cmd/inx-plugin-example/main.go": {
       "essay": 19
     },
     "desktop/app.go": {

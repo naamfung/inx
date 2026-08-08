@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"reasonix/internal/store"
+	"inx/internal/store"
 )
 
 // leaseTestPath returns a session path in "user shape" — mixed case, exactly

@@ -1,6 +1,6 @@
-// Command reasonix-legacy-migrator is the one-shot flat→versioned install
+// Command inx-legacy-migrator is the one-shot flat→versioned install
 // migrator used by v1.20+ packaging. In compatibility payloads it is still
-// named reasonix-guard(.exe) so 1.18–1.19.1 updaters can hand off; the source
+// named inx-guard(.exe) so 1.18–1.19.1 updaters can hand off; the source
 // and behavior are intentionally separate from the old Guard recovery product.
 //
 // It only: acquires a migration lock, validates the flat release unit, creates
@@ -19,15 +19,15 @@ import (
 	"strings"
 	"time"
 
-	"reasonix/internal/desktoplauncher"
-	"reasonix/internal/fileutil"
-	"reasonix/internal/installlayout"
-	"reasonix/internal/repair"
+	"inx/internal/desktoplauncher"
+	"inx/internal/fileutil"
+	"inx/internal/installlayout"
+	"inx/internal/repair"
 )
 
 var version = "dev"
 
-const migrationLockName = ".reasonix-layout-migrate.lock"
+const migrationLockName = ".inx-layout-migrate.lock"
 
 func main() {
 	if runningAsLauncher() {
@@ -40,10 +40,10 @@ func run(args []string) int {
 	if len(args) == 1 {
 		switch args[0] {
 		case "version", "--version", "-v":
-			fmt.Println("reasonix-legacy-migrator", version)
+			fmt.Println("inx-legacy-migrator", version)
 			return 0
 		case "help", "--help", "-h":
-			fmt.Println("usage: reasonix-legacy-migrator [--install-root PATH] [--version VERSION] [--activate-staging PATH]")
+			fmt.Println("usage: inx-legacy-migrator [--install-root PATH] [--version VERSION] [--activate-staging PATH]")
 			return 0
 		}
 	}
@@ -346,9 +346,9 @@ func ensureLauncherEntry(installRoot string) error {
 		}
 		return nil
 	}
-	// On Windows also accept Reasonix.exe as the alias.
+	// On Windows also accept Inx.exe as the alias.
 	if runtime.GOOS == "windows" {
-		if _, err := os.Lstat(filepath.Join(installRoot, "Reasonix.exe")); err == nil {
+		if _, err := os.Lstat(filepath.Join(installRoot, "Inx.exe")); err == nil {
 			return nil
 		}
 		return fmt.Errorf("migrate: thin launcher %s is missing; install a signed package", launcher)
@@ -430,9 +430,9 @@ func cleanupLegacyFlatFiles(installRoot string) error {
 		installlayout.UpdateHelperBinaryName(),
 	}
 	if runtime.GOOS == "windows" {
-		names = append(names, "reasonix-guard.exe")
+		names = append(names, "inx-guard.exe")
 	} else {
-		names = append(names, "reasonix-guard")
+		names = append(names, "inx-guard")
 	}
 	for _, name := range names {
 		path := filepath.Join(installRoot, name)
@@ -447,7 +447,7 @@ func cleanupLegacyFlatFiles(installRoot string) error {
 
 func archiveInstallRootLegacyMarkers(installRoot string) error {
 	// Very old portable builds wrote markers beside the binary. Current repair
-	// state under Reasonix home is finalized through repair transaction APIs.
+	// state under Inx home is finalized through repair transaction APIs.
 	markers := []string{
 		"pending-update.json",
 		"startup-state.json",
@@ -488,14 +488,14 @@ func archiveInstallRootLegacyMarkers(installRoot string) error {
 }
 
 func startLauncher(installRoot string) error {
-	launcher := "reasonix-launcher"
+	launcher := "inx-launcher"
 	if runtime.GOOS == "windows" {
 		launcher += ".exe"
 	}
 	path := filepath.Join(installRoot, launcher)
 	if _, err := os.Lstat(path); err != nil {
 		if runtime.GOOS == "windows" {
-			path = filepath.Join(installRoot, "Reasonix.exe")
+			path = filepath.Join(installRoot, "Inx.exe")
 		}
 	}
 	if _, err := os.Lstat(path); err != nil {
@@ -518,7 +518,7 @@ func selfDelete() {
 	}
 	// Do not delete if we are not named like a compatibility guard payload.
 	base := strings.ToLower(filepath.Base(exe))
-	if base != "reasonix-guard" && base != "reasonix-guard.exe" {
+	if base != "inx-guard" && base != "inx-guard.exe" {
 		return
 	}
 	_ = os.Remove(exe)

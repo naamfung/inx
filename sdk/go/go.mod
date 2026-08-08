@@ -1,3 +1,3 @@
-module github.com/esengine/DeepSeek-Reasonix/sdk/go
+module github.com/esengine/DeepSeek-Inx/sdk/go
 
 go 1.23

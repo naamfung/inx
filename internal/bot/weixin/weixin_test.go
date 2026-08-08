@@ -12,8 +12,8 @@ import (
 	"testing"
 	"time"
 
-	"reasonix/internal/bot"
-	"reasonix/internal/config"
+	"inx/internal/bot"
+	"inx/internal/config"
 )
 
 func TestStartReturnsMissingToken(t *testing.T) {

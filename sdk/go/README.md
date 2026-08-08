@@ -1,8 +1,8 @@
-# Reasonix Extension SDK for Go
+# Inx Extension SDK for Go
 
-Write [Reasonix](https://github.com/esengine/DeepSeek-Reasonix) extensions in
+Write [Inx](https://github.com/esengine/DeepSeek-Inx) extensions in
 Go. An extension is a small sidecar process speaking **Extension Protocol
-v1** (`reasonix.extension.v1`) over stdio: Reasonix launches it, hands it the
+v1** (`inx.extension.v1`) over stdio: Inx launches it, hands it the
 initialize handshake, and then drives intercepts, event observation,
 extension-hosted provider streams, and structured UI surfaces.
 
@@ -11,7 +11,7 @@ The module is **standard library only** — zero dependencies.
 ## Install
 
 ```sh
-go get github.com/esengine/DeepSeek-Reasonix/sdk/go@v1.0.0
+go get github.com/esengine/DeepSeek-Inx/sdk/go@v1.0.0
 ```
 
 Requires Go 1.23+. SDK releases use immutable `sdk/go/vX.Y.Z` repository
@@ -29,7 +29,7 @@ import (
 	"encoding/json"
 	"os"
 
-	extension "github.com/esengine/DeepSeek-Reasonix/sdk/go"
+	extension "github.com/esengine/DeepSeek-Inx/sdk/go"
 )
 
 type ext struct{}
@@ -99,7 +99,7 @@ go build -o /tmp/fullsidecar ./examples/fullsidecar
 The binary speaks the protocol on stdin/stdout, so install it as a plugin
 package runtime (or point the host-side conformance suite at it) rather than
 running it interactively. It is driven end-to-end against the real host by
-`internal/extension/conformance` in the Reasonix repository.
+`internal/extension/conformance` in the Inx repository.
 
 ## Generated wire types
 

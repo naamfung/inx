@@ -11,9 +11,9 @@ import (
 	"sync"
 	"time"
 
-	"reasonix/internal/event"
-	"reasonix/internal/evidence"
-	"reasonix/internal/jobs"
+	"inx/internal/event"
+	"inx/internal/evidence"
+	"inx/internal/jobs"
 )
 
 const (

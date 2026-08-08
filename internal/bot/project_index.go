@@ -17,9 +17,9 @@ import (
 	"strings"
 	"time"
 
-	"reasonix/internal/agent"
-	"reasonix/internal/proc"
-	"reasonix/internal/secrets"
+	"inx/internal/agent"
+	"inx/internal/proc"
+	"inx/internal/secrets"
 )
 
 const (

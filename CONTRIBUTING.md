@@ -1,6 +1,6 @@
-# Contributing to Reasonix
+# Contributing to Inx
 
-Thank you for your interest in contributing to Reasonix! This guide covers
+Thank you for your interest in contributing to Inx! This guide covers
 everything you need to get started.
 
 ## Prerequisites
@@ -12,9 +12,9 @@ everything you need to get started.
 ## Getting started
 
 ```bash
-git clone https://github.com/esengine/DeepSeek-Reasonix.git
-cd DeepSeek-Reasonix
-go build ./cmd/reasonix    # builds the CLI binary
+git clone https://github.com/esengine/DeepSeek-Inx.git
+cd DeepSeek-Inx
+go build ./cmd/inx    # builds the CLI binary
 go test ./...              # runs the full test suite
 ```
 
@@ -22,7 +22,7 @@ go test ./...              # runs the full test suite
 
 | Directory | Purpose |
 |-----------|---------|
-| `cmd/reasonix` | CLI entry point |
+| `cmd/inx` | CLI entry point |
 | `internal/agent` | Agent loop, session, coordinator |
 | `internal/cli` | TUI, subcommands, setup wizard |
 | `internal/control` | Transport-agnostic controller |
@@ -33,7 +33,7 @@ go test ./...              # runs the full test suite
 | `internal/plugin` | MCP client (stdio + HTTP) |
 | `internal/event` | Typed event stream |
 | `internal/hook` | Shell hooks (PreToolUse, …) |
-| `internal/memory` | REASONIX.md hierarchy + auto-memory |
+| `internal/memory` | INX.md hierarchy + auto-memory |
 | `internal/skill` | Skill discovery from Markdown |
 | `internal/sandbox` | OS-level sandboxing |
 | `internal/serve` | HTTP/SSE server frontend |
@@ -66,37 +66,37 @@ make cross          # cross-compile for all 6 targets
 ### Isolated development environment
 
 A source-built binary shares no on-disk state with a stable release when launched
-with `REASONIX_HOME` set. This gives each build its own self-contained directory
+with `INX_HOME` set. This gives each build its own self-contained directory
 tree — config, credentials, sessions, cache, skills, commands, hooks, and
 desktop tab state — so the two builds never interfere:
 
 **CLI**
 
 ```bash
-REASONIX_HOME=/tmp/reasonix-dev go run ./cmd/reasonix
+INX_HOME=/tmp/inx-dev go run ./cmd/inx
 # or after building:
-#   REASONIX_HOME=/tmp/reasonix-dev ./bin/reasonix
+#   INX_HOME=/tmp/inx-dev ./bin/inx
 ```
 
 **Desktop**
 
 ```bash
 cd desktop && wails build
-REASONIX_HOME=/tmp/reasonix-dev-isolated build/bin/reasonix-desktop
+INX_HOME=/tmp/inx-dev-isolated build/bin/inx-desktop
 ```
 
-On Windows, use `$env:REASONIX_HOME` in PowerShell or `set REASONIX_HOME=` in
+On Windows, use `$env:INX_HOME` in PowerShell or `set INX_HOME=` in
 Command Prompt; the binary extension is `.exe`.
 
 The directory is empty on first launch; the app behaves exactly like a fresh
 install. Every subsequent write — config saves, credential storage, session
-logs — stays under `REASONIX_HOME`. Legacy migration, OS-home convention
+logs — stays under `INX_HOME`. Legacy migration, OS-home convention
 directory scanning, and all other fallback paths are skipped so no production
 data leaks in or out.
 
 ### Cache-first review gate
 
-Reasonix treats high prompt-cache hit rate as product behavior. Changes that
+Inx treats high prompt-cache hit rate as product behavior. Changes that
 touch provider-visible system prompt construction, memory prefix, output styles,
 skill index behavior, default tool surfaces, tool schemas, provider request
 serialization, compaction, or MCP/tool registration need explicit cache review.

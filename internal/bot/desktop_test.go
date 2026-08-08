@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"reasonix/internal/event"
+	"inx/internal/event"
 )
 
 type fakeDesktopBridge struct {

@@ -15,9 +15,9 @@ import (
 	"sync"
 	"time"
 
-	"reasonix/internal/config"
-	"reasonix/internal/event"
-	"reasonix/internal/recovery"
+	"inx/internal/config"
+	"inx/internal/event"
+	"inx/internal/recovery"
 )
 
 // metrics_app.go is the aggregate desktop-metrics flush: anonymous (signal,
@@ -26,7 +26,7 @@ import (
 // or base URLs; custom provider/model identifiers are normalized into bounded
 // buckets. Gated on config desktop.metrics (default on), dev-skipped.
 
-var metricsEndpoint = "https://crash.reasonix.io/v1/metrics"
+var metricsEndpoint = "https://crash.inx.io/v1/metrics"
 
 const metricsPendingFile = "metrics-pending.json"
 const metricsPostTimeout = 8 * time.Second

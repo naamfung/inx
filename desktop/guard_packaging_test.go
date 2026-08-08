@@ -20,14 +20,14 @@ func TestVerifyWindowsPortableVersionedLayout(t *testing.T) {
 	verify := filepath.Join("..", "scripts", "verify-windows-portable.sh")
 	good := t.TempDir()
 	// versioned-v1 root entries
-	writePortableFixture(t, good, "reasonix-launcher.exe", "launcher")
-	writePortableFixture(t, good, "Reasonix.exe", "launcher")
-	writePortableFixture(t, good, "reasonix-cli.exe", "cli")
+	writePortableFixture(t, good, "inx-launcher.exe", "launcher")
+	writePortableFixture(t, good, "Inx.exe", "launcher")
+	writePortableFixture(t, good, "inx-cli.exe", "cli")
 	ver := filepath.Join(good, "versions", "v1.20.0")
 	if err := os.MkdirAll(ver, 0o755); err != nil {
 		t.Fatal(err)
 	}
-	for _, name := range []string{"reasonix-desktop.exe", "reasonix-cli.exe", "reasonix-update-helper.exe"} {
+	for _, name := range []string{"inx-desktop.exe", "inx-cli.exe", "inx-update-helper.exe"} {
 		writePortableFixture(t, ver, name, name)
 	}
 	if err := os.WriteFile(filepath.Join(good, "current.json"), []byte(`{
@@ -45,12 +45,12 @@ func TestVerifyWindowsPortableVersionedLayout(t *testing.T) {
 	// Flat Guard layout must be rejected.
 	flat := t.TempDir()
 	for _, name := range []string{
-		"reasonix-desktop.exe",
-		"reasonix-guard.exe",
-		"reasonix-update-helper.exe",
-		"reasonix-launcher.exe",
-		"Reasonix.exe",
-		"reasonix-cli.exe",
+		"inx-desktop.exe",
+		"inx-guard.exe",
+		"inx-update-helper.exe",
+		"inx-launcher.exe",
+		"Inx.exe",
+		"inx-cli.exe",
 	} {
 		writePortableFixture(t, flat, name, name)
 	}
@@ -66,11 +66,11 @@ func TestDesktopPackagesPreserveNativePlatformLaunchers(t *testing.T) {
 	}
 	build := string(buildData)
 	for _, want := range []string{
-		`CLINAME="reasonix"`,
-		`WINDOWS_CLINAME="reasonix-cli"`,
-		`./cmd/reasonix`,
-		`./cmd/reasonix-legacy-migrator`,
-		`./cmd/reasonix-launcher`,
+		`CLINAME="inx"`,
+		`WINDOWS_CLINAME="inx-cli"`,
+		`./cmd/inx`,
+		`./cmd/inx-legacy-migrator`,
+		`./cmd/inx-launcher`,
 		`cp "$cli_out" "$app/Contents/MacOS/$CLINAME"`,
 		`macOS bundle must not include $GUARDNAME`,
 		`[ "$bundle_executable" = "$BINNAME" ]`,
@@ -80,18 +80,18 @@ func TestDesktopPackagesPreserveNativePlatformLaunchers(t *testing.T) {
 		`cmp -s "$darwin_icon" "$app/Contents/Resources/$bundle_icon"`,
 		`Contents/Resources/$bundle_icon`,
 		`-H windowsgui`,
-		`stamp_windows_executable "$guard_out" "Reasonix Legacy Migrator"`,
-		`stamp_windows_executable "$launcher_out" "Reasonix Launcher"`,
-		`stamp_windows_executable "build/windows/installer/$UPDATE_HELPER" "Reasonix Update Helper"`,
+		`stamp_windows_executable "$guard_out" "Inx Legacy Migrator"`,
+		`stamp_windows_executable "$launcher_out" "Inx Launcher"`,
+		`stamp_windows_executable "build/windows/installer/$UPDATE_HELPER" "Inx Update Helper"`,
 		`payload_dir="$ROOT/desktop/build/windows/signing-payload"`,
 		`cp "build/bin/$BINNAME.exe" "$payload_dir/$BINNAME.exe"`,
 		`cp "$launcher_out" "$payload_dir/$LAUNCHERNAME.exe"`,
 		`cp "$guard_out" "$payload_dir/$GUARDNAME.exe"`,
 		`cp "build/windows/installer/$WINDOWS_CLINAME.exe" "$payload_dir/$WINDOWS_CLINAME.exe"`,
-		`cp "build/windows/installer/reasonix-uninstall.exe" "$payload_dir/reasonix-uninstall.exe"`,
+		`cp "build/windows/installer/inx-uninstall.exe" "$payload_dir/inx-uninstall.exe"`,
 		`"$ROOT/scripts/package-windows-desktop.sh" "$arch" "$payload_dir"`,
 		`"$BINNAME" "$LAUNCHERNAME" "$GUARDNAME" "$CLINAME"`,
-		`Exec=reasonix-launcher`,
+		`Exec=inx-launcher`,
 	} {
 		if !strings.Contains(build, want) {
 			t.Errorf("desktop-build.sh missing packaging contract %q", want)
@@ -100,13 +100,13 @@ func TestDesktopPackagesPreserveNativePlatformLaunchers(t *testing.T) {
 	if strings.Contains(build, `Set :CFBundleExecutable $GUARDNAME`) {
 		t.Fatal("macOS package must not replace the native Wails bundle executable with Guard")
 	}
-	launcherStamp := strings.Index(build, `stamp_windows_executable "$launcher_out" "Reasonix Launcher"`)
+	launcherStamp := strings.Index(build, `stamp_windows_executable "$launcher_out" "Inx Launcher"`)
 	payloadCopy := strings.Index(build, `cp "$launcher_out" "$payload_dir/$LAUNCHERNAME.exe"`)
 	if launcherStamp < 0 || payloadCopy < 0 || launcherStamp > payloadCopy {
 		t.Fatalf("Windows payload must copy the already-stamped launcher (stamp=%d copy=%d)", launcherStamp, payloadCopy)
 	}
 	if strings.Contains(build, `"$staging/$CLINAME.exe"`) {
-		t.Fatal("Windows package must not collide reasonix.exe with the Reasonix.exe launcher")
+		t.Fatal("Windows package must not collide inx.exe with the Inx.exe launcher")
 	}
 	darwinIconCopy := strings.Index(build, `cp "$darwin_icon" "$app/Contents/Resources/$bundle_icon"`)
 	developerIDSign := strings.Index(build, `codesign --force --deep --timestamp --options runtime`)
@@ -115,9 +115,9 @@ func TestDesktopPackagesPreserveNativePlatformLaunchers(t *testing.T) {
 	}
 
 	for _, want := range []string{
-		`dpkg-deb --field "$deb_path" Package | grep -x 'reasonix-desktop'`,
-		`usr/lib/reasonix/reasonix-update-helper`,
-		`usr/share/polkit-1/actions/io.reasonix.desktop.update.policy`,
+		`dpkg-deb --field "$deb_path" Package | grep -x 'inx-desktop'`,
+		`usr/lib/inx/inx-update-helper`,
+		`usr/share/polkit-1/actions/io.inx.desktop.update.policy`,
 	} {
 		if !strings.Contains(build, want) {
 			t.Errorf("desktop-build.sh missing Linux deb helper contract %q", want)
@@ -134,11 +134,11 @@ func TestDesktopPackagesPreserveNativePlatformLaunchers(t *testing.T) {
 		}
 	}
 
-	desktopEntry, err := os.ReadFile("build/linux/reasonix.desktop")
+	desktopEntry, err := os.ReadFile("build/linux/inx.desktop")
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !strings.Contains(string(desktopEntry), "Exec=reasonix-launcher") || strings.Contains(string(desktopEntry), "reasonix-guard") {
+	if !strings.Contains(string(desktopEntry), "Exec=inx-launcher") || strings.Contains(string(desktopEntry), "inx-guard") {
 		t.Fatal("Linux desktop entry must launch the permanent launcher without Guard")
 	}
 	nfpmData, err := os.ReadFile("build/linux/nfpm.yaml")
@@ -146,14 +146,14 @@ func TestDesktopPackagesPreserveNativePlatformLaunchers(t *testing.T) {
 		t.Fatal(err)
 	}
 	nfpm := string(nfpmData)
-	if !strings.Contains(nfpm, "dst: /usr/bin/reasonix-launcher") || strings.Contains(nfpm, "dst: /usr/bin/reasonix-guard") {
+	if !strings.Contains(nfpm, "dst: /usr/bin/inx-launcher") || strings.Contains(nfpm, "dst: /usr/bin/inx-guard") {
 		t.Fatal("Linux deb must install the permanent launcher and must not persist Guard")
 	}
 	if !strings.Contains(nfpm, "postinstall: ./build/linux/postinstall.sh") {
 		t.Fatal("Linux deb must refresh native desktop icon caches after install and upgrade")
 	}
-	if !strings.Contains(nfpm, "dst: /usr/share/applications/reasonix.desktop") {
-		t.Fatal("Linux deb must install the Reasonix desktop entry")
+	if !strings.Contains(nfpm, "dst: /usr/share/applications/inx.desktop") {
+		t.Fatal("Linux deb must install the Inx desktop entry")
 	}
 	postInstall, err := os.ReadFile("build/linux/postinstall.sh")
 	if err != nil {
@@ -174,19 +174,19 @@ func TestDesktopPackagesPreserveNativePlatformLaunchers(t *testing.T) {
 	}
 	windows := string(windowsData)
 	for _, want := range []string{
-		`File "/oname=${REASONIX_CLI}" "${REASONIX_CLI}"`,
-		`!define REASONIX_UNINST_FINALIZE 'cmd.exe /C copy /Y "%1" "reasonix-uninstall.exe" >NUL'`,
-		`!uninstfinalize '${REASONIX_UNINST_FINALIZE}'`,
-		`File "/oname=uninstall.exe" "${ARG_REASONIX_SIGNED_UNINSTALLER}"`,
+		`File "/oname=${INX_CLI}" "${INX_CLI}"`,
+		`!define INX_UNINST_FINALIZE 'cmd.exe /C copy /Y "%1" "inx-uninstall.exe" >NUL'`,
+		`!uninstfinalize '${INX_UNINST_FINALIZE}'`,
+		`File "/oname=uninstall.exe" "${ARG_INX_SIGNED_UNINSTALLER}"`,
 		`StrCpy $R9 "$INSTDIR\versions\.installer-v${INFO_PRODUCTVERSION}-$R8"`,
-		`File "/oname=${REASONIX_LAYOUT_INSTALLER}" "${REASONIX_GUARD}"`,
+		`File "/oname=${INX_LAYOUT_INSTALLER}" "${INX_GUARD}"`,
 		`nsExec::ExecToLog /OEM`,
-		`Reasonix layout activator output:`,
+		`Inx layout activator output:`,
 		`--activate-staging "$R9" --no-relaunch`,
-		`CreateShortcut "$SMPROGRAMS\${INFO_PRODUCTNAME}.lnk" "$INSTDIR\${REASONIX_LAUNCHER}" "" "$INSTDIR\${REASONIX_LAUNCHER}" 0`,
-		`CreateShortCut "$DESKTOP\${INFO_PRODUCTNAME}.lnk" "$INSTDIR\${REASONIX_LAUNCHER}" "" "$INSTDIR\${REASONIX_LAUNCHER}" 0`,
-		`StrCmp $ReasonixStageMode "1" reasonix_stage_payload`,
-		`File "/oname=${REASONIX_GUARD}" "${REASONIX_GUARD}"`,
+		`CreateShortcut "$SMPROGRAMS\${INFO_PRODUCTNAME}.lnk" "$INSTDIR\${INX_LAUNCHER}" "" "$INSTDIR\${INX_LAUNCHER}" 0`,
+		`CreateShortCut "$DESKTOP\${INFO_PRODUCTNAME}.lnk" "$INSTDIR\${INX_LAUNCHER}" "" "$INSTDIR\${INX_LAUNCHER}" 0`,
+		`StrCmp $InxStageMode "1" inx_stage_payload`,
+		`File "/oname=${INX_GUARD}" "${INX_GUARD}"`,
 	} {
 		if !strings.Contains(windows, want) {
 			t.Errorf("Windows installer missing versioned-layout contract %q", want)
@@ -196,11 +196,11 @@ func TestDesktopPackagesPreserveNativePlatformLaunchers(t *testing.T) {
 		strings.Contains(windows, `SetOutPath "$INSTDIR\versions\v${INFO_PRODUCTVERSION}"`) {
 		t.Fatal("normal Windows installer must not write the live version or current.json in place")
 	}
-	if strings.Contains(windows, `ExecWait '"$PLUGINSDIR\${REASONIX_LAYOUT_INSTALLER}"`) {
+	if strings.Contains(windows, `ExecWait '"$PLUGINSDIR\${INX_LAYOUT_INSTALLER}"`) {
 		t.Fatal("Windows installer must not discard layout activator stdout/stderr")
 	}
-	if strings.Contains(windows, `CreateShortcut "$SMPROGRAMS\${INFO_PRODUCTNAME}.lnk" "$INSTDIR\${REASONIX_LAUNCHER}" "" "$INSTDIR\versions\v${INFO_PRODUCTVERSION}\${PRODUCT_EXECUTABLE}" 0`) ||
-		strings.Contains(windows, `CreateShortCut "$DESKTOP\${INFO_PRODUCTNAME}.lnk" "$INSTDIR\${REASONIX_LAUNCHER}" "" "$INSTDIR\versions\v${INFO_PRODUCTVERSION}\${PRODUCT_EXECUTABLE}" 0`) {
+	if strings.Contains(windows, `CreateShortcut "$SMPROGRAMS\${INFO_PRODUCTNAME}.lnk" "$INSTDIR\${INX_LAUNCHER}" "" "$INSTDIR\versions\v${INFO_PRODUCTVERSION}\${PRODUCT_EXECUTABLE}" 0`) ||
+		strings.Contains(windows, `CreateShortCut "$DESKTOP\${INFO_PRODUCTNAME}.lnk" "$INSTDIR\${INX_LAUNCHER}" "" "$INSTDIR\versions\v${INFO_PRODUCTVERSION}\${PRODUCT_EXECUTABLE}" 0`) {
 		t.Fatal("Windows shortcut icon must not point into a version directory that retention removes")
 	}
 }

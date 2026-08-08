@@ -11,8 +11,8 @@ import (
 	"strings"
 	"time"
 
-	"reasonix/internal/provider"
-	"reasonix/internal/store"
+	"inx/internal/provider"
+	"inx/internal/store"
 )
 
 // Context-projection schema versions. Readers accept any known version;

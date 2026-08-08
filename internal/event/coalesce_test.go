@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"reasonix/internal/evidence"
+	"inx/internal/evidence"
 )
 
 type coalesceRecordSink struct {

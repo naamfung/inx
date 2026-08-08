@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"reasonix/internal/agent"
-	"reasonix/internal/control"
-	"reasonix/internal/event"
-	"reasonix/internal/permission"
-	"reasonix/internal/provider"
+	"inx/internal/agent"
+	"inx/internal/control"
+	"inx/internal/event"
+	"inx/internal/permission"
+	"inx/internal/provider"
 )
 
 // scriptedRequester answers agent → client requests from a per-method script

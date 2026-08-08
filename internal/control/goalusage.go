@@ -3,9 +3,9 @@ package control
 import (
 	"sync"
 
-	"reasonix/internal/event"
-	"reasonix/internal/evidence"
-	"reasonix/internal/provider"
+	"inx/internal/event"
+	"inx/internal/evidence"
+	"inx/internal/provider"
 )
 
 // goalUsageTee wraps the controller's event sink and attributes billable usage

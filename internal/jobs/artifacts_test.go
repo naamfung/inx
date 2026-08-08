@@ -13,8 +13,8 @@ import (
 	"testing"
 	"time"
 
-	"reasonix/internal/event"
-	"reasonix/internal/evidence"
+	"inx/internal/event"
+	"inx/internal/evidence"
 )
 
 func TestCompletedJobPersistsOutputAndReleasesMemory(t *testing.T) {

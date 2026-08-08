@@ -6,9 +6,9 @@ import (
 	"strings"
 	"testing"
 
-	"reasonix/internal/evidence"
-	"reasonix/internal/instruction"
-	"reasonix/internal/provider"
+	"inx/internal/evidence"
+	"inx/internal/instruction"
+	"inx/internal/provider"
 )
 
 func TestTodoInventoryListsTurnTodos(t *testing.T) {

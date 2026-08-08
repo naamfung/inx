@@ -10,15 +10,15 @@ import (
 	"sync/atomic"
 	"testing"
 
-	"reasonix/internal/agent"
-	"reasonix/internal/event"
-	"reasonix/internal/evidence"
-	"reasonix/internal/goaleval"
-	"reasonix/internal/provider"
-	"reasonix/internal/store"
-	"reasonix/internal/tool"
+	"inx/internal/agent"
+	"inx/internal/event"
+	"inx/internal/evidence"
+	"inx/internal/goaleval"
+	"inx/internal/provider"
+	"inx/internal/store"
+	"inx/internal/tool"
 
-	_ "reasonix/internal/tool/builtin"
+	_ "inx/internal/tool/builtin"
 )
 
 // goalRegistry returns a registry carrying the update_goal builtin so scripted
@@ -221,7 +221,7 @@ func TestPlainInputWithStrongResearchSignalPreservesRefsWithoutStartingGoal(t *t
 	if got := c.GoalStatus(); got != GoalStatusStopped {
 		t.Fatalf("GoalStatus() = %q, want stopped", got)
 	}
-	if _, err := os.Stat(filepath.Join(root, ".reasonix", "autoresearch")); !os.IsNotExist(err) {
+	if _, err := os.Stat(filepath.Join(root, ".inx", "autoresearch")); !os.IsNotExist(err) {
 		t.Fatalf("ordinary prompt created AutoResearch state: err=%v", err)
 	}
 }
@@ -251,7 +251,7 @@ func TestPlainAutoResearchTaskPathDoesNotResumeGoal(t *testing.T) {
 	}
 	c.ClearGoal()
 
-	input := "继续 .reasonix/autoresearch/" + taskID + "/ 这个任务"
+	input := "继续 .inx/autoresearch/" + taskID + "/ 这个任务"
 	c.Submit(input)
 	waitForTurnDone(t, events)
 
@@ -301,7 +301,7 @@ func TestResearchGoalCreatesHostManagedAutoResearchTask(t *testing.T) {
 		"state/findings.jsonl",
 		"logs/heartbeat.jsonl",
 	} {
-		path := filepath.Join(root, ".reasonix", "autoresearch", state.AutoResearchTaskID, rel)
+		path := filepath.Join(root, ".inx", "autoresearch", state.AutoResearchTaskID, rel)
 		if _, err := os.Stat(path); err != nil {
 			t.Fatalf("expected autoresearch file %s: %v", rel, err)
 		}
@@ -312,7 +312,7 @@ func TestResearchGoalCreatesHostManagedAutoResearchTask(t *testing.T) {
 			Required bool   `json:"required"`
 		} `json:"success_criteria"`
 	}
-	readJSONFileForTest(t, filepath.Join(root, ".reasonix", "autoresearch", state.AutoResearchTaskID, "state", "task_spec.json"), &spec)
+	readJSONFileForTest(t, filepath.Join(root, ".inx", "autoresearch", state.AutoResearchTaskID, "state", "task_spec.json"), &spec)
 	if len(spec.SuccessCriteria) != 2 || spec.SuccessCriteria[0].ID != "objective_evidence" || spec.SuccessCriteria[1].ID != "verification" {
 		t.Fatalf("default success criteria = %+v, want objective_evidence and verification", spec.SuccessCriteria)
 	}
@@ -384,7 +384,7 @@ func TestResearchGoalRepeatedSetReusesAutoResearchTask(t *testing.T) {
 		t.Fatalf("repeated SetGoal created a new task: got %q, want %q", repeatedTaskID, firstTaskID)
 	}
 
-	entries, err := os.ReadDir(filepath.Join(root, ".reasonix", "autoresearch"))
+	entries, err := os.ReadDir(filepath.Join(root, ".inx", "autoresearch"))
 	if err != nil {
 		t.Fatalf("read autoresearch dir: %v", err)
 	}
@@ -425,7 +425,7 @@ func TestResearchGoalMissingExplicitTaskBlocksInsteadOfCreatingNewTask(t *testin
 		}),
 	})
 
-	c.SetGoalWithResearchMode("resume .reasonix/autoresearch/missing-task/", GoalResearchOn)
+	c.SetGoalWithResearchMode("resume .inx/autoresearch/missing-task/", GoalResearchOn)
 
 	if got := c.GoalStatus(); got != GoalStatusBlocked {
 		t.Fatalf("GoalStatus() = %q, want blocked for missing explicit AutoResearch task", got)
@@ -433,7 +433,7 @@ func TestResearchGoalMissingExplicitTaskBlocksInsteadOfCreatingNewTask(t *testin
 	if got := c.goals.currentAutoResearchTaskID(); got != "" {
 		t.Fatalf("current AutoResearch task id = %q, want none for missing explicit task", got)
 	}
-	entries, err := os.ReadDir(filepath.Join(root, ".reasonix", "autoresearch"))
+	entries, err := os.ReadDir(filepath.Join(root, ".inx", "autoresearch"))
 	if err != nil && !os.IsNotExist(err) {
 		t.Fatalf("ReadDir autoresearch root: %v", err)
 	}

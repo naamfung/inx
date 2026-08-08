@@ -9,13 +9,13 @@ import (
 	"strings"
 	"testing"
 
-	"reasonix/internal/agent"
-	"reasonix/internal/event"
-	"reasonix/internal/evidence"
-	"reasonix/internal/goaleval"
-	"reasonix/internal/provider"
-	"reasonix/internal/store"
-	"reasonix/internal/tool"
+	"inx/internal/agent"
+	"inx/internal/event"
+	"inx/internal/evidence"
+	"inx/internal/goaleval"
+	"inx/internal/provider"
+	"inx/internal/store"
+	"inx/internal/tool"
 )
 
 // goalRuntimeController wires a controller whose goal turns carry no

@@ -9,10 +9,10 @@ import (
 	"testing"
 	"time"
 
-	"reasonix/internal/extension"
-	"reasonix/internal/extension/protocol"
-	"reasonix/internal/extension/rpcwire"
-	"reasonix/internal/pluginpkg"
+	"inx/internal/extension"
+	"inx/internal/extension/protocol"
+	"inx/internal/extension/rpcwire"
+	"inx/internal/pluginpkg"
 )
 
 func TestHandshakeSuccess(t *testing.T) {

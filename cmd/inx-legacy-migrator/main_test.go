@@ -6,7 +6,7 @@ import (
 	"runtime"
 	"testing"
 
-	"reasonix/internal/installlayout"
+	"inx/internal/installlayout"
 )
 
 func installerVersionNames() []string {
@@ -47,9 +47,9 @@ func TestMigrateFlatInstallToVersioned(t *testing.T) {
 	}
 	// Thin launcher entry must already exist (packaging places it). Use a
 	// non-executable marker so startLauncher fails closed without hanging.
-	_ = os.WriteFile(filepath.Join(root, "reasonix-launcher"), []byte("launcher"), 0o644)
-	_ = os.WriteFile(filepath.Join(root, "reasonix-launcher.exe"), []byte("launcher"), 0o644)
-	_ = os.WriteFile(filepath.Join(root, "Reasonix.exe"), []byte("launcher"), 0o644)
+	_ = os.WriteFile(filepath.Join(root, "inx-launcher"), []byte("launcher"), 0o644)
+	_ = os.WriteFile(filepath.Join(root, "inx-launcher.exe"), []byte("launcher"), 0o644)
+	_ = os.WriteFile(filepath.Join(root, "Inx.exe"), []byte("launcher"), 0o644)
 	// Marker files that must be archived, not deleted silently without record.
 	_ = os.WriteFile(filepath.Join(root, "pending-update.json"), []byte(`{"pending":true}`), 0o644)
 	_ = os.WriteFile(filepath.Join(root, "startup-state.json"), []byte(`{}`), 0o644)

@@ -21,16 +21,16 @@ import (
 	"sync"
 	"time"
 
-	"reasonix/internal/agent"
-	"reasonix/internal/boot"
-	"reasonix/internal/config"
-	"reasonix/internal/control"
-	"reasonix/internal/event"
-	"reasonix/internal/jobs"
-	"reasonix/internal/nilutil"
-	"reasonix/internal/provider"
-	"reasonix/internal/stats"
-	"reasonix/internal/store"
+	"inx/internal/agent"
+	"inx/internal/boot"
+	"inx/internal/config"
+	"inx/internal/control"
+	"inx/internal/event"
+	"inx/internal/jobs"
+	"inx/internal/nilutil"
+	"inx/internal/provider"
+	"inx/internal/stats"
+	"inx/internal/store"
 )
 
 //go:embed index.html

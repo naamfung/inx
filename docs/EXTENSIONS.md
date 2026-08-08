@@ -1,6 +1,6 @@
-# Reasonix Extensions
+# Inx Extensions
 
-Extensions let a plugin package change what Reasonix does at runtime —
+Extensions let a plugin package change what Inx does at runtime —
 rewrite input, intercept tool calls, replace the system prompt, contribute
 streaming model providers, publish structured UI, and ship prompts and
 themes — using a stable, versioned contract.
@@ -19,10 +19,10 @@ Two kinds of plugin capabilities exist:
 Extensions install exactly like any plugin package:
 
 ```bash
-reasonix plugin install git:github.com/owner/extension --dry-run   # preview
-reasonix plugin install git:github.com/owner/extension --yes       # install
-reasonix plugin show <name>                                        # details
-reasonix plugin doctor <name>                                      # validate
+inx plugin install git:github.com/owner/extension --dry-run   # preview
+inx plugin install git:github.com/owner/extension --yes       # install
+inx plugin show <name>                                        # details
+inx plugin doctor <name>                                      # validate
 ```
 
 For a plugin with a `runtime` block, the preview and `show` output include a
@@ -63,11 +63,11 @@ Changing an installed extension (install, update, enable/disable, or
 `--link` content changes) never mutates a running turn. Reloading is one
 fail-atomic operation through every interactive frontend — CLI `/reload`,
 Desktop **Reload Runtime** (command palette), Serve `/reload`, and the ACP
-vendor method `_reasonix.io/session/reloadExtensions`:
+vendor method `_inx.io/session/reloadExtensions`:
 
 1. If a turn or background work is running, CLI/Desktop/ACP queue exactly one
    reload; Serve rejects the request so the browser can retry once idle.
-2. When idle, Reasonix starts new sidecars and builds a new runtime
+2. When idle, Inx starts new sidecars and builds a new runtime
    snapshot.
 3. On full success it swaps atomically, carrying over the session path,
    transcript, approval grants, and goal/recovery state.
@@ -82,7 +82,7 @@ leaves the provider prompt-cache prefix byte-identical.
 
 With no code runtime installed, the Agent takes the existing nil-dispatcher
 path: no sidecar process, JSON encoding, RPC, or event queue is involved.
-When runtimes are installed, Reasonix initializes at most four sidecars at once
+When runtimes are installed, Inx initializes at most four sidecars at once
 inside one shared 30-second generation startup budget. A stalled optional
 runtime therefore cannot multiply boot or reload time by the number of installed
 packages. Packages that do not start inside that budget degrade or fail according
@@ -113,7 +113,7 @@ It keeps the manifest, Sidecar source, cross-platform build commands, linked
 installation, and first observable intercept in one directory. The normal
 development loop is:
 
-1. Add `apiVersion: "reasonix.io/plugin/v1"` to `reasonix-plugin.json` and
+1. Add `apiVersion: "inx.io/plugin/v1"` to `inx-plugin.json` and
    declare `contributes` and (optionally) `runtime` — see
    [Plugin Packages](./PLUGIN_PACKAGES.md#manifest-v1-extensions).
 2. Implement the Sidecar. The [Go SDK](../sdk/go/README.md) (standard library
@@ -122,9 +122,9 @@ development loop is:
    [generated method index](./EXTENSION_PROTOCOL.generated.md) are the
    language-neutral references.
 3. Build the runtime binary, preview its trust and capabilities with
-   `reasonix plugin install /path/to/plugin --dry-run`, then install it with
+   `inx plugin install /path/to/plugin --dry-run`, then install it with
    `--link --yes`.
-4. Validate with `reasonix plugin doctor <name>`, run `/reload` while idle,
+4. Validate with `inx plugin doctor <name>`, run `/reload` while idle,
    and exercise the contributed intercept, Provider, UI action, or resource.
 
 SDK releases use immutable `sdk/go/vX.Y.Z` tags. The first public version is
@@ -134,17 +134,17 @@ instead of relying on an unversioned module.
 ## Compatibility
 
 - Manifests without `apiVersion` parse exactly as before.
-- Older Reasonix versions ignore extension-only state: the per-session
+- Older Inx versions ignore extension-only state: the per-session
   `<session>.extensions.json` sidecar file, `plugin/...` model refs (they
   simply resolve as unavailable models), and the `extension_surface` /
   `extension_status` event kinds (older frontends drop unknown kinds; ACP
-  clients without `reasonix.extensionSurface` get text fallbacks).
+  clients without `inx.extensionSurface` get text fallbacks).
 - `plugin-packages.json` keeps its existing schema; an enabled installed
   runtime *is* the trust record.
 
 ## Security model
 
-A code extension runs outside the Reasonix sandbox with the unfiltered
+A code extension runs outside the Inx sandbox with the unfiltered
 inherited environment. It can read the full session and environment, bypass
 permissions and workspace restrictions, and operate the machine directly;
 its `permission.decision` "allow" overrides a host deny. In return the host
@@ -157,5 +157,5 @@ enforces:
 - sidecar diagnostics, structured UI, interceptor reasons, and provider errors
   are credential-redacted by the host before they reach the UI, logs, or error
   surfaces; ordinary provider/model content is preserved as product data;
-- a crashed sidecar fails its own operations explicitly — Reasonix never
+- a crashed sidecar fails its own operations explicitly — Inx never
   silently falls back to another model or strategy.

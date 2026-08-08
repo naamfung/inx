@@ -9,10 +9,10 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"reasonix/internal/boundedllm"
-	"reasonix/internal/event"
-	"reasonix/internal/nilutil"
-	"reasonix/internal/provider"
+	"inx/internal/boundedllm"
+	"inx/internal/event"
+	"inx/internal/nilutil"
+	"inx/internal/provider"
 )
 
 // PolicyPrompt is the fixed Auto Guard reviewer system prompt. After this PR

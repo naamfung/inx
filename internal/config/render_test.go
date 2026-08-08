@@ -16,13 +16,13 @@ func isolateUserConfigHome(t *testing.T) string {
 	t.Helper()
 	home := t.TempDir()
 	t.Setenv("HOME", home)
-	for _, key := range []string{"REASONIX_HOME", "REASONIX_STATE_HOME", "REASONIX_CACHE_HOME"} {
+	for _, key := range []string{"INX_HOME", "INX_STATE_HOME", "INX_CACHE_HOME"} {
 		t.Setenv(key, "")
 		if err := os.Unsetenv(key); err != nil {
 			t.Fatalf("unset %s: %v", key, err)
 		}
 	}
-	t.Setenv("REASONIX_CREDENTIALS_STORE", "file")
+	t.Setenv("INX_CREDENTIALS_STORE", "file")
 	t.Setenv("USERPROFILE", home)
 	t.Setenv("XDG_CONFIG_HOME", filepath.Join(home, ".config"))
 	t.Setenv("AppData", filepath.Join(home, "AppData", "Roaming"))
@@ -34,17 +34,17 @@ func isolateUserConfigHome(t *testing.T) string {
 // would otherwise race on the shared global.
 func setRuntimeGOOS(t *testing.T, goos string) {
 	t.Helper()
-	t.Setenv("REASONIX_TEST_GOOS", goos)
+	t.Setenv("INX_TEST_GOOS", goos)
 	old := runtimeGOOS
 	runtimeGOOS = goos
 	t.Cleanup(func() { runtimeGOOS = old })
 }
 
-func expectedDefaultReasonixHome(home string) string {
+func expectedDefaultInxHome(home string) string {
 	if runtime.GOOS == "windows" {
-		return filepath.Join(home, "AppData", "Roaming", "reasonix")
+		return filepath.Join(home, "AppData", "Roaming", "inx")
 	}
-	return filepath.Join(home, ".reasonix")
+	return filepath.Join(home, ".inx")
 }
 
 func TestUserConfigDisplayPathCollapsesHome(t *testing.T) {
@@ -53,33 +53,33 @@ func TestUserConfigDisplayPathCollapsesHome(t *testing.T) {
 	if !strings.HasPrefix(got, "~/") {
 		t.Fatalf("display path = %q, want ~/ prefix", got)
 	}
-	if !strings.HasSuffix(got, "reasonix/config.toml") {
-		t.Fatalf("display path = %q, want reasonix/config.toml suffix", got)
+	if !strings.HasSuffix(got, "inx/config.toml") {
+		t.Fatalf("display path = %q, want inx/config.toml suffix", got)
 	}
 	if strings.Contains(got, home) {
 		t.Fatalf("display path %q must not embed the absolute home", got)
 	}
 }
 
-func TestUserConfigPathUsesReasonixHome(t *testing.T) {
+func TestUserConfigPathUsesInxHome(t *testing.T) {
 	home := isolateUserConfigHome(t)
-	want := filepath.Join(expectedDefaultReasonixHome(home), "config.toml")
+	want := filepath.Join(expectedDefaultInxHome(home), "config.toml")
 	if got := UserConfigPath(); filepath.Clean(got) != filepath.Clean(want) {
 		t.Fatalf("UserConfigPath() = %q, want %q", got, want)
 	}
 }
 
-func TestReasonixManagedConfigPathsAreConfigFilesOnly(t *testing.T) {
+func TestInxManagedConfigPathsAreConfigFilesOnly(t *testing.T) {
 	home := isolateUserConfigHome(t)
 	setRuntimeGOOS(t, "windows")
 	oldConfigDir := osUserConfigDir
 	osUserConfigDir = func() string { return filepath.Join(home, "AppData", "Roaming") }
 	t.Cleanup(func() { osUserConfigDir = oldConfigDir })
 
-	paths := ReasonixManagedConfigPaths()
+	paths := InxManagedConfigPaths()
 	for _, want := range []string{
-		filepath.Join(home, "AppData", "Roaming", "reasonix", "config.toml"),
-		filepath.Join(home, ".reasonix", "config.json"),
+		filepath.Join(home, "AppData", "Roaming", "inx", "config.toml"),
+		filepath.Join(home, ".inx", "config.json"),
 	} {
 		found := false
 		for _, got := range paths {
@@ -93,7 +93,7 @@ func TestReasonixManagedConfigPathsAreConfigFilesOnly(t *testing.T) {
 		}
 	}
 	// The escape hatch is file-level by contract: no directories, and none of
-	// the sensitive Reasonix-home siblings (credentials, hooks, skills,
+	// the sensitive Inx-home siblings (credentials, hooks, skills,
 	// sessions) may ride along.
 	for _, got := range paths {
 		if base := filepath.Base(got); base != "config.toml" && base != "config.json" {
@@ -101,11 +101,11 @@ func TestReasonixManagedConfigPathsAreConfigFilesOnly(t *testing.T) {
 		}
 		for _, forbidden := range []string{
 			home,
-			ReasonixHomeDir(),
+			InxHomeDir(),
 			UserCredentialsPath(),
-			filepath.Join(ReasonixHomeDir(), "settings.json"),
-			filepath.Join(ReasonixHomeDir(), "skills"),
-			filepath.Join(ReasonixHomeDir(), "sessions"),
+			filepath.Join(InxHomeDir(), "settings.json"),
+			filepath.Join(InxHomeDir(), "skills"),
+			filepath.Join(InxHomeDir(), "sessions"),
 		} {
 			if samePath(got, forbidden) {
 				t.Fatalf("managed config paths must not include %q: %v", forbidden, paths)
@@ -114,10 +114,10 @@ func TestReasonixManagedConfigPathsAreConfigFilesOnly(t *testing.T) {
 	}
 }
 
-func TestUserConfigPathHonorsReasonixHome(t *testing.T) {
+func TestUserConfigPathHonorsInxHome(t *testing.T) {
 	home := isolateUserConfigHome(t)
 	custom := filepath.Join(home, "custom-home")
-	t.Setenv("REASONIX_HOME", custom)
+	t.Setenv("INX_HOME", custom)
 
 	want := filepath.Join(custom, "config.toml")
 	if got := UserConfigPath(); filepath.Clean(got) != filepath.Clean(want) {
@@ -141,9 +141,9 @@ func TestLoadForRootUsesWindowsHomeFallbackWhenConfigDirUnavailable(t *testing.T
 		osUserHomeDir = oldHomeDir
 	})
 
-	t.Setenv("REASONIX_HOME", "")
+	t.Setenv("INX_HOME", "")
 
-	configPath := filepath.Join(home, "AppData", "Roaming", "reasonix", "config.toml")
+	configPath := filepath.Join(home, "AppData", "Roaming", "inx", "config.toml")
 	if err := os.MkdirAll(filepath.Dir(configPath), 0o755); err != nil {
 		t.Fatal(err)
 	}
@@ -241,7 +241,7 @@ func TestRenderTOMLRoundTrips(t *testing.T) {
 			Server:   "127.0.0.1",
 			Port:     7890,
 			Username: "user",
-			Password: "${REASONIX_PROXY_PASSWORD}",
+			Password: "${INX_PROXY_PASSWORD}",
 		},
 	}
 	orig.Environment.Enabled = boolPtr(false)
@@ -252,14 +252,14 @@ func TestRenderTOMLRoundTrips(t *testing.T) {
 	orig.Skills.MaxDepth = 2
 	orig.Bot.ToolApprovalMode = "auto"
 	orig.Bot.Control = BotControlConfig{Enabled: true, Addr: "127.0.0.1:39001", TokenEnv: "BOT_CONTROL_TOKEN"}
-	orig.Bot.Feishu.OutboundMediaRoots = []string{"/tmp/reasonix-media", "/srv/shots"}
+	orig.Bot.Feishu.OutboundMediaRoots = []string{"/tmp/inx-media", "/srv/shots"}
 	orig.Bot.Routes = []BotRouteConfig{{
 		ConnectionID:     "feishu-lark",
 		ChatType:         "group",
 		ChatID:           "oc_group",
 		Model:            "deepseek-pro",
 		ToolApprovalMode: "ask",
-		WorkspaceRoot:    "/tmp/reasonix-route",
+		WorkspaceRoot:    "/tmp/inx-route",
 	}}
 	orig.Bot.DesktopWatchers = []BotDesktopWatcherConfig{{
 		Platform:     "feishu",
@@ -277,13 +277,13 @@ func TestRenderTOMLRoundTrips(t *testing.T) {
 		Status:           "connected",
 		Model:            "deepseek-pro",
 		ToolApprovalMode: "yolo",
-		WorkspaceRoot:    "/tmp/reasonix-bot",
+		WorkspaceRoot:    "/tmp/inx-bot",
 		Credential:       BotConnectionCredential{AppID: "cli_lark", AppSecretEnv: "LARK_BOT_APP_SECRET"},
 		SessionMappings: []BotConnectionSessionMapping{{
 			RemoteID:      "ou_123",
 			SessionID:     "topic:topic_bot",
 			Scope:         "project",
-			WorkspaceRoot: "/tmp/reasonix-bot",
+			WorkspaceRoot: "/tmp/inx-bot",
 			UpdatedAt:     "2026-06-11T00:00:00Z",
 		}},
 	}}
@@ -301,7 +301,7 @@ func TestRenderTOMLRoundTrips(t *testing.T) {
 		},
 	}
 	orig.Plugins = []PluginEntry{
-		{Name: "example", Command: "reasonix-plugin-example"},
+		{Name: "example", Command: "inx-plugin-example"},
 		{Name: "stripe", Type: "http", URL: "https://mcp.stripe.com", Headers: map[string]string{"Authorization": "Bearer x"}, AutoStart: boolPtr(false), Tier: "background"},
 	}
 	mm, _ := orig.Provider("mimo-pro")
@@ -393,7 +393,7 @@ func TestRenderTOMLRoundTrips(t *testing.T) {
 	if got.Agent.PlannerMaxSteps != orig.Agent.PlannerMaxSteps {
 		t.Errorf("planner_max_steps = %d, want %d", got.Agent.PlannerMaxSteps, orig.Agent.PlannerMaxSteps)
 	}
-	if len(got.Bot.Connections) != 1 || got.Bot.Connections[0].Model != "deepseek-pro" || got.Bot.Connections[0].WorkspaceRoot != "/tmp/reasonix-bot" {
+	if len(got.Bot.Connections) != 1 || got.Bot.Connections[0].Model != "deepseek-pro" || got.Bot.Connections[0].WorkspaceRoot != "/tmp/inx-bot" {
 		t.Errorf("bot connection not preserved: %+v", got.Bot.Connections)
 	}
 	if got.Bot.ToolApprovalMode != "auto" || got.Bot.Connections[0].ToolApprovalMode != "yolo" {
@@ -402,16 +402,16 @@ func TestRenderTOMLRoundTrips(t *testing.T) {
 	if !got.Bot.Control.Enabled || got.Bot.Control.Addr != "127.0.0.1:39001" || got.Bot.Control.TokenEnv != "BOT_CONTROL_TOKEN" {
 		t.Errorf("bot control not preserved: %+v", got.Bot.Control)
 	}
-	if len(got.Bot.Feishu.OutboundMediaRoots) != 2 || got.Bot.Feishu.OutboundMediaRoots[0] != "/tmp/reasonix-media" {
+	if len(got.Bot.Feishu.OutboundMediaRoots) != 2 || got.Bot.Feishu.OutboundMediaRoots[0] != "/tmp/inx-media" {
 		t.Errorf("feishu outbound_media_roots not preserved: %+v", got.Bot.Feishu.OutboundMediaRoots)
 	}
-	if len(got.Bot.Routes) != 1 || got.Bot.Routes[0].WorkspaceRoot != "/tmp/reasonix-route" || got.Bot.Routes[0].ChatID != "oc_group" {
+	if len(got.Bot.Routes) != 1 || got.Bot.Routes[0].WorkspaceRoot != "/tmp/inx-route" || got.Bot.Routes[0].ChatID != "oc_group" {
 		t.Errorf("bot routes not preserved: %+v", got.Bot.Routes)
 	}
 	if len(got.Bot.DesktopWatchers) != 1 || got.Bot.DesktopWatchers[0].ChatID != "oc_watcher" || got.Bot.DesktopWatchers[0].Platform != "feishu" || got.Bot.DesktopWatchers[0].Domain != "lark" {
 		t.Errorf("bot desktop watchers not preserved: %+v", got.Bot.DesktopWatchers)
 	}
-	if len(got.Bot.Connections[0].SessionMappings) != 1 || got.Bot.Connections[0].SessionMappings[0].Scope != "project" || got.Bot.Connections[0].SessionMappings[0].WorkspaceRoot != "/tmp/reasonix-bot" {
+	if len(got.Bot.Connections[0].SessionMappings) != 1 || got.Bot.Connections[0].SessionMappings[0].Scope != "project" || got.Bot.Connections[0].SessionMappings[0].WorkspaceRoot != "/tmp/inx-bot" {
 		t.Errorf("bot session mapping scope not preserved: %+v", got.Bot.Connections[0].SessionMappings)
 	}
 	if got.Agent.Temperature != orig.Agent.Temperature {
@@ -1084,7 +1084,7 @@ func TestRenderTOMLRoundTripsProviderHeadersAndModelOverrides(t *testing.T) {
 		APIKeyEnv: "GATEWAY_API_KEY",
 		Headers: map[string]string{
 			"HTTP-Referer": "https://app.example",
-			"X-Title":      "Reasonix",
+			"X-Title":      "Inx",
 		},
 		ExtraBody: map[string]any{
 			"enable_thinking": true,
@@ -1108,7 +1108,7 @@ func TestRenderTOMLRoundTripsProviderHeadersAndModelOverrides(t *testing.T) {
 	}}
 
 	rendered := RenderTOML(orig)
-	if !strings.Contains(rendered, `headers     = { HTTP-Referer = "https://app.example", X-Title = "Reasonix" }`) {
+	if !strings.Contains(rendered, `headers     = { HTTP-Referer = "https://app.example", X-Title = "Inx" }`) {
 		t.Fatalf("rendered TOML missing headers:\n%s", rendered)
 	}
 	if !strings.Contains(rendered, `extra_body`) || !strings.Contains(rendered, `"enable_thinking" = true`) {
@@ -1129,7 +1129,7 @@ func TestRenderTOMLRoundTripsProviderHeadersAndModelOverrides(t *testing.T) {
 	if !ok {
 		t.Fatal("gateway provider missing after round trip")
 	}
-	if p.Headers["HTTP-Referer"] != "https://app.example" || p.Headers["X-Title"] != "Reasonix" {
+	if p.Headers["HTTP-Referer"] != "https://app.example" || p.Headers["X-Title"] != "Inx" {
 		t.Fatalf("headers after round trip = %+v", p.Headers)
 	}
 	if p.ExtraBody["enable_thinking"] != true || p.ExtraBody["top_p"] != 0.8 {
@@ -1363,15 +1363,15 @@ func TestLoadForEditIgnoresAndDropsDeprecatedAgentStepLimitsOnSave(t *testing.T)
 }
 
 func TestIsolatedHomeDirEmptyByDefault(t *testing.T) {
-	t.Setenv("REASONIX_HOME", "")
+	t.Setenv("INX_HOME", "")
 	if got := IsolatedHomeDir(); got != "" {
 		t.Fatalf("IsolatedHomeDir() = %q, want empty", got)
 	}
 }
 
 func TestIsolatedHomeDirReturnsCleanPath(t *testing.T) {
-	raw := filepath.Join(t.TempDir(), "isolated-reasonix")
-	t.Setenv("REASONIX_HOME", raw)
+	raw := filepath.Join(t.TempDir(), "isolated-inx")
+	t.Setenv("INX_HOME", raw)
 	got := IsolatedHomeDir()
 	if filepath.Clean(got) != filepath.Clean(raw) {
 		t.Fatalf("IsolatedHomeDir() = %q, want %q", got, raw)
@@ -1380,7 +1380,7 @@ func TestIsolatedHomeDirReturnsCleanPath(t *testing.T) {
 
 func TestLegacyOSSupportDirEmptyWhenIsolated(t *testing.T) {
 	isolateUserConfigHome(t)
-	t.Setenv("REASONIX_HOME", filepath.Join(t.TempDir(), "isolated-home"))
+	t.Setenv("INX_HOME", filepath.Join(t.TempDir(), "isolated-home"))
 	if got := legacyOSSupportDir(); got != "" {
 		t.Fatalf("legacyOSSupportDir() = %q, want empty when isolated", got)
 	}
@@ -1388,18 +1388,18 @@ func TestLegacyOSSupportDirEmptyWhenIsolated(t *testing.T) {
 
 func TestLegacyXDGConfigPathsEmptyWhenIsolated(t *testing.T) {
 	isolateUserConfigHome(t)
-	t.Setenv("REASONIX_HOME", filepath.Join(t.TempDir(), "isolated-home"))
+	t.Setenv("INX_HOME", filepath.Join(t.TempDir(), "isolated-home"))
 	if got := legacyXDGConfigPaths(); got != nil {
 		t.Fatalf("legacyXDGConfigPaths() = %v, want nil when isolated", got)
 	}
 }
 
-func TestCacheDirHonorsReasonixHome(t *testing.T) {
+func TestCacheDirHonorsInxHome(t *testing.T) {
 	home := t.TempDir()
 	isolated := filepath.Join(home, "isolated-home")
 	t.Setenv("HOME", home)
 	t.Setenv("USERPROFILE", home)
-	t.Setenv("REASONIX_HOME", isolated)
+	t.Setenv("INX_HOME", isolated)
 
 	got := CacheDir()
 	want := filepath.Join(isolated, "cache")
@@ -1408,28 +1408,28 @@ func TestCacheDirHonorsReasonixHome(t *testing.T) {
 	}
 }
 
-func TestCacheDirHonorsReasonixCacheHomeOverReasonixHome(t *testing.T) {
+func TestCacheDirHonorsInxCacheHomeOverInxHome(t *testing.T) {
 	home := t.TempDir()
 	cacheHome := filepath.Join(home, "custom-cache")
 	t.Setenv("HOME", home)
 	t.Setenv("USERPROFILE", home)
-	t.Setenv("REASONIX_HOME", filepath.Join(home, "isolated-home"))
-	t.Setenv("REASONIX_CACHE_HOME", cacheHome)
+	t.Setenv("INX_HOME", filepath.Join(home, "isolated-home"))
+	t.Setenv("INX_CACHE_HOME", cacheHome)
 
 	got := CacheDir()
 	want := cacheHome
 	if filepath.Clean(got) != filepath.Clean(want) {
-		t.Fatalf("CacheDir() = %q, want %q (REASONIX_CACHE_HOME must win)", got, want)
+		t.Fatalf("CacheDir() = %q, want %q (INX_CACHE_HOME must win)", got, want)
 	}
 }
 
 func TestUserConfigLoadPathNoLegacyFallbackWhenIsolated(t *testing.T) {
 	home := isolateUserConfigHome(t)
 	isolated := filepath.Join(home, "isolated-home")
-	t.Setenv("REASONIX_HOME", isolated)
+	t.Setenv("INX_HOME", isolated)
 
 	// Create a legacy config at the OS production path — it must not be loaded.
-	productionHome := expectedDefaultReasonixHome(home)
+	productionHome := expectedDefaultInxHome(home)
 	if err := os.MkdirAll(productionHome, 0o755); err != nil {
 		t.Fatal(err)
 	}
@@ -1447,7 +1447,7 @@ func TestUserConfigLoadPathNoLegacyFallbackWhenIsolated(t *testing.T) {
 
 func TestCredentialSourceCandidatesSkipHomeEnvWhenIsolated(t *testing.T) {
 	isolateUserConfigHome(t)
-	t.Setenv("REASONIX_HOME", filepath.Join(t.TempDir(), "isolated-home"))
+	t.Setenv("INX_HOME", filepath.Join(t.TempDir(), "isolated-home"))
 
 	// Write a key into the production home .env — it must not appear as a source.
 	if home, err := os.UserHomeDir(); err == nil {
@@ -1467,10 +1467,10 @@ func TestCredentialSourceCandidatesSkipHomeEnvWhenIsolated(t *testing.T) {
 func TestMigrateLegacyIfNeededSkipsWhenIsolated(t *testing.T) {
 	home := isolateUserConfigHome(t)
 	isolated := filepath.Join(home, "isolated-home")
-	t.Setenv("REASONIX_HOME", isolated)
+	t.Setenv("INX_HOME", isolated)
 
 	// Create a legacy config.json in production home — migration must skip it.
-	legacyDir := filepath.Join(home, ".reasonix")
+	legacyDir := filepath.Join(home, ".inx")
 	if err := os.MkdirAll(legacyDir, 0o755); err != nil {
 		t.Fatal(err)
 	}
@@ -1488,11 +1488,11 @@ func TestMigrateLegacyIfNeededSkipsWhenIsolated(t *testing.T) {
 }
 
 // TestProjectConfigCannotOverrideSecrets pins [secrets] as a user-global
-// security control: a cloned repository's reasonix.toml must not be able to
+// security control: a cloned repository's inx.toml must not be able to
 // opt the user into subprocess env stripping or sensitive-path hiding.
 func TestProjectConfigCannotOverrideSecrets(t *testing.T) {
 	isolateUserConfigHome(t)
-	t.Setenv("REASONIX_HOME", "")
+	t.Setenv("INX_HOME", "")
 	globalDir := filepath.Dir(UserConfigPath())
 	if err := os.MkdirAll(globalDir, 0o755); err != nil {
 		t.Fatal(err)
@@ -1504,7 +1504,7 @@ func TestProjectConfigCannotOverrideSecrets(t *testing.T) {
 
 	project := t.TempDir()
 	projectTOML := "[secrets]\nfilter_subprocess_env = true\nprotect_sensitive_files = true\n"
-	if err := os.WriteFile(filepath.Join(project, "reasonix.toml"), []byte(projectTOML), 0o644); err != nil {
+	if err := os.WriteFile(filepath.Join(project, "inx.toml"), []byte(projectTOML), 0o644); err != nil {
 		t.Fatal(err)
 	}
 
@@ -1513,10 +1513,10 @@ func TestProjectConfigCannotOverrideSecrets(t *testing.T) {
 		t.Fatalf("LoadForRoot() error = %v", err)
 	}
 	if cfg.Secrets.FilterSubprocessEnv {
-		t.Error("project reasonix.toml enabled filter_subprocess_env; [secrets] must stay user-global")
+		t.Error("project inx.toml enabled filter_subprocess_env; [secrets] must stay user-global")
 	}
 	if cfg.Secrets.ProtectSensitiveFiles {
-		t.Error("project reasonix.toml enabled protect_sensitive_files; [secrets] must stay user-global")
+		t.Error("project inx.toml enabled protect_sensitive_files; [secrets] must stay user-global")
 	}
 }
 

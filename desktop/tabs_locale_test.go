@@ -3,8 +3,8 @@ package main
 import (
 	"testing"
 
-	"reasonix/internal/config"
-	"reasonix/internal/control"
+	"inx/internal/config"
+	"inx/internal/control"
 )
 
 func TestDefaultTopicTitleLocalizesAtAPIBoundary(t *testing.T) {

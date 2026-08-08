@@ -6,7 +6,7 @@ import (
 	"errors"
 	"strings"
 
-	"reasonix/internal/evidence"
+	"inx/internal/evidence"
 )
 
 // RecoveryGate is the host-side Auto Guard consulted by the agent around tool

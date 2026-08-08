@@ -8,11 +8,11 @@ import (
 	"strings"
 	"time"
 
-	"reasonix/internal/event"
-	"reasonix/internal/nilutil"
-	"reasonix/internal/provider"
-	"reasonix/internal/sandbox"
-	"reasonix/internal/tool"
+	"inx/internal/event"
+	"inx/internal/nilutil"
+	"inx/internal/provider"
+	"inx/internal/sandbox"
+	"inx/internal/tool"
 )
 
 // Runner carries out one task turn. Both Agent (single model) and Coordinator
@@ -85,7 +85,7 @@ The host then delivers your reply directly instead of starting the executor.
 Never emit that marker when any workspace change, command, verification, or
 follow-up action remains.`
 
-const executorHandoffMarker = "Reasonix executor handoff"
+const executorHandoffMarker = "Inx executor handoff"
 
 // plannerFallbackNotice is shown when the planner fails and the turn degrades
 // to executor-only instead of failing outright.
@@ -110,7 +110,7 @@ const plannerAskStartMarker = "<planner-ask>"
 const plannerAskEndMarker = "</planner-ask>"
 
 // PlannerPromptWithContext appends cache-stable standing context, such as loaded
-// REASONIX.md / AGENTS.md memory, to the planner's smaller system prompt.
+// INX.md / AGENTS.md memory, to the planner's smaller system prompt.
 func PlannerPromptWithContext(context string) string {
 	context = strings.TrimSpace(context)
 	if context == "" {
@@ -310,7 +310,7 @@ func (c *Coordinator) SetSandboxEscapeApprover(g sandbox.EscapeApprover) {
 	}
 }
 
-// SetConfigWriteApprover propagates Reasonix-managed config write approvals to
+// SetConfigWriteApprover propagates Inx-managed config write approvals to
 // both tool-using agents in two-model mode.
 func (c *Coordinator) SetConfigWriteApprover(g tool.ConfigWriteApprover) {
 	if c == nil {

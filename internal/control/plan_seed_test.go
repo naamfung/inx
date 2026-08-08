@@ -5,9 +5,9 @@ import (
 	"strings"
 	"testing"
 
-	"reasonix/internal/agent"
-	"reasonix/internal/event"
-	"reasonix/internal/evidence"
+	"inx/internal/agent"
+	"inx/internal/event"
+	"inx/internal/evidence"
 )
 
 func TestParsePlanTodos(t *testing.T) {

@@ -5,8 +5,8 @@ import (
 	"strings"
 	"testing"
 
-	"reasonix/internal/event"
-	"reasonix/internal/i18n"
+	"inx/internal/event"
+	"inx/internal/i18n"
 )
 
 // TestRetryIndicatorShowsAndClears proves a Retrying event sets the transient

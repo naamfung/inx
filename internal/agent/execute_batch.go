@@ -6,11 +6,11 @@ import (
 	"sync"
 	"time"
 
-	"reasonix/internal/event"
-	"reasonix/internal/evidence"
-	"reasonix/internal/permission"
-	"reasonix/internal/provider"
-	"reasonix/internal/tool"
+	"inx/internal/event"
+	"inx/internal/evidence"
+	"inx/internal/permission"
+	"inx/internal/provider"
+	"inx/internal/tool"
 )
 
 // batchExecution is the result of one provider tool-call batch.

@@ -4,9 +4,9 @@ import (
 	"context"
 	"testing"
 
-	"reasonix/internal/control"
-	"reasonix/internal/event"
-	"reasonix/internal/provider"
+	"inx/internal/control"
+	"inx/internal/event"
+	"inx/internal/provider"
 )
 
 func TestEnrichStateWithExtensionModels(t *testing.T) {

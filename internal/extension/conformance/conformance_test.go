@@ -22,10 +22,10 @@ import (
 	"testing"
 	"time"
 
-	"reasonix/internal/extension/protocol"
-	"reasonix/internal/extension/rpcwire"
-	"reasonix/internal/extension/sidecar"
-	"reasonix/internal/pluginpkg"
+	"inx/internal/extension/protocol"
+	"inx/internal/extension/rpcwire"
+	"inx/internal/extension/sidecar"
+	"inx/internal/pluginpkg"
 )
 
 // examplePath is the built fullsidecar binary, shared by every test.
@@ -88,7 +88,7 @@ func startExample(t *testing.T, mutate func(rt *pluginpkg.RuntimeSpec), opts fun
 	root := t.TempDir()
 	pkg := pluginpkg.Package{
 		Root:         root,
-		ManifestKind: "reasonix",
+		ManifestKind: "inx",
 		Manifest:     pluginpkg.Manifest{Name: testPluginID, Version: "1.0.0", Runtime: rt},
 	}
 	installed := pluginpkg.InstalledPlugin{Name: testPluginID, Version: "1.0.0", Enabled: true, Root: root}
@@ -283,7 +283,7 @@ func TestHandshakeUnderDeclaredRejected(t *testing.T) {
 	root := t.TempDir()
 	pkg := pluginpkg.Package{
 		Root:         root,
-		ManifestKind: "reasonix",
+		ManifestKind: "inx",
 		Manifest:     pluginpkg.Manifest{Name: testPluginID, Version: "1.0.0", Runtime: rt},
 	}
 	installed := pluginpkg.InstalledPlugin{Name: testPluginID, Version: "1.0.0", Enabled: true, Root: root}

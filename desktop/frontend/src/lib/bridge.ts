@@ -1174,7 +1174,7 @@ const mockProviderPresetTemplates: MockProviderPresetTemplate[] = [
   mockPreset("stepfun", "StepFun", "StepFun coding-plan OpenAI-compatible endpoint.", "STEPFUN_API_KEY", mockProviderTemplate({ name: "stepfun", kind: "openai", baseUrl: "https://api.stepfun.com/step_plan/v1", models: mockStepFunModels, default: "step-3.7-flash", apiKeyEnv: "STEPFUN_API_KEY", supportedEfforts: ["low", "medium", "high"], defaultEffort: "medium" })),
   mockPreset("stepfun-anthropic", "StepFun Anthropic", "StepFun coding-plan Anthropic-compatible endpoint.", "STEPFUN_API_KEY", mockProviderTemplate({ name: "stepfun-anthropic", kind: "anthropic", baseUrl: "https://api.stepfun.com/step_plan", models: mockStepFunModels, default: "step-3.7-flash", apiKeyEnv: "STEPFUN_API_KEY", thinking: "adaptive", supportedEfforts: ["low", "medium", "high"], defaultEffort: "medium" })),
   mockPreset("novita", "NovitaAI", "NovitaAI OpenAI-compatible multi-model gateway.", "NOVITA_API_KEY", mockProviderTemplate({ name: "novita", kind: "openai", baseUrl: "https://api.novita.ai/openai/v1", models: mockNovitaModels, default: "zai-org/glm-5.2", apiKeyEnv: "NOVITA_API_KEY" })),
-  mockPreset("gmi", "GMI Cloud", "GMI Cloud direct multi-model OpenAI-compatible gateway.", "GMI_API_KEY", mockProviderTemplate({ name: "gmi", kind: "openai", baseUrl: "https://api.gmi-serving.com/v1", models: mockGMIModels, default: "zai-org/GLM-5.2-FP8", apiKeyEnv: "GMI_API_KEY", headers: { "User-Agent": "Reasonix" } })),
+  mockPreset("gmi", "GMI Cloud", "GMI Cloud direct multi-model OpenAI-compatible gateway.", "GMI_API_KEY", mockProviderTemplate({ name: "gmi", kind: "openai", baseUrl: "https://api.gmi-serving.com/v1", models: mockGMIModels, default: "zai-org/GLM-5.2-FP8", apiKeyEnv: "GMI_API_KEY", headers: { "User-Agent": "Inx" } })),
   mockPreset("vercel-ai-gateway", "Vercel AI Gateway", "Vercel AI Gateway via Anthropic-compatible Messages API.", "AI_GATEWAY_API_KEY", mockProviderTemplate({ name: "vercel-ai-gateway", kind: "anthropic", baseUrl: "https://ai-gateway.vercel.sh", models: mockVercelModels, visionModels: ["anthropic/claude-sonnet-4.6", "anthropic/claude-opus-4.8", "openai/gpt-5.4", "openai/gpt-5.4-pro", "moonshotai/kimi-k2.7-code"], default: "anthropic/claude-sonnet-4.6", apiKeyEnv: "AI_GATEWAY_API_KEY", authHeader: true, contextWindow: 1000000 })),
   mockPreset("huggingface", "HuggingFace Router", "HuggingFace Inference Router OpenAI-compatible endpoint.", "HF_TOKEN", mockProviderTemplate({ name: "huggingface", kind: "openai", baseUrl: "https://router.huggingface.co/v1", models: ["zai-org/GLM-5.2", "deepseek-ai/DeepSeek-V3.2", "Qwen/Qwen3.5-72B-Instruct"], default: "zai-org/GLM-5.2", apiKeyEnv: "HF_TOKEN" })),
   mockPreset("nvidia", "NVIDIA NIM", "NVIDIA NIM OpenAI-compatible accelerated inference endpoint.", "NVIDIA_API_KEY", mockProviderTemplate({ name: "nvidia", kind: "openai", baseUrl: "https://integrate.api.nvidia.com/v1", models: ["nvidia/nemotron-3-nano-30b-a3b", "nvidia/nemotron-3-super-120b-a12b", "nvidia/nemotron-3-ultra-550b-a55b", "deepseek-ai/deepseek-v4-pro", "qwen/qwen3.5-397b-a17b"], default: "nvidia/nemotron-3-nano-30b-a3b", apiKeyEnv: "NVIDIA_API_KEY" })),
@@ -1242,9 +1242,9 @@ function makeMockApp(): AppBindings {
   // backend drain contract: only non-fresh tools auto-allow; plan/sandbox
   // escape prompts stay pending and visible.
   let pendingApprovalPreviewPrompt: { id: string; tool: string } | undefined;
-  const globalWorkspaceRoot = "~/Library/Application Support/reasonix/global-workspace";
+  const globalWorkspaceRoot = "~/Library/Application Support/inx/global-workspace";
   let cwd = freshMock ? globalWorkspaceRoot : "~/projects/joyquant-db"; // mutable so PickWorkspace is visible in dev
-  let workspaces = freshMock ? [] : ["~/projects/joyquant-db", "~/projects/joyquant-sys", "~/projects/reasonix", "~/projects/blade"];
+  let workspaces = freshMock ? [] : ["~/projects/joyquant-db", "~/projects/joyquant-sys", "~/projects/inx", "~/projects/blade"];
   let mockEffort = "auto";
   let mockDesktopZoomFactor = 1.0;
   let mockActiveThemeId = "";
@@ -1289,20 +1289,20 @@ function makeMockApp(): AppBindings {
   } as const;
   registerTrustedThemeBackgroundURLs(Object.values(mockOfficialThemeAssets).map((asset) => asset.backgroundUrl));
   let mockThemePacks: import("./themePack").ThemePackView[] = [
-    { id: "graphite", name: "Graphite", author: "Reasonix", baseStyle: "graphite", builtin: true, kind: "base", active: false, hasBackground: false, tokens: {}, recipes: { density: "comfortable", corners: "soft" } },
-    { id: "aurora", name: "Aurora", author: "Reasonix", baseStyle: "aurora", builtin: true, kind: "base", active: false, hasBackground: false, tokens: {}, recipes: { density: "comfortable", corners: "soft" } },
-    { id: "slate", name: "Slate", author: "Reasonix", baseStyle: "slate", builtin: true, kind: "base", active: false, hasBackground: false, tokens: {}, recipes: { density: "comfortable", corners: "soft" } },
-    { id: "carbon", name: "Carbon", author: "Reasonix", baseStyle: "carbon", builtin: true, kind: "base", active: false, hasBackground: false, tokens: {}, recipes: { density: "comfortable", corners: "soft" } },
-    { id: "nocturne", name: "Nocturne", author: "Reasonix", baseStyle: "nocturne", builtin: true, kind: "base", active: false, hasBackground: false, tokens: {}, recipes: { density: "comfortable", corners: "soft" } },
-    { id: "amber", name: "Amber", author: "Reasonix", baseStyle: "amber", builtin: true, kind: "base", active: false, hasBackground: false, tokens: {}, recipes: { density: "comfortable", corners: "soft" } },
-    { ...mockOfficialThemeAssets["official-rose-dawn"], id: "official-rose-dawn", name: "Rose Dawn", author: "Reasonix Contributors", license: "MIT", baseStyle: "graphite", builtin: true, kind: "official", active: false, hasBackground: true, nameKey: "settings.themes.official.official-rose-dawn.name", descriptionKey: "settings.themes.official.official-rose-dawn.description", tokens: { light: { bg: "#FFF7F8", fg: "#3A252C", accent: "#B43F65" }, dark: { bg: "#1E1419", fg: "#FFF3F6", accent: "#E26D91" } }, recipes: { density: "comfortable", corners: "round" }, background: { focusX: 0.72, focusY: 0.43, safeArea: "left", homeOpacity: 1, taskOpacity: 0.2, overlayStrength: 0.68, paneOpacity: 0.50 } },
-    { ...mockOfficialThemeAssets["official-fortune-forge"], id: "official-fortune-forge", name: "Fortune Forge", author: "Reasonix Contributors", license: "MIT", baseStyle: "amber", builtin: true, kind: "official", active: false, hasBackground: true, nameKey: "settings.themes.official.official-fortune-forge.name", descriptionKey: "settings.themes.official.official-fortune-forge.description", tokens: { light: { bg: "#FFF8E8", fg: "#382116", accent: "#A92D22" }, dark: { bg: "#1D140D", fg: "#FFF2D1", accent: "#E8AD38" } }, recipes: { density: "comfortable", corners: "soft" }, background: { focusX: 0.74, focusY: 0.44, safeArea: "left", homeOpacity: 1, taskOpacity: 0.2, overlayStrength: 0.7, paneOpacity: 0.50 } },
-    { ...mockOfficialThemeAssets["official-crimson-horizon"], id: "official-crimson-horizon", name: "Crimson Horizon", author: "Reasonix Contributors", license: "MIT", baseStyle: "graphite", builtin: true, kind: "official", active: false, hasBackground: true, nameKey: "settings.themes.official.official-crimson-horizon.name", descriptionKey: "settings.themes.official.official-crimson-horizon.description", tokens: { light: { bg: "#FFF8F7", fg: "#301D1D", accent: "#B92B38" }, dark: { bg: "#190D11", fg: "#FFF1F2", accent: "#FF6772" } }, recipes: { density: "comfortable", corners: "soft" }, background: { focusX: 0.75, focusY: 0.45, safeArea: "left", homeOpacity: 0.98, taskOpacity: 0.22, overlayStrength: 0.66, paneOpacity: 0.50 } },
-    { ...mockOfficialThemeAssets["official-sage-breeze"], id: "official-sage-breeze", name: "Sage Breeze", author: "Reasonix Contributors", license: "MIT", baseStyle: "slate", builtin: true, kind: "official", active: false, hasBackground: true, nameKey: "settings.themes.official.official-sage-breeze.name", descriptionKey: "settings.themes.official.official-sage-breeze.description", tokens: { light: { bg: "#F7F7EF", fg: "#26332D", accent: "#47735F" }, dark: { bg: "#101814", fg: "#EEF6F0", accent: "#84CBA7" } }, recipes: { density: "comfortable", corners: "soft" }, background: { focusX: 0.73, focusY: 0.44, safeArea: "left", homeOpacity: 1, taskOpacity: 0.2, overlayStrength: 0.68, paneOpacity: 0.50 } },
-    { ...mockOfficialThemeAssets["official-spark-notebook"], id: "official-spark-notebook", name: "Spark Notebook", author: "Reasonix Contributors", license: "MIT", baseStyle: "aurora", builtin: true, kind: "official", active: false, hasBackground: true, nameKey: "settings.themes.official.official-spark-notebook.name", descriptionKey: "settings.themes.official.official-spark-notebook.description", tokens: { light: { bg: "#FFF9ED", fg: "#2B2F35", accent: "#007B78" }, dark: { bg: "#14171A", fg: "#F8F5E9", accent: "#42D1C6" } }, recipes: { density: "comfortable", corners: "round" }, background: { focusX: 0.74, focusY: 0.46, safeArea: "left", homeOpacity: 0.98, taskOpacity: 0.2, overlayStrength: 0.68, paneOpacity: 0.50 } },
-    { ...mockOfficialThemeAssets["official-violet-starlight"], id: "official-violet-starlight", name: "Violet Starlight", author: "Reasonix Contributors", license: "MIT", baseStyle: "nocturne", builtin: true, kind: "official", active: false, hasBackground: true, nameKey: "settings.themes.official.official-violet-starlight.name", descriptionKey: "settings.themes.official.official-violet-starlight.description", tokens: { light: { bg: "#F7F4FF", fg: "#251F3C", accent: "#6242C7" }, dark: { bg: "#0C1022", fg: "#F4F2FF", accent: "#9B86FF" } }, recipes: { density: "comfortable", corners: "round" }, background: { focusX: 0.73, focusY: 0.44, safeArea: "left", homeOpacity: 0.96, taskOpacity: 0.18, overlayStrength: 0.72, paneOpacity: 0.50 } },
-    { ...mockOfficialThemeAssets["official-cyan-stage"], id: "official-cyan-stage", name: "Cyan Stage", author: "Reasonix Contributors", license: "MIT", baseStyle: "carbon", builtin: true, kind: "official", active: false, hasBackground: true, nameKey: "settings.themes.official.official-cyan-stage.name", descriptionKey: "settings.themes.official.official-cyan-stage.description", tokens: { light: { bg: "#F1FCFD", fg: "#173238", accent: "#007C92" }, dark: { bg: "#07181D", fg: "#E9FCFF", accent: "#37D7E4" } }, recipes: { density: "comfortable", corners: "round" }, background: { focusX: 0.74, focusY: 0.45, safeArea: "left", homeOpacity: 0.96, taskOpacity: 0.18, overlayStrength: 0.72, paneOpacity: 0.50 } },
-    { ...mockOfficialThemeAssets["official-noir-gold"], id: "official-noir-gold", name: "Noir Gold", author: "Reasonix Contributors", license: "MIT", baseStyle: "carbon", builtin: true, kind: "official", active: false, hasBackground: true, nameKey: "settings.themes.official.official-noir-gold.name", descriptionKey: "settings.themes.official.official-noir-gold.description", tokens: { light: { bg: "#FCF8EE", fg: "#2A241B", accent: "#7A5A16" }, dark: { bg: "#0D0B09", fg: "#F8F1DF", accent: "#D9B45B" } }, recipes: { density: "comfortable", corners: "soft" }, background: { focusX: 0.73, focusY: 0.43, safeArea: "left", homeOpacity: 0.94, taskOpacity: 0.18, overlayStrength: 0.74, paneOpacity: 0.50 } },
+    { id: "graphite", name: "Graphite", author: "Inx", baseStyle: "graphite", builtin: true, kind: "base", active: false, hasBackground: false, tokens: {}, recipes: { density: "comfortable", corners: "soft" } },
+    { id: "aurora", name: "Aurora", author: "Inx", baseStyle: "aurora", builtin: true, kind: "base", active: false, hasBackground: false, tokens: {}, recipes: { density: "comfortable", corners: "soft" } },
+    { id: "slate", name: "Slate", author: "Inx", baseStyle: "slate", builtin: true, kind: "base", active: false, hasBackground: false, tokens: {}, recipes: { density: "comfortable", corners: "soft" } },
+    { id: "carbon", name: "Carbon", author: "Inx", baseStyle: "carbon", builtin: true, kind: "base", active: false, hasBackground: false, tokens: {}, recipes: { density: "comfortable", corners: "soft" } },
+    { id: "nocturne", name: "Nocturne", author: "Inx", baseStyle: "nocturne", builtin: true, kind: "base", active: false, hasBackground: false, tokens: {}, recipes: { density: "comfortable", corners: "soft" } },
+    { id: "amber", name: "Amber", author: "Inx", baseStyle: "amber", builtin: true, kind: "base", active: false, hasBackground: false, tokens: {}, recipes: { density: "comfortable", corners: "soft" } },
+    { ...mockOfficialThemeAssets["official-rose-dawn"], id: "official-rose-dawn", name: "Rose Dawn", author: "Inx Contributors", license: "MIT", baseStyle: "graphite", builtin: true, kind: "official", active: false, hasBackground: true, nameKey: "settings.themes.official.official-rose-dawn.name", descriptionKey: "settings.themes.official.official-rose-dawn.description", tokens: { light: { bg: "#FFF7F8", fg: "#3A252C", accent: "#B43F65" }, dark: { bg: "#1E1419", fg: "#FFF3F6", accent: "#E26D91" } }, recipes: { density: "comfortable", corners: "round" }, background: { focusX: 0.72, focusY: 0.43, safeArea: "left", homeOpacity: 1, taskOpacity: 0.2, overlayStrength: 0.68, paneOpacity: 0.50 } },
+    { ...mockOfficialThemeAssets["official-fortune-forge"], id: "official-fortune-forge", name: "Fortune Forge", author: "Inx Contributors", license: "MIT", baseStyle: "amber", builtin: true, kind: "official", active: false, hasBackground: true, nameKey: "settings.themes.official.official-fortune-forge.name", descriptionKey: "settings.themes.official.official-fortune-forge.description", tokens: { light: { bg: "#FFF8E8", fg: "#382116", accent: "#A92D22" }, dark: { bg: "#1D140D", fg: "#FFF2D1", accent: "#E8AD38" } }, recipes: { density: "comfortable", corners: "soft" }, background: { focusX: 0.74, focusY: 0.44, safeArea: "left", homeOpacity: 1, taskOpacity: 0.2, overlayStrength: 0.7, paneOpacity: 0.50 } },
+    { ...mockOfficialThemeAssets["official-crimson-horizon"], id: "official-crimson-horizon", name: "Crimson Horizon", author: "Inx Contributors", license: "MIT", baseStyle: "graphite", builtin: true, kind: "official", active: false, hasBackground: true, nameKey: "settings.themes.official.official-crimson-horizon.name", descriptionKey: "settings.themes.official.official-crimson-horizon.description", tokens: { light: { bg: "#FFF8F7", fg: "#301D1D", accent: "#B92B38" }, dark: { bg: "#190D11", fg: "#FFF1F2", accent: "#FF6772" } }, recipes: { density: "comfortable", corners: "soft" }, background: { focusX: 0.75, focusY: 0.45, safeArea: "left", homeOpacity: 0.98, taskOpacity: 0.22, overlayStrength: 0.66, paneOpacity: 0.50 } },
+    { ...mockOfficialThemeAssets["official-sage-breeze"], id: "official-sage-breeze", name: "Sage Breeze", author: "Inx Contributors", license: "MIT", baseStyle: "slate", builtin: true, kind: "official", active: false, hasBackground: true, nameKey: "settings.themes.official.official-sage-breeze.name", descriptionKey: "settings.themes.official.official-sage-breeze.description", tokens: { light: { bg: "#F7F7EF", fg: "#26332D", accent: "#47735F" }, dark: { bg: "#101814", fg: "#EEF6F0", accent: "#84CBA7" } }, recipes: { density: "comfortable", corners: "soft" }, background: { focusX: 0.73, focusY: 0.44, safeArea: "left", homeOpacity: 1, taskOpacity: 0.2, overlayStrength: 0.68, paneOpacity: 0.50 } },
+    { ...mockOfficialThemeAssets["official-spark-notebook"], id: "official-spark-notebook", name: "Spark Notebook", author: "Inx Contributors", license: "MIT", baseStyle: "aurora", builtin: true, kind: "official", active: false, hasBackground: true, nameKey: "settings.themes.official.official-spark-notebook.name", descriptionKey: "settings.themes.official.official-spark-notebook.description", tokens: { light: { bg: "#FFF9ED", fg: "#2B2F35", accent: "#007B78" }, dark: { bg: "#14171A", fg: "#F8F5E9", accent: "#42D1C6" } }, recipes: { density: "comfortable", corners: "round" }, background: { focusX: 0.74, focusY: 0.46, safeArea: "left", homeOpacity: 0.98, taskOpacity: 0.2, overlayStrength: 0.68, paneOpacity: 0.50 } },
+    { ...mockOfficialThemeAssets["official-violet-starlight"], id: "official-violet-starlight", name: "Violet Starlight", author: "Inx Contributors", license: "MIT", baseStyle: "nocturne", builtin: true, kind: "official", active: false, hasBackground: true, nameKey: "settings.themes.official.official-violet-starlight.name", descriptionKey: "settings.themes.official.official-violet-starlight.description", tokens: { light: { bg: "#F7F4FF", fg: "#251F3C", accent: "#6242C7" }, dark: { bg: "#0C1022", fg: "#F4F2FF", accent: "#9B86FF" } }, recipes: { density: "comfortable", corners: "round" }, background: { focusX: 0.73, focusY: 0.44, safeArea: "left", homeOpacity: 0.96, taskOpacity: 0.18, overlayStrength: 0.72, paneOpacity: 0.50 } },
+    { ...mockOfficialThemeAssets["official-cyan-stage"], id: "official-cyan-stage", name: "Cyan Stage", author: "Inx Contributors", license: "MIT", baseStyle: "carbon", builtin: true, kind: "official", active: false, hasBackground: true, nameKey: "settings.themes.official.official-cyan-stage.name", descriptionKey: "settings.themes.official.official-cyan-stage.description", tokens: { light: { bg: "#F1FCFD", fg: "#173238", accent: "#007C92" }, dark: { bg: "#07181D", fg: "#E9FCFF", accent: "#37D7E4" } }, recipes: { density: "comfortable", corners: "round" }, background: { focusX: 0.74, focusY: 0.45, safeArea: "left", homeOpacity: 0.96, taskOpacity: 0.18, overlayStrength: 0.72, paneOpacity: 0.50 } },
+    { ...mockOfficialThemeAssets["official-noir-gold"], id: "official-noir-gold", name: "Noir Gold", author: "Inx Contributors", license: "MIT", baseStyle: "carbon", builtin: true, kind: "official", active: false, hasBackground: true, nameKey: "settings.themes.official.official-noir-gold.name", descriptionKey: "settings.themes.official.official-noir-gold.description", tokens: { light: { bg: "#FCF8EE", fg: "#2A241B", accent: "#7A5A16" }, dark: { bg: "#0D0B09", fg: "#F8F1DF", accent: "#D9B45B" } }, recipes: { density: "comfortable", corners: "soft" }, background: { focusX: 0.73, focusY: 0.43, safeArea: "left", homeOpacity: 0.94, taskOpacity: 0.18, overlayStrength: 0.74, paneOpacity: 0.50 } },
   ];
   const day = 86_400_000;
   const t0 = Date.now();
@@ -1316,7 +1316,7 @@ function makeMockApp(): AppBindings {
       autoStart: true,
       tier: "background",
       source: "project",
-      configSource: "reasonix.toml",
+      configSource: "inx.toml",
       url: "https://mcp.example.test/project",
       tools: 3,
       prompts: 0,
@@ -1380,7 +1380,7 @@ function makeMockApp(): AppBindings {
     },
     { name: "research", description: "Combine web_fetch + code reading in an isolated subagent", scope: "builtin", runAs: "subagent", enabled: true, allowedTools: ["read_file", "ls", "glob", "grep", "code_index", "web_fetch"], invocation: "/research", invocationMode: "auto" },
     { name: "review", description: "Review the staged diff", scope: "project", runAs: "inline", enabled: false, invocation: "/review" },
-    { name: "init", description: "Scaffold a REASONIX.md for this repo", scope: "builtin", runAs: "inline", enabled: true, invocation: "/init" },
+    { name: "init", description: "Scaffold a INX.md for this repo", scope: "builtin", runAs: "inline", enabled: true, invocation: "/init" },
     {
       name: "my-formatter", description: "Formats code the way I like it", scope: "global", runAs: "subagent", enabled: true,
       model: "deepseek-pro", effort: "high", allowedTools: ["read_file", "edit_file"], color: "amber", invocation: "/my-formatter", invocationMode: "manual",
@@ -1388,7 +1388,7 @@ function makeMockApp(): AppBindings {
     },
   ];
   let capSkillRoots: SkillRootView[] = [
-    { dir: "~/projects/reasonix/.reasonix/skills", scope: "project", priority: 1, status: "missing", configured: false, removable: true, skills: 0 },
+    { dir: "~/projects/inx/.inx/skills", scope: "project", priority: 1, status: "missing", configured: false, removable: true, skills: 0 },
     {
       dir: "~/my-skills",
       scope: "custom",
@@ -1400,7 +1400,7 @@ function makeMockApp(): AppBindings {
       skillItems: [{ name: "review", description: "Review the staged diff", scope: "custom", runAs: "inline" }],
     },
     {
-      dir: "~/.reasonix/skills",
+      dir: "~/.inx/skills",
       scope: "global",
       priority: 6,
       status: "ok",
@@ -1409,7 +1409,7 @@ function makeMockApp(): AppBindings {
       skills: 2,
       skillItems: [
         { name: "explore", description: "Investigate the codebase in an isolated subagent", scope: "global", runAs: "subagent" },
-        { name: "init", description: "Scaffold a REASONIX.md for this repo", scope: "global", runAs: "inline" },
+        { name: "init", description: "Scaffold a INX.md for this repo", scope: "global", runAs: "inline" },
       ],
     },
   ];
@@ -1512,7 +1512,7 @@ function makeMockApp(): AppBindings {
       noProxy: "",
       proxy: { type: "socks5", server: "127.0.0.1", port: 7890, username: "", password: "" },
     },
-    agent: { temperature: 0.2, maxSteps: 0, plannerMaxSteps: 0, maxSubagentDepth: 2, maxSubagentConcurrency: 6, maxParallelWriters: 3, systemPrompt: "You are Reasonix, a coding agent.", coldResumePrune: true, reasoningLanguage: "auto", compactRatio: 0.8 },
+    agent: { temperature: 0.2, maxSteps: 0, plannerMaxSteps: 0, maxSubagentDepth: 2, maxSubagentConcurrency: 6, maxParallelWriters: 3, systemPrompt: "You are Inx, a coding agent.", coldResumePrune: true, reasoningLanguage: "auto", compactRatio: 0.8 },
     bot: {
       enabled: !freshMock,
       model: "",
@@ -1531,7 +1531,7 @@ function makeMockApp(): AppBindings {
       control: {
         enabled: false,
         addr: "127.0.0.1:37913",
-        tokenEnv: "REASONIX_BOT_CONTROL_TOKEN",
+        tokenEnv: "INX_BOT_CONTROL_TOKEN",
       },
       pairing: {
         enabled: true,
@@ -1663,8 +1663,8 @@ function makeMockApp(): AppBindings {
     updateChannel: "stable",
     telemetry: true,
     metrics: true,
-    configPath: "~/.reasonix/config.toml",
-    shadowedByPath: "~/projects/reasonix/reasonix.toml",
+    configPath: "~/.inx/config.toml",
+    shadowedByPath: "~/projects/inx/inx.toml",
     providerKinds: ["openai", "anthropic"],
     autoApproveTools: false,
     bypass: false,
@@ -1673,7 +1673,7 @@ function makeMockApp(): AppBindings {
   const hookSettings: Record<string, HooksSettingsView> = {
     global: {
       scope: "global",
-      path: "~/.reasonix/settings.json",
+      path: "~/.inx/settings.json",
       projectRoot: "",
       trusted: true,
       events: hookEvents,
@@ -1683,7 +1683,7 @@ function makeMockApp(): AppBindings {
     },
     project: {
       scope: "project",
-      path: "./.reasonix/settings.json",
+      path: "./.inx/settings.json",
       projectRoot: "/mock/project",
       trusted: false,
       events: hookEvents,
@@ -1694,7 +1694,7 @@ function makeMockApp(): AppBindings {
     provider.apiKeyEnv === "DEEPSEEK_API_KEY" ? { ...provider, keySet: !freshMock } : provider,
   );
   if (freshMock) {
-    settings.configPath = "~/.reasonix/config.toml";
+    settings.configPath = "~/.inx/config.toml";
     settings.shadowedByPath = "";
   }
   const mockNow = Date.now();
@@ -1866,12 +1866,12 @@ function makeMockApp(): AppBindings {
           {
             role: "user",
             content: [
-              "[[reasonix-im]]",
+              "[[inx-im]]",
               "provider=lark",
               "label=Feishu / Lark",
               "sender=ou_mock_user_001",
               "chat=p2p 会话",
-              "[[/reasonix-im]]",
+              "[[/inx-im]]",
               "你可以做什么",
             ].join("\n"),
           },
@@ -1885,12 +1885,12 @@ function makeMockApp(): AppBindings {
           {
             role: "user",
             content: [
-              "[[reasonix-im]]",
+              "[[inx-im]]",
               "provider=weixin",
               "label=微信",
               "sender=wxid_mock_user_001",
               "chat=单聊",
-              "[[/reasonix-im]]",
+              "[[/inx-im]]",
               "帮我整理一下今天要做的事",
             ].join("\n"),
           },
@@ -2034,9 +2034,9 @@ function makeMockApp(): AppBindings {
     {
       id: "tab_notice_preview",
       scope: "project",
-      workspaceRoot: "~/projects/reasonix",
-      workspaceName: "reasonix",
-      workspacePath: "~/projects/reasonix",
+      workspaceRoot: "~/projects/inx",
+      workspaceName: "inx",
+      workspacePath: "~/projects/inx",
       gitBranch: "codex/compact-chat-notices-i18n",
       topicId: "topic_notice_preview",
       topicTitle: "Compact notice preview",
@@ -2049,7 +2049,7 @@ function makeMockApp(): AppBindings {
       toolApprovalMode: "ask",
       tokenMode: "full",
       active: true,
-      cwd: "~/projects/reasonix",
+      cwd: "~/projects/inx",
     },
   ] : freshMock ? [
     {
@@ -2515,9 +2515,9 @@ function makeMockApp(): AppBindings {
           tool: {
             id: parentId,
             name: "explore",
-            args: JSON.stringify({ task: "在 Reasonix 前端中检查工具调用图标和嵌套调用展示" }),
+            args: JSON.stringify({ task: "在 Inx 前端中检查工具调用图标和嵌套调用展示" }),
             readOnly: true,
-            profile: { model: "mock-reasonix", effort: "high" },
+            profile: { model: "mock-inx", effort: "high" },
           },
         });
         for (let i = 1; i <= 30; i += 1) {
@@ -3059,7 +3059,7 @@ function makeMockApp(): AppBindings {
     async PickWorkspace() {
       // Browser dev has no native dialog; simulate picking a folder and re-root so
       // the topbar folder chip visibly changes.
-      return mockSwitchWorkspace(cwd.endsWith("another-project") ? "~/projects/reasonix" : "~/projects/another-project");
+      return mockSwitchWorkspace(cwd.endsWith("another-project") ? "~/projects/inx" : "~/projects/another-project");
     },
     async SwitchWorkspace(path: string) {
       return mockSwitchWorkspace(path);
@@ -3195,7 +3195,7 @@ function makeMockApp(): AppBindings {
             findingCount: 1,
             openCriteria: [],
             blocker: "",
-            taskPath: "/tmp/mock/.reasonix/autoresearch/mock-autoresearch",
+            taskPath: "/tmp/mock/.inx/autoresearch/mock-autoresearch",
             nextRequiredAction: "continue with the next evidence-producing step",
           };
         },
@@ -3213,7 +3213,7 @@ function makeMockApp(): AppBindings {
             findingCount: 1,
             openCriteria: [],
             blocker: "",
-            taskPath: "/tmp/mock/.reasonix/autoresearch/mock-autoresearch",
+            taskPath: "/tmp/mock/.inx/autoresearch/mock-autoresearch",
             nextRequiredAction: "continue with the next evidence-producing step",
           };
         },
@@ -3231,7 +3231,7 @@ function makeMockApp(): AppBindings {
             findingCount: 1,
             openCriteria: [],
             blocker: "",
-            taskPath: "/tmp/mock/.reasonix/autoresearch/mock-autoresearch",
+            taskPath: "/tmp/mock/.inx/autoresearch/mock-autoresearch",
             nextRequiredAction: "continue with the next evidence-producing step",
           }];
         },
@@ -3351,7 +3351,7 @@ function makeMockApp(): AppBindings {
         },
         instructions: { docs: [{ path: "<workspace>/AGENTS.md", scope: "project", directory: "<workspace>", depth: 0, order: 1 }] },
         skills: {
-          roots: [{ path: "<workspace>/.reasonix/skills", scope: "project", status: "ok" }],
+          roots: [{ path: "<workspace>/.inx/skills", scope: "project", status: "ok" }],
           entries: capSkills.map((s) => ({
             name: s.name,
             description: s.description,
@@ -3432,8 +3432,8 @@ function makeMockApp(): AppBindings {
         version: "dev",
         description: "Mock plugin",
         source,
-        root: `~/.reasonix/plugins/${name}`,
-        manifestKind: "reasonix",
+        root: `~/.inx/plugins/${name}`,
+        manifestKind: "inx",
         enabled: true,
         skills: 1,
         hooks: 0,
@@ -3618,7 +3618,7 @@ function makeMockApp(): AppBindings {
         runAs: "subagent", enabled: true, model: input.model, effort: input.effort,
         allowedTools: input.allowedTools, color: input.color, invocation: `/${name}`, invocationMode: "manual",
       });
-      return `~/.reasonix/skills/${name}/SKILL.md`;
+      return `~/.inx/skills/${name}/SKILL.md`;
     },
     async UpdateSubagentProfile(name: string, scope: string, input: SubagentProfileInput) {
       const skill = capSkills.find((s) => s.name === name && s.scope === scope);
@@ -3736,8 +3736,8 @@ function makeMockApp(): AppBindings {
     },
     async ReadFile(rel: string) {
       const samples: Record<string, string> = {
-        "README.md": "# Reasonix\n\nBrowser-dev workspace preview.\n\n- Chat in the center\n- Browse files on the right\n- Keep sessions on the left\n",
-        "go.mod": "module reasonix\n\ngo 1.23\n",
+        "README.md": "# Inx\n\nBrowser-dev workspace preview.\n\n- Chat in the center\n- Browse files on the right\n- Keep sessions on the left\n",
+        "go.mod": "module inx\n\ngo 1.23\n",
         "desktop/file.go": "package desktop\n\nfunc main() {\n\tprintln(\"workspace preview\")\n}\n",
         "internal/event.go": "package internal\n\n// mock file used by the browser dev seam\n",
       };
@@ -3830,17 +3830,17 @@ function makeMockApp(): AppBindings {
       console.info("mock RevealPath", path);
     },
     async SavePastedImage(dataUrl: string) {
-      const path = `.reasonix/attachments/mock-${mockAttachmentDataURLs.size + 1}.png`;
+      const path = `.inx/attachments/mock-${mockAttachmentDataURLs.size + 1}.png`;
       mockAttachmentDataURLs.set(path, dataUrl);
       return path;
     },
     async SaveClipboardImage() {
-      const path = `.reasonix/attachments/mock-clipboard-${mockAttachmentDataURLs.size + 1}.png`;
+      const path = `.inx/attachments/mock-clipboard-${mockAttachmentDataURLs.size + 1}.png`;
       mockAttachmentDataURLs.set(path, mockPreviewImageDataURL);
       return path;
     },
     async SavePastedFile(name: string, dataUrl: string) {
-      const path = `.reasonix/attachments/mock-${name}`;
+      const path = `.inx/attachments/mock-${name}`;
       mockAttachmentDataURLs.set(path, dataUrl);
       return path;
     },
@@ -3881,9 +3881,9 @@ function makeMockApp(): AppBindings {
       const hasExt = /\.\w{1,6}$/i.test(name);
       if (!hasExt) {
         const tokenName = name.replace(/[^\w.-]+/g, "-") || "folder";
-        return { kind: "workspace" as const, path: `__reasonix_external_folder/mock/${tokenName}`, isDir: true, displayPath: path };
+        return { kind: "workspace" as const, path: `__inx_external_folder/mock/${tokenName}`, isDir: true, displayPath: path };
       }
-      const attachmentPath = `.reasonix/attachments/mock-${name}`;
+      const attachmentPath = `.inx/attachments/mock-${name}`;
       mockAttachmentDataURLs.set(attachmentPath, mockPreviewImageDataURL);
       return { kind: "attachment" as const, path: attachmentPath };
     },
@@ -3930,21 +3930,21 @@ function makeMockApp(): AppBindings {
     async Memory() {
       return {
         available: true,
-        storeDir: "~/.reasonix/projects/-mock/memory",
-        storeGlobalDir: "~/.reasonix/memory/global",
+        storeDir: "~/.inx/projects/-mock/memory",
+        storeGlobalDir: "~/.inx/memory/global",
         docs: [
           {
-            path: "REASONIX.md",
+            path: "INX.md",
             scope: "project",
             directory: ".",
-            body: "# Reasonix project memory\n\nMock doc shown in the browser dev seam.\n\n## Notes\n\n- prefers concise replies",
+            body: "# Inx project memory\n\nMock doc shown in the browser dev seam.\n\n## Notes\n\n- prefers concise replies",
             imports: [],
             depth: 0,
             order: 0,
             precedence: 0,
           },
           {
-            path: "~/.reasonix/REASONIX.md",
+            path: "~/.inx/INX.md",
             scope: "user",
             body: t("mock.memoryBody"),
             imports: [],
@@ -3971,15 +3971,15 @@ function makeMockApp(): AppBindings {
             type: "project",
             scope: "project",
             body: "This plan was archived after the implementation changed.",
-            path: "~/.reasonix/projects/-mock/memory/.archive/20260612-021500.000-old-plan.md",
+            path: "~/.inx/projects/-mock/memory/.archive/20260612-021500.000-old-plan.md",
             archivedAt: "2026-06-12T02:15:00Z",
             freshness: "current",
           },
         ],
         scopes: [
-          { scope: "user", path: "~/.reasonix/REASONIX.md" },
-          { scope: "project", path: "REASONIX.md" },
-          { scope: "local", path: "REASONIX.local.md" },
+          { scope: "user", path: "~/.inx/INX.md" },
+          { scope: "project", path: "INX.md" },
+          { scope: "local", path: "INX.local.md" },
         ],
         conflicts: [],
         lastRecall: {
@@ -4009,11 +4009,11 @@ function makeMockApp(): AppBindings {
         ],
         skills: [
           {
-            id: "skill-reasonix-pr-followup",
-            name: "reasonix-pr-followup",
-            description: "Review or update a Reasonix GitHub PR, address feedback, verify, and publish safely.",
+            id: "skill-inx-pr-followup",
+            name: "inx-pr-followup",
+            description: "Review or update a Inx GitHub PR, address feedback, verify, and publish safely.",
             scope: "project",
-            body: "# Reasonix PR Followup\n\nUse this skill for repeated Reasonix PR work.\n\n## Workflow\n\n1. Confirm branch and PR state.\n2. Inspect the diff.\n3. Fix actionable feedback.\n4. Verify and update the PR.\n",
+            body: "# Inx PR Followup\n\nUse this skill for repeated Inx PR work.\n\n## Workflow\n\n1. Confirm branch and PR state.\n2. Inspect the diff.\n3. Fix actionable feedback.\n4. Verify and update the PR.\n",
             reason: "recent history repeatedly touched PR workflows",
             evidence: ["mock-pr-session: 提交到pr，并更新内容", "mock-review-session: 解决该pr下机器人提出来的问题"],
           },
@@ -4029,7 +4029,7 @@ function makeMockApp(): AppBindings {
     },
     async AcceptSkillSuggestion(suggestion: SkillSuggestion) {
       emit({ kind: "notice", level: "info", text: `created suggested skill → ${suggestion.name}` });
-      return `.reasonix/skills/${suggestion.name}/SKILL.md`;
+      return `.inx/skills/${suggestion.name}/SKILL.md`;
     },
     async MemorySuggestionsForTab(_tabID: string) {
       return this.MemorySuggestions();
@@ -4067,7 +4067,7 @@ function makeMockApp(): AppBindings {
     },
     async Remember(_scope: string, _note: string) {
       emit({ kind: "notice", level: "info", text: `remembered → ${_scope}` });
-      return `${_scope} REASONIX.md (mock): ${_note}`;
+      return `${_scope} INX.md (mock): ${_note}`;
     },
     async RememberForTab(_tabID: string, scope: string, note: string) {
       return this.Remember(scope, note);
@@ -4118,7 +4118,7 @@ function makeMockApp(): AppBindings {
       })) as DesktopStartupSettingsView;
     },
     async Settings() { return JSON.parse(JSON.stringify(settings)) as SettingsView; },
-    async StorageSettings() { return { defaultWorkspace: cwd, statePath: `${cwd}/.reasonix`, cachePath: `${cwd}/.reasonix/cache`, extensionsPath: `${cwd}/.reasonix/plugins` }; },
+    async StorageSettings() { return { defaultWorkspace: cwd, statePath: `${cwd}/.inx`, cachePath: `${cwd}/.inx/cache`, extensionsPath: `${cwd}/.inx/plugins` }; },
     async HooksSettings(scope: string) {
       const key = scope === "project" ? "project" : "global";
       return JSON.parse(JSON.stringify(hookSettings[key])) as HooksSettingsView;
@@ -4363,7 +4363,7 @@ function makeMockApp(): AppBindings {
             provider: normalizedProvider,
             domain: normalizedDomain,
             installId: `mock-${normalizedProvider}-${normalizedDomain}`,
-            url: "https://example.com/reasonix-bot-qr",
+            url: "https://example.com/inx-bot-qr",
             deviceCode: "MOCKDEVICE",
             userCode: normalizedProvider === "weixin" ? "" : "MOCK-CODE",
             interval: 3,
@@ -4674,7 +4674,7 @@ function makeMockApp(): AppBindings {
     async AbandonPendingUpdate() {},
     async OpenDownloadPage() {
       if (typeof window !== "undefined") {
-        window.open("https://reasonix.io/?download=desktop#start", "_blank", "noopener");
+        window.open("https://inx.io/?download=desktop#start", "_blank", "noopener");
       }
     },
     async OpenUserConfigPath() {},
@@ -4743,11 +4743,11 @@ function makeMockApp(): AppBindings {
     async CreateDeliveryWorktree(workspaceRoot: string) {
       if (!workspaceRoot) throw new Error("project folder is required");
       const suffix = Date.now().toString(36);
-      const isolatedRoot = `/mock/reasonix-worktrees/${suffix}/${workspaceRoot.split("/").filter(Boolean).pop() ?? "project"}`;
+      const isolatedRoot = `/mock/inx-worktrees/${suffix}/${workspaceRoot.split("/").filter(Boolean).pop() ?? "project"}`;
       const topicID = `topic_worktree_${suffix}`;
       const tab = await this.OpenProjectTab(isolatedRoot, topicID);
       tab.isolatedWorktree = true;
-      tab.gitBranch = `reasonix/delivery-${suffix}`;
+      tab.gitBranch = `inx/delivery-${suffix}`;
       mockTabs = mockTabs.map((candidate) => candidate.id === tab.id ? { ...tab } : candidate);
       return {
         workspaceRoot: isolatedRoot,
@@ -4883,9 +4883,9 @@ function makeMockApp(): AppBindings {
         running: true,
       };
       mockTerminalSessions = [...mockTerminalSessions, session];
-      mockTerminalOutput.set(id, "Reasonix terminal ready\r\n");
+      mockTerminalOutput.set(id, "Inx terminal ready\r\n");
       mockTerminalTabIDs.set(id, tabID);
-      window.setTimeout(() => __emitMockTerminalOutput({ id, data: mockTerminalBytes("Reasonix terminal ready\r\n") }), 0);
+      window.setTimeout(() => __emitMockTerminalOutput({ id, data: mockTerminalBytes("Inx terminal ready\r\n") }), 0);
       return { ...session };
     },
     async WriteTerminalForTab(_tabID: string, sessionID: string, data: string) {

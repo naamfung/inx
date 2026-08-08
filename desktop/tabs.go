@@ -22,18 +22,18 @@ import (
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 
-	"reasonix/internal/agent"
-	"reasonix/internal/boot"
-	"reasonix/internal/config"
-	"reasonix/internal/control"
-	"reasonix/internal/event"
-	"reasonix/internal/eventwire"
-	"reasonix/internal/extension/providerext"
-	"reasonix/internal/fileutil"
-	"reasonix/internal/notify"
-	"reasonix/internal/provider"
-	"reasonix/internal/store"
-	"reasonix/internal/worktree"
+	"inx/internal/agent"
+	"inx/internal/boot"
+	"inx/internal/config"
+	"inx/internal/control"
+	"inx/internal/event"
+	"inx/internal/eventwire"
+	"inx/internal/extension/providerext"
+	"inx/internal/fileutil"
+	"inx/internal/notify"
+	"inx/internal/provider"
+	"inx/internal/store"
+	"inx/internal/worktree"
 )
 
 // WorkspaceTab
@@ -2488,7 +2488,7 @@ func (a *App) openTopicTabWithActivation(scope, workspaceRoot, topicID, sessionP
 }
 
 // OpenGlobalTab opens a new global-scope tab (no project root). The global
-// workspace root is the reasonix user config directory.
+// workspace root is the inx user config directory.
 func (a *App) OpenGlobalTab(topicID string) (TabMeta, error) {
 	return a.openGlobalTab(topicID)
 }
@@ -4918,7 +4918,7 @@ func singleSurfaceTabsFile(f desktopTabsFile) desktopTabsFile {
 }
 
 func desktopConfigDir() string {
-	return config.ReasonixHomeDir()
+	return config.InxHomeDir()
 }
 
 func (a *App) saveTabsLocked() {
@@ -5778,28 +5778,28 @@ func topicTitlesPath(workspaceRoot string) string {
 	if workspaceRoot == "" {
 		return filepath.Join(desktopConfigDir(), "global", topicTitlesFile)
 	}
-	return filepath.Join(workspaceRoot, ".reasonix", topicTitlesFile)
+	return filepath.Join(workspaceRoot, ".inx", topicTitlesFile)
 }
 
 func topicTitleSourcesPath(workspaceRoot string) string {
 	if workspaceRoot == "" {
 		return filepath.Join(desktopConfigDir(), "global", topicTitleSourcesFile)
 	}
-	return filepath.Join(workspaceRoot, ".reasonix", topicTitleSourcesFile)
+	return filepath.Join(workspaceRoot, ".inx", topicTitleSourcesFile)
 }
 
 func topicCreatedAtsPath(workspaceRoot string) string {
 	if workspaceRoot == "" {
 		return filepath.Join(desktopConfigDir(), "global", topicCreatedAtsFile)
 	}
-	return filepath.Join(workspaceRoot, ".reasonix", topicCreatedAtsFile)
+	return filepath.Join(workspaceRoot, ".inx", topicCreatedAtsFile)
 }
 
 func topicAutoTitleMetaPath(workspaceRoot string) string {
 	if workspaceRoot == "" {
 		return filepath.Join(desktopConfigDir(), "global", topicAutoTitlesFile)
 	}
-	return filepath.Join(workspaceRoot, ".reasonix", topicAutoTitlesFile)
+	return filepath.Join(workspaceRoot, ".inx", topicAutoTitlesFile)
 }
 
 const topicFileReadTimeout = 200 * time.Millisecond
@@ -5947,7 +5947,7 @@ func loadTopicCreatedAtsForUpdate(workspaceRoot string) (map[string]int64, error
 
 // ensureTopicStateDir prepares the directory holding a topic-state file. A
 // project file lives under the workspace root, so the directory is only created
-// while that root still exists — otherwise deleting the folder outside Reasonix
+// while that root still exists — otherwise deleting the folder outside Inx
 // resurrects it on the next launch (#4566).
 func ensureTopicStateDir(workspaceRoot, path string) error {
 	if root := strings.TrimSpace(workspaceRoot); root != "" && !existingDirectory(root) {

@@ -9,7 +9,7 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"reasonix/internal/provider"
+	"inx/internal/provider"
 )
 
 const (

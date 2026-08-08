@@ -7,9 +7,9 @@ import (
 	"testing"
 	"time"
 
-	"reasonix/internal/extension"
-	"reasonix/internal/extension/dispatch"
-	"reasonix/internal/pluginpkg"
+	"inx/internal/extension"
+	"inx/internal/extension/dispatch"
+	"inx/internal/pluginpkg"
 )
 
 // BenchmarkExtensionSidecarStartup measures a real no-op sidecar process

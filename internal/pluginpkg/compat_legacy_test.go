@@ -54,8 +54,8 @@ func TestLegacyNativeManifestParsesUnchanged(t *testing.T) {
 	if err != nil {
 		t.Fatalf("ParseDir legacy manifest: %v", err)
 	}
-	if pkg.ManifestKind != "reasonix" {
-		t.Fatalf("ManifestKind = %q, want reasonix", pkg.ManifestKind)
+	if pkg.ManifestKind != "inx" {
+		t.Fatalf("ManifestKind = %q, want inx", pkg.ManifestKind)
 	}
 	m := pkg.Manifest
 	if m.Name != "legacy-demo" || m.Version != "0.3.1" || m.Description == "" || m.Homepage == "" || m.Repository == "" {
@@ -131,7 +131,7 @@ func TestLegacyHookArgsPresenceRoundTrip(t *testing.T) {
 // the typed values and the raw JSON key set to survive untouched.
 func TestLegacyPluginStateRoundTripPreservesFields(t *testing.T) {
 	home := t.TempDir()
-	t.Setenv("REASONIX_HOME", home)
+	t.Setenv("INX_HOME", home)
 
 	fixture := `{
   "version": 1,
@@ -142,7 +142,7 @@ func TestLegacyPluginStateRoundTripPreservesFields(t *testing.T) {
       "root": "plugins/alpha",
       "version": "1.2.0",
       "description": "alpha plugin",
-      "manifestKind": "reasonix",
+      "manifestKind": "inx",
       "enabled": true,
       "commit": "0123456789abcdef0123456789abcdef01234567"
     },

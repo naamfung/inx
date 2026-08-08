@@ -10,12 +10,12 @@ import (
 	"strings"
 	"testing"
 
-	"reasonix/internal/config"
-	"reasonix/internal/control"
-	fileencoding "reasonix/internal/fileutil/encoding"
-	"reasonix/internal/hook"
-	"reasonix/internal/provider"
-	"reasonix/internal/sandbox"
+	"inx/internal/config"
+	"inx/internal/control"
+	fileencoding "inx/internal/fileutil/encoding"
+	"inx/internal/hook"
+	"inx/internal/provider"
+	"inx/internal/sandbox"
 )
 
 func TestWithFreshSystemPromptReplacesExistingSystemMessage(t *testing.T) {
@@ -1173,7 +1173,7 @@ func TestSetCompactRatioRejectsActiveWorkBeforeSaving(t *testing.T) {
 func TestSetDesktopLanguagePersistsResponseLanguageAndUpdatesLiveTabs(t *testing.T) {
 	isolateDesktopUserDirs(t)
 	projectRoot := t.TempDir()
-	if err := os.WriteFile(filepath.Join(projectRoot, "reasonix.toml"), []byte("language = \"zh\"\n"), 0o644); err != nil {
+	if err := os.WriteFile(filepath.Join(projectRoot, "inx.toml"), []byte("language = \"zh\"\n"), 0o644); err != nil {
 		t.Fatal(err)
 	}
 
@@ -1239,7 +1239,7 @@ func TestSetDesktopCurrencyPersistsRegionalOfficialPricing(t *testing.T) {
 func TestSetReasoningLanguageUpdatesLiveTabControllers(t *testing.T) {
 	isolateDesktopUserDirs(t)
 	projectRoot := t.TempDir()
-	if err := os.WriteFile(filepath.Join(projectRoot, "reasonix.toml"), []byte("[agent]\nreasoning_language = \"en\"\n"), 0o644); err != nil {
+	if err := os.WriteFile(filepath.Join(projectRoot, "inx.toml"), []byte("[agent]\nreasoning_language = \"en\"\n"), 0o644); err != nil {
 		t.Fatal(err)
 	}
 
@@ -1585,7 +1585,7 @@ func TestProjectHooksSettingsUseActiveWorkspaceRootAndLoadByDefault(t *testing.T
 	if len(view.Hooks) != 1 || view.Hooks[0].Event != string(hook.Stop) || view.Hooks[0].Description != "Turn done" {
 		t.Fatalf("project hooks = %+v", view.Hooks)
 	}
-	if _, err := os.Stat(filepath.Join(project, ".reasonix", "settings.json")); err != nil {
+	if _, err := os.Stat(filepath.Join(project, ".inx", "settings.json")); err != nil {
 		t.Fatalf("project hooks settings file missing: %v", err)
 	}
 	loaded := hook.Load(hook.LoadOptions{ProjectRoot: project})
@@ -1622,10 +1622,10 @@ func TestSaveHooksSettingsForRootUsesDisplayedProjectRoot(t *testing.T) {
 	}}); err != nil {
 		t.Fatalf("SaveHooksSettingsForRoot: %v", err)
 	}
-	if _, err := os.Stat(filepath.Join(projectA, ".reasonix", "settings.json")); err != nil {
+	if _, err := os.Stat(filepath.Join(projectA, ".inx", "settings.json")); err != nil {
 		t.Fatalf("displayed project root settings missing: %v", err)
 	}
-	if _, err := os.Stat(filepath.Join(projectB, ".reasonix", "settings.json")); err == nil {
+	if _, err := os.Stat(filepath.Join(projectB, ".inx", "settings.json")); err == nil {
 		t.Fatal("active project root was written instead of displayed project root")
 	}
 }
@@ -1696,7 +1696,7 @@ func TestLoadDesktopUserConfigViewKeepsLegacyBotConfigMigrationInMemory(t *testi
 		t.Fatal(err)
 	}
 	legacyRoot := t.TempDir()
-	legacyPath := filepath.Join(legacyRoot, "reasonix.toml")
+	legacyPath := filepath.Join(legacyRoot, "inx.toml")
 	legacyBody := "[bot]\nenabled = true\nmodel = \"local/m1\"\n"
 	if err := os.WriteFile(legacyPath, []byte(legacyBody), 0o644); err != nil {
 		t.Fatal(err)
@@ -1772,10 +1772,10 @@ func TestLoadDesktopUserConfigForRootDoesNotFollowActiveTab(t *testing.T) {
 	}
 	targetRoot := t.TempDir()
 	activeRoot := t.TempDir()
-	if err := os.WriteFile(filepath.Join(targetRoot, "reasonix.toml"), []byte("[bot]\nenabled = true\nmodel = \"target\"\n"), 0o644); err != nil {
+	if err := os.WriteFile(filepath.Join(targetRoot, "inx.toml"), []byte("[bot]\nenabled = true\nmodel = \"target\"\n"), 0o644); err != nil {
 		t.Fatal(err)
 	}
-	if err := os.WriteFile(filepath.Join(activeRoot, "reasonix.toml"), []byte("[bot]\nenabled = true\nmodel = \"active\"\n"), 0o644); err != nil {
+	if err := os.WriteFile(filepath.Join(activeRoot, "inx.toml"), []byte("[bot]\nenabled = true\nmodel = \"active\"\n"), 0o644); err != nil {
 		t.Fatal(err)
 	}
 

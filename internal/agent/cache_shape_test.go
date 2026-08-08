@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"reasonix/internal/provider"
+	"inx/internal/provider"
 )
 
 func TestCaptureShapeNormalizesToolSchemaOrder(t *testing.T) {

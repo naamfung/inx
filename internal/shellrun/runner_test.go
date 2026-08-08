@@ -9,9 +9,9 @@ import (
 	"testing"
 	"time"
 
-	"reasonix/internal/proc"
-	"reasonix/internal/sandbox"
-	"reasonix/internal/tool"
+	"inx/internal/proc"
+	"inx/internal/sandbox"
+	"inx/internal/tool"
 )
 
 func TestDescriptorFromShell(t *testing.T) {
@@ -145,7 +145,7 @@ func TestRunForegroundTimeout(t *testing.T) {
 
 func TestRunForegroundLaunchFailure(t *testing.T) {
 	res := RunForeground(context.Background(), Request{
-		Argv:  []string{"/nonexistent/reasonix-shell-binary-xyz", "-c", "echo hi"},
+		Argv:  []string{"/nonexistent/inx-shell-binary-xyz", "-c", "echo hi"},
 		Track: false,
 		Run: func(ctx context.Context, cmd *exec.Cmd, opts proc.RunOptions) (*proc.TrackedCommand, error) {
 			return nil, errors.New("exec: no such file")

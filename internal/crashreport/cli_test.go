@@ -24,7 +24,7 @@ func TestCapturePanicWritesBoundedSanitizedReport(t *testing.T) {
 	secret := "private prompt contents"
 	apiKey := "sk-proj-abcdefghijklmnopqrstuvwxyz1234567890"
 	stack := "goroutine 7 [running]:\n" +
-		"reasonix/internal/agent.run(" + secret + ")\n" +
+		"inx/internal/agent.run(" + secret + ")\n" +
 		"\t/Users/alice/private-project/internal/agent/run.go:42 +0x123\n" +
 		"Authorization: Bearer abcdefghijklmnopqrstuvwxyz1234567890\n" +
 		"api_key=" + apiKey
@@ -40,10 +40,10 @@ func TestCapturePanicWritesBoundedSanitizedReport(t *testing.T) {
 	if report.Kind != "crash" || report.Source != "cli.go" || report.Label != "panic" || report.SchemaVersion != 2 {
 		t.Fatalf("report metadata = %+v", report)
 	}
-	if !strings.Contains(report.Stack, "reasonix/internal/agent.run(...)") || !strings.Contains(report.Stack, "<path>/run.go:42") {
+	if !strings.Contains(report.Stack, "inx/internal/agent.run(...)") || !strings.Contains(report.Stack, "<path>/run.go:42") {
 		t.Fatalf("sanitized stack = %q", report.Stack)
 	}
-	if report.TopFrame != "reasonix/internal/agent.run <path>/run.go:42" {
+	if report.TopFrame != "inx/internal/agent.run <path>/run.go:42" {
 		t.Fatalf("top frame = %q", report.TopFrame)
 	}
 	preview, err := Preview(report)
@@ -87,7 +87,7 @@ func TestCapturePanicWritesBoundedSanitizedReport(t *testing.T) {
 
 func TestSendUsesSharedProtocolWithoutDeletingLocalReport(t *testing.T) {
 	home := t.TempDir()
-	if err := CapturePanic(home, "v1.20.0", "boom", []byte("goroutine 1 [running]:\nreasonix.run()\n\t/home/alice/reasonix/main.go:12")); err != nil {
+	if err := CapturePanic(home, "v1.20.0", "boom", []byte("goroutine 1 [running]:\ninx.run()\n\t/home/alice/inx/main.go:12")); err != nil {
 		t.Fatal(err)
 	}
 	pending, err := Load(home, "")
@@ -144,7 +144,7 @@ func TestConcurrentCaptureKeepsQueueBounded(t *testing.T) {
 		go func(value int) {
 			defer wg.Done()
 			<-start
-			if err := CapturePanic(home, "v1.20.0", value, []byte("reasonix.run()\n\t/home/alice/main.go:12")); err != nil {
+			if err := CapturePanic(home, "v1.20.0", value, []byte("inx.run()\n\t/home/alice/main.go:12")); err != nil {
 				t.Errorf("CapturePanic: %v", err)
 			}
 		}(i)
@@ -170,7 +170,7 @@ func TestCapturePanicPrunesOnlyCurrentReportFormat(t *testing.T) {
 	}
 
 	for i := range maxReports + 1 {
-		if err := CapturePanic(home, "v1.20.0", i, []byte("reasonix.run()\n\t/home/alice/main.go:12")); err != nil {
+		if err := CapturePanic(home, "v1.20.0", i, []byte("inx.run()\n\t/home/alice/main.go:12")); err != nil {
 			t.Fatal(err)
 		}
 	}

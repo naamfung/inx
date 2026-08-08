@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"reasonix/internal/testenv"
+	"inx/internal/testenv"
 
 	"go.uber.org/goleak"
 )
@@ -14,8 +14,8 @@ func TestMain(m *testing.M) {
 	if err != nil {
 		panic(err)
 	}
-	if os.Getenv("REASONIX_CREDENTIALS_STORE") == "" {
-		_ = os.Setenv("REASONIX_CREDENTIALS_STORE", "file")
+	if os.Getenv("INX_CREDENTIALS_STORE") == "" {
+		_ = os.Setenv("INX_CREDENTIALS_STORE", "file")
 	}
 	goleak.VerifyTestMain(m, goleak.Cleanup(func(exitCode int) {
 		cleanupUserState()

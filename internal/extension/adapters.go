@@ -5,13 +5,13 @@ import (
 	"fmt"
 	"strings"
 
-	"reasonix/internal/command"
-	"reasonix/internal/hook"
-	"reasonix/internal/plugin"
-	"reasonix/internal/pluginpkg"
-	"reasonix/internal/provider"
-	"reasonix/internal/skill"
-	"reasonix/internal/tool"
+	"inx/internal/command"
+	"inx/internal/hook"
+	"inx/internal/plugin"
+	"inx/internal/pluginpkg"
+	"inx/internal/provider"
+	"inx/internal/skill"
+	"inx/internal/tool"
 )
 
 // The adapters wrap existing discovery in the Contributor interface. They do

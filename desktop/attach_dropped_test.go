@@ -9,9 +9,9 @@ import (
 	"testing"
 	"time"
 
-	"reasonix/internal/config"
-	"reasonix/internal/control"
-	"reasonix/internal/event"
+	"inx/internal/config"
+	"inx/internal/control"
+	"inx/internal/event"
 )
 
 const desktopTinyPNG = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
@@ -246,7 +246,7 @@ func TestAttachDroppedOutsideWorkspaceCopiesToAttachments(t *testing.T) {
 	if err != nil {
 		t.Fatalf("AttachDropped: %v", err)
 	}
-	if got.Kind != "attachment" || !strings.HasPrefix(got.Path, ".reasonix/attachments/") || !strings.HasSuffix(got.Path, ".pdf") {
+	if got.Kind != "attachment" || !strings.HasPrefix(got.Path, ".inx/attachments/") || !strings.HasSuffix(got.Path, ".pdf") {
 		t.Fatalf("got %+v, want copied pdf attachment", got)
 	}
 }
@@ -313,7 +313,7 @@ func TestAttachDroppedOutsideWorkspaceDirRegistersWorkspaceRef(t *testing.T) {
 	if got.Kind != "workspace" || !got.IsDir {
 		t.Fatalf("got %+v, want workspace directory ref", got)
 	}
-	if !strings.HasPrefix(got.Path, "__reasonix_external_folder/") || strings.ContainsAny(got.Path, " \t\r\n") {
+	if !strings.HasPrefix(got.Path, "__inx_external_folder/") || strings.ContainsAny(got.Path, " \t\r\n") {
 		t.Fatalf("external folder path token = %q, want whitespace-free external token", got.Path)
 	}
 	if got.DisplayPath != expectedDisplayPath {

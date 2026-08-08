@@ -4,8 +4,8 @@ import (
 	"strings"
 	"testing"
 
-	"reasonix/internal/extension/protocol"
-	"reasonix/internal/provider"
+	"inx/internal/extension/protocol"
+	"inx/internal/provider"
 )
 
 // Round trips through the wire DTOs must preserve every provider-visible

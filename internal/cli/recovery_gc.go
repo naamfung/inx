@@ -3,7 +3,7 @@ package cli
 import (
 	"time"
 
-	"reasonix/internal/agent"
+	"inx/internal/agent"
 )
 
 // reclaimCLIRecoveryBranches performs the same conservative recovery-copy

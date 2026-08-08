@@ -14,7 +14,7 @@ import (
 
 const (
 	uninstallRegistryBase     = `Software\Microsoft\Windows\CurrentVersion\Uninstall\`
-	legacyProductRegistryPath = `Software\reasonix\Reasonix`
+	legacyProductRegistryPath = `Software\inx\Inx`
 )
 
 // Reconcile refreshes the current Wails per-user registration after a

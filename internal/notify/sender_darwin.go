@@ -4,7 +4,7 @@ package notify
 
 import (
 	"os/exec"
-	"reasonix/internal/secrets"
+	"inx/internal/secrets"
 	"strings"
 )
 

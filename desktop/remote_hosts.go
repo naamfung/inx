@@ -18,7 +18,7 @@ import (
 	"sync"
 	"unicode/utf8"
 
-	"reasonix/internal/fileutil"
+	"inx/internal/fileutil"
 )
 
 const (

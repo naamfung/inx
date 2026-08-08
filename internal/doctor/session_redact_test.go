@@ -7,9 +7,9 @@ import (
 	"strings"
 	"testing"
 
-	"reasonix/internal/agent"
-	"reasonix/internal/provider"
-	"reasonix/internal/store"
+	"inx/internal/agent"
+	"inx/internal/provider"
+	"inx/internal/store"
 )
 
 func TestRedactSessionsScrubsHistoricalSessionArtifacts(t *testing.T) {

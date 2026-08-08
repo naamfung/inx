@@ -4,8 +4,8 @@ import (
 	"strings"
 	"testing"
 
-	"reasonix/internal/config"
-	"reasonix/internal/skill"
+	"inx/internal/config"
+	"inx/internal/skill"
 )
 
 func TestCollectSkillHealthWarnings(t *testing.T) {

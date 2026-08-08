@@ -4,9 +4,9 @@ import (
 	"context"
 	"time"
 
-	"reasonix/internal/config"
-	"reasonix/internal/netclient"
-	"reasonix/internal/releaseasset"
+	"inx/internal/config"
+	"inx/internal/netclient"
+	"inx/internal/releaseasset"
 )
 
 const remoteCLIDownloadTimeout = 2 * time.Minute

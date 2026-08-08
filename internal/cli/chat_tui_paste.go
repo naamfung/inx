@@ -15,10 +15,10 @@ import (
 	tea "charm.land/bubbletea/v2"
 	"github.com/atotto/clipboard"
 
-	"reasonix/internal/control"
-	"reasonix/internal/provider"
-	"reasonix/internal/secrets"
-	"reasonix/internal/shellparse"
+	"inx/internal/control"
+	"inx/internal/provider"
+	"inx/internal/secrets"
+	"inx/internal/shellparse"
 )
 
 // This file holds the chat TUI's paste & image-attachment input layer: folding

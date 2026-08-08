@@ -13,7 +13,7 @@ import (
 	"github.com/atotto/clipboard"
 	"github.com/charmbracelet/x/ansi"
 
-	"reasonix/internal/provider"
+	"inx/internal/provider"
 )
 
 type transcriptSourceKind uint8
@@ -165,7 +165,7 @@ func renderAssistantMarkdown(raw string, contentWidth int) string {
 		rendered = raw
 	}
 	body := strings.TrimRight(rendered, "\n")
-	header := indent + accent("◆") + " " + bold("Reasonix")
+	header := indent + accent("◆") + " " + bold("Inx")
 	if body == "" {
 		return header
 	}
@@ -187,7 +187,7 @@ func renderAssistantMarkdownCopy(raw string, contentWidth int, prefix string) st
 		rendered = raw
 	}
 	body := strings.TrimRight(rendered, "\n")
-	header := indent + accent("◆") + " " + bold("Reasonix")
+	header := indent + accent("◆") + " " + bold("Inx")
 	if body == "" {
 		return header
 	}
@@ -240,8 +240,8 @@ func (m *chatTUI) commitTranscriptSource(source transcriptSource) {
 }
 
 const (
-	copyMathStartPrefix = "\x1b]1337;reasonix-copy-math="
-	copyMathEndPrefix   = "\x1b]1337;reasonix-copy-math-end="
+	copyMathStartPrefix = "\x1b]1337;inx-copy-math="
+	copyMathEndPrefix   = "\x1b]1337;inx-copy-math-end="
 	copyMathTerminator  = "\x07"
 )
 

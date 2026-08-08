@@ -10,14 +10,14 @@ import (
 	"testing"
 	"time"
 
-	"reasonix/internal/agent"
-	"reasonix/internal/capability"
-	"reasonix/internal/event"
-	"reasonix/internal/evidence"
-	"reasonix/internal/hook"
-	"reasonix/internal/provider"
-	"reasonix/internal/skill"
-	"reasonix/internal/tool"
+	"inx/internal/agent"
+	"inx/internal/capability"
+	"inx/internal/event"
+	"inx/internal/evidence"
+	"inx/internal/hook"
+	"inx/internal/provider"
+	"inx/internal/skill"
+	"inx/internal/tool"
 )
 
 type plannerMetadataRunner struct {
@@ -384,7 +384,7 @@ func (r *recoveryPauseRunner) Run(ctx context.Context, _ string) error {
 		r.scopes = append(r.scopes, scope)
 	}
 	return &agent.RecoveryPauseError{
-		Message:    "Automatic retries paused. Reasonix stopped repeated attempts and kept completed work. Send \"continue\" to start a fresh attempt, or add instructions to change direction.",
+		Message:    "Automatic retries paused. Inx stopped repeated attempts and kept completed work. Send \"continue\" to start a fresh attempt, or add instructions to change direction.",
 		StopReason: "episode_failures",
 	}
 }

@@ -8,8 +8,8 @@ import (
 	"strings"
 	"testing"
 
-	"reasonix/internal/config"
-	"reasonix/internal/provider"
+	"inx/internal/config"
+	"inx/internal/provider"
 )
 
 func TestNewProviderAppliesExplicitKimiK3RequestContractToCustomGateway(t *testing.T) {

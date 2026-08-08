@@ -8,8 +8,8 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"reasonix/internal/agent"
-	"reasonix/internal/recovery"
+	"inx/internal/agent"
+	"inx/internal/recovery"
 )
 
 // ResolveRecovery applies a user decision on an Auto Guard card.

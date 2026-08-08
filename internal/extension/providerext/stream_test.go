@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"reasonix/internal/extension/protocol"
-	"reasonix/internal/provider"
+	"inx/internal/extension/protocol"
+	"inx/internal/provider"
 )
 
 // openTestStream resolves the demo ref and opens a stream, returning the

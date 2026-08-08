@@ -12,9 +12,9 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"reasonix/internal/ablation"
-	"reasonix/internal/event"
-	"reasonix/internal/provider"
+	"inx/internal/ablation"
+	"inx/internal/event"
+	"inx/internal/provider"
 )
 
 // Compaction is a low-frequency cache-reset point: the prompt grows append-only

@@ -65,8 +65,8 @@ export function ModelSwitcher({
 
   useEffect(() => {
     const refresh = () => void loadModels();
-    window.addEventListener("reasonix:model-catalog-changed", refresh);
-    return () => window.removeEventListener("reasonix:model-catalog-changed", refresh);
+    window.addEventListener("inx:model-catalog-changed", refresh);
+    return () => window.removeEventListener("inx:model-catalog-changed", refresh);
   }, [loadModels]);
 
   useEffect(() => {

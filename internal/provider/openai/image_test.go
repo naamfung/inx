@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"reasonix/internal/provider"
+	"inx/internal/provider"
 )
 
 func TestBuildRequestEmbedsImagesForVisionModel(t *testing.T) {

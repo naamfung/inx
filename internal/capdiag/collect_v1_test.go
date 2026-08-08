@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	"reasonix/internal/capdiag"
-	"reasonix/internal/pluginpkg"
+	"inx/internal/capdiag"
+	"inx/internal/pluginpkg"
 )
 
 // TestPluginPackageV1FieldsAreReported pins the Manifest v1 additions to the
@@ -16,31 +16,31 @@ import (
 func TestPluginPackageV1FieldsAreReported(t *testing.T) {
 	root := t.TempDir()
 	home := t.TempDir()
-	reasonixHome := filepath.Join(home, ".reasonix")
+	inxHome := filepath.Join(home, ".inx")
 	t.Setenv("HOME", home)
-	t.Setenv("REASONIX_HOME", reasonixHome)
+	t.Setenv("INX_HOME", inxHome)
 
-	pluginRoot := filepath.Join(reasonixHome, "plugins", "demo")
+	pluginRoot := filepath.Join(inxHome, "plugins", "demo")
 	write(t, filepath.Join(pluginRoot, pluginpkg.NativeManifest), `{
-  "apiVersion": "reasonix.io/plugin/v1",
+  "apiVersion": "inx.io/plugin/v1",
   "name": "demo",
   "contributes": {
     "prompts": ["prompts"],
-    "themes": ["themes/*.reasonix-theme"]
+    "themes": ["themes/*.inx-theme"]
   },
-  "runtime": {"command": "${REASONIX_PLUGIN_ROOT}/bin/demo", "intercepts": ["input.receive"]}
+  "runtime": {"command": "${INX_PLUGIN_ROOT}/bin/demo", "intercepts": ["input.receive"]}
 }`)
 	write(t, filepath.Join(pluginRoot, "prompts", "plan.md"), "---\ndescription: plan\n---\nPlan $ARGUMENTS\n")
-	write(t, filepath.Join(pluginRoot, "themes", "neon.reasonix-theme"), "theme bytes")
+	write(t, filepath.Join(pluginRoot, "themes", "neon.inx-theme"), "theme bytes")
 	write(t, filepath.Join(pluginRoot, "bin", "demo"), "#!/bin/sh\n")
-	if err := pluginpkg.Upsert(reasonixHome, pluginpkg.InstalledPlugin{
-		Name: "demo", Root: "plugins/demo", ManifestKind: "reasonix", Enabled: true,
+	if err := pluginpkg.Upsert(inxHome, pluginpkg.InstalledPlugin{
+		Name: "demo", Root: "plugins/demo", ManifestKind: "inx", Enabled: true,
 	}); err != nil {
 		t.Fatal(err)
 	}
 
 	r := capdiag.Collect(capdiag.Options{
-		Root: root, HomeDir: home, ReasonixHomeDir: reasonixHome,
+		Root: root, HomeDir: home, InxHomeDir: inxHome,
 	})
 	if len(r.Plugins.Packages) != 1 {
 		t.Fatalf("plugin packages = %+v, want demo", r.Plugins.Packages)
@@ -75,21 +75,21 @@ func TestPluginPackageV1FieldsAreReported(t *testing.T) {
 func TestPluginPackageLegacyOmitsV1Fields(t *testing.T) {
 	root := t.TempDir()
 	home := t.TempDir()
-	reasonixHome := filepath.Join(home, ".reasonix")
+	inxHome := filepath.Join(home, ".inx")
 	t.Setenv("HOME", home)
-	t.Setenv("REASONIX_HOME", reasonixHome)
+	t.Setenv("INX_HOME", inxHome)
 
-	pluginRoot := filepath.Join(reasonixHome, "plugins", "legacy")
+	pluginRoot := filepath.Join(inxHome, "plugins", "legacy")
 	write(t, filepath.Join(pluginRoot, pluginpkg.NativeManifest), `{"name":"legacy","skills":["skills"]}`)
 	write(t, filepath.Join(pluginRoot, "skills", "s", "SKILL.md"), "---\ndescription: s\n---\nS\n")
-	if err := pluginpkg.Upsert(reasonixHome, pluginpkg.InstalledPlugin{
-		Name: "legacy", Root: "plugins/legacy", ManifestKind: "reasonix", Enabled: true,
+	if err := pluginpkg.Upsert(inxHome, pluginpkg.InstalledPlugin{
+		Name: "legacy", Root: "plugins/legacy", ManifestKind: "inx", Enabled: true,
 	}); err != nil {
 		t.Fatal(err)
 	}
 
 	r := capdiag.Collect(capdiag.Options{
-		Root: root, HomeDir: home, ReasonixHomeDir: reasonixHome,
+		Root: root, HomeDir: home, InxHomeDir: inxHome,
 	})
 	if len(r.Plugins.Packages) != 1 {
 		t.Fatalf("plugin packages = %+v, want legacy", r.Plugins.Packages)

@@ -6,8 +6,8 @@ import (
 	"testing"
 	"time"
 
-	"reasonix/internal/sandbox"
-	"reasonix/internal/tool"
+	"inx/internal/sandbox"
+	"inx/internal/tool"
 )
 
 // TestBashCancelReturnsPromptly proves a cancelled bash run stops fast instead of

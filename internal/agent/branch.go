@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
-	"reasonix/internal/fileutil"
-	fileencoding "reasonix/internal/fileutil/encoding"
-	"reasonix/internal/store"
+	"inx/internal/fileutil"
+	fileencoding "inx/internal/fileutil/encoding"
+	"inx/internal/store"
 )
 
 // BranchMeta is the small sidecar record that turns flat session files into a

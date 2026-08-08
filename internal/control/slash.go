@@ -6,11 +6,11 @@ import (
 	"strconv"
 	"strings"
 
-	"reasonix/internal/config"
-	"reasonix/internal/i18n"
-	"reasonix/internal/migration"
-	"reasonix/internal/pluginpkg"
-	"reasonix/internal/skill"
+	"inx/internal/config"
+	"inx/internal/i18n"
+	"inx/internal/migration"
+	"inx/internal/pluginpkg"
+	"inx/internal/skill"
 )
 
 // SlashItem is one slash-completion suggestion. Insert is the token text placed
@@ -467,7 +467,7 @@ func (c *Controller) managementNotice(trimmed string) bool {
 		}
 		switch sub {
 		case "", "list", "ls":
-			text, err := pluginpkg.InstalledListText(config.ReasonixHomeDir())
+			text, err := pluginpkg.InstalledListText(config.InxHomeDir())
 			if err != nil {
 				c.notice("plugins: " + err.Error())
 			} else {
@@ -478,7 +478,7 @@ func (c *Controller) managementNotice(trimmed string) bool {
 				c.notice("usage: /plugins show <name>")
 				return true
 			}
-			text, err := pluginpkg.InstalledShowText(config.ReasonixHomeDir(), fields[2])
+			text, err := pluginpkg.InstalledShowText(config.InxHomeDir(), fields[2])
 			if err != nil {
 				c.notice("plugins: " + err.Error())
 			} else {

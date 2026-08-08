@@ -9,12 +9,12 @@ import (
 	"testing"
 	"time"
 
-	"reasonix/internal/event"
-	"reasonix/internal/extension"
-	"reasonix/internal/extension/dispatch"
-	"reasonix/internal/extension/protocol"
-	"reasonix/internal/provider"
-	"reasonix/internal/tool"
+	"inx/internal/event"
+	"inx/internal/extension"
+	"inx/internal/extension/dispatch"
+	"inx/internal/extension/protocol"
+	"inx/internal/provider"
+	"inx/internal/tool"
 )
 
 // Stage 6b2 agent-loop wiring tests. The dispatcher under test is real; only

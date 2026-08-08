@@ -12,8 +12,8 @@ import (
 	"strings"
 	"time"
 
-	"reasonix/internal/config"
-	"reasonix/internal/i18n"
+	"inx/internal/config"
+	"inx/internal/i18n"
 )
 
 type providerSetupSession struct {

@@ -6,8 +6,8 @@ import (
 	"os"
 	"time"
 
-	"reasonix/internal/provider"
-	"reasonix/internal/store"
+	"inx/internal/provider"
+	"inx/internal/store"
 )
 
 // SessionsShareContent reports whether two saved sessions decode to the same

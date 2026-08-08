@@ -13,7 +13,7 @@ import (
 	"testing"
 	"time"
 
-	"reasonix/internal/provider"
+	"inx/internal/provider"
 )
 
 func boolPtr(value bool) *bool { return &value }

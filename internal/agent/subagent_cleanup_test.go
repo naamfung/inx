@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"reasonix/internal/store"
+	"inx/internal/store"
 )
 
 func TestDeleteSubagentsByParentSweepsEventLogLeftovers(t *testing.T) {

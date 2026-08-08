@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"reasonix/internal/tool"
+	"inx/internal/tool"
 )
 
 // ProfileDefinition is the resolved, runtime-facing shape of a runAs=subagent

@@ -1,4 +1,4 @@
-module reasonix
+module inx
 
 go 1.25.0
 

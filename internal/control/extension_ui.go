@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"strings"
 
-	"reasonix/internal/event"
-	"reasonix/internal/extension/uihub"
+	"inx/internal/event"
+	"inx/internal/extension/uihub"
 )
 
 // Extension UI hub wiring (Extension Protocol v1, stage 8a). The hub is the

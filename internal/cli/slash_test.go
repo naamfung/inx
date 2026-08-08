@@ -3,7 +3,7 @@ package cli
 import (
 	"testing"
 
-	"reasonix/internal/command"
+	"inx/internal/command"
 )
 
 func TestChatCommandNames(t *testing.T) {

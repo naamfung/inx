@@ -1,24 +1,24 @@
-// Command reasonix is a config- and plugin-driven coding agent CLI.
+// Command inx is a config- and plugin-driven coding agent CLI.
 package main
 
 import (
 	"os"
 	"runtime/debug"
 
-	"reasonix/internal/cli"
-	"reasonix/internal/config"
-	"reasonix/internal/crashreport"
+	"inx/internal/cli"
+	"inx/internal/config"
+	"inx/internal/crashreport"
 
 	// Blank imports wire compile-time built-ins into their registries.
-	_ "reasonix/internal/provider/anthropic"
-	_ "reasonix/internal/provider/openai"
-	_ "reasonix/internal/provider/responses"
-	_ "reasonix/internal/tool/builtin"
+	_ "inx/internal/provider/anthropic"
+	_ "inx/internal/provider/openai"
+	_ "inx/internal/provider/responses"
+	_ "inx/internal/tool/builtin"
 )
 
 // Build identity injected via -ldflags (see Makefile). version remains the
-// single-line contract for `reasonix --version`; gitCommit/buildTimeUTC feed
-// `reasonix version --verbose` / `--json` without embedding config paths.
+// single-line contract for `inx --version`; gitCommit/buildTimeUTC feed
+// `inx version --verbose` / `--json` without embedding config paths.
 var (
 	version      = "dev"
 	gitCommit    = ""
@@ -42,7 +42,7 @@ func main() {
 func runWithCrashCapture(args []string, buildVersion string) (exitCode int) {
 	defer func() {
 		if recovered := recover(); recovered != nil {
-			_ = crashreport.CapturePanic(config.ReasonixHomeDir(), buildVersion, recovered, debug.Stack())
+			_ = crashreport.CapturePanic(config.InxHomeDir(), buildVersion, recovered, debug.Stack())
 			panic(recovered)
 		}
 	}()

@@ -8,10 +8,10 @@ import (
 
 	tea "charm.land/bubbletea/v2"
 
-	"reasonix/internal/command"
-	"reasonix/internal/control"
-	"reasonix/internal/event"
-	"reasonix/internal/skill"
+	"inx/internal/command"
+	"inx/internal/control"
+	"inx/internal/event"
+	"inx/internal/skill"
 )
 
 func TestSlashCatalogCachesAcrossKeystrokes(t *testing.T) {

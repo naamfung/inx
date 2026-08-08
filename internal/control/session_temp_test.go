@@ -5,9 +5,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	"reasonix/internal/agent"
-	"reasonix/internal/event"
-	"reasonix/internal/sessiontemp"
+	"inx/internal/agent"
+	"inx/internal/event"
+	"inx/internal/sessiontemp"
 )
 
 func TestSessionTempSurvivesHotRebuildStyleRetain(t *testing.T) {

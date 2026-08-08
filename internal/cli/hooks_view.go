@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"reasonix/internal/hook"
+	"inx/internal/hook"
 )
 
 func renderHooks(width int, hooks []hook.ResolvedHook) string {
@@ -24,6 +24,6 @@ func renderHooks(width int, hooks []hook.ResolvedHook) string {
 			h.Event, viewMeta(fmt.Sprintf("%-8s", h.Scope)), viewMeta(fmt.Sprintf("%-8s", match)), viewCompactText(h.Command, viewBudget(width, used)))
 	}
 	b.WriteByte('\n')
-	b.WriteString(viewHint(viewCompactText("config: project .reasonix/settings.json + global <Reasonix home>/settings.json", viewBudget(width, 2))))
+	b.WriteString(viewHint(viewCompactText("config: project .inx/settings.json + global <Inx home>/settings.json", viewBudget(width, 2))))
 	return strings.TrimRight(b.String(), "\n")
 }

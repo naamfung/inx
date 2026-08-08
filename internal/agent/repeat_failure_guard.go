@@ -7,9 +7,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"reasonix/internal/evidence"
-	"reasonix/internal/provider"
-	"reasonix/internal/tool"
+	"inx/internal/evidence"
+	"inx/internal/provider"
+	"inx/internal/tool"
 )
 
 // repeatFailureBreakThreshold is how many identical write-like failures are

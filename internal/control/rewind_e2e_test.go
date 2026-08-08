@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"reasonix/internal/agent"
-	"reasonix/internal/checkpoint"
-	"reasonix/internal/event"
-	"reasonix/internal/provider"
-	"reasonix/internal/tool"
+	"inx/internal/agent"
+	"inx/internal/checkpoint"
+	"inx/internal/event"
+	"inx/internal/provider"
+	"inx/internal/tool"
 )
 
 func TestCompatibilityRewindRequiresConfirmationForPartialCoverage(t *testing.T) {
@@ -124,7 +124,7 @@ func TestResumeRecoversCommittingCombinedRewind(t *testing.T) {
 			Path: "a.txt", AbsPath: filePath, Action: "write", Published: true,
 			RestoreExisted: true, RestoreSHA: checkpoint.Digest([]byte("before")), RestoreMode: diskMode,
 			ForwardExisted: true, ForwardSHA: checkpoint.Digest([]byte("after")), ForwardMode: diskMode,
-			ForwardInline: []byte("after"), BackupPath: filepath.Join(root, ".a.txt.reasonix-recovery.bak"),
+			ForwardInline: []byte("after"), BackupPath: filepath.Join(root, ".a.txt.inx-recovery.bak"),
 		}},
 	}
 	raw, err := json.Marshal(tx)

@@ -4,13 +4,13 @@ import (
 	"strings"
 	"testing"
 
-	"reasonix/internal/config"
-	"reasonix/internal/crashreport"
+	"inx/internal/config"
+	"inx/internal/crashreport"
 )
 
 func TestRunWithCrashCaptureRecordsAndReraises(t *testing.T) {
 	home := t.TempDir()
-	t.Setenv("REASONIX_HOME", home)
+	t.Setenv("INX_HOME", home)
 	previous := runCLI
 	t.Cleanup(func() { runCLI = previous })
 	secret := "private prompt from panic"
@@ -25,7 +25,7 @@ func TestRunWithCrashCaptureRecordsAndReraises(t *testing.T) {
 		runWithCrashCapture([]string{"run"}, "v1.20.0")
 	}()
 
-	reports, err := crashreport.List(config.ReasonixHomeDir())
+	reports, err := crashreport.List(config.InxHomeDir())
 	if err != nil || len(reports) != 1 {
 		t.Fatalf("captured reports=%d err=%v", len(reports), err)
 	}

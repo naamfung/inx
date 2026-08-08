@@ -14,12 +14,12 @@ param(
 $ErrorActionPreference = "Stop"
 
 $expectedPayload = @(
-    "reasonix-desktop.exe",
-    "reasonix-guard.exe",
-    "reasonix-launcher.exe",
-    "reasonix-update-helper.exe",
-    "reasonix-cli.exe",
-    "reasonix-uninstall.exe"
+    "inx-desktop.exe",
+    "inx-guard.exe",
+    "inx-launcher.exe",
+    "inx-update-helper.exe",
+    "inx-cli.exe",
+    "inx-uninstall.exe"
 )
 
 function Assert-AuthenticodeSignature {
@@ -50,7 +50,7 @@ foreach ($name in $expectedPayload) {
 }
 Assert-AuthenticodeSignature -Path $InstallerPath
 
-$extractRoot = Join-Path ([System.IO.Path]::GetTempPath()) ("reasonix-authenticode-" + [guid]::NewGuid().ToString("N"))
+$extractRoot = Join-Path ([System.IO.Path]::GetTempPath()) ("inx-authenticode-" + [guid]::NewGuid().ToString("N"))
 try {
     Expand-Archive -LiteralPath $PortableArchivePath -DestinationPath $extractRoot
 
@@ -81,22 +81,22 @@ try {
         }
 
         $portableSources = @(
-            [pscustomobject]@{ Portable = "reasonix-launcher.exe"; Payload = "reasonix-launcher.exe" },
-            [pscustomobject]@{ Portable = "Reasonix.exe"; Payload = "reasonix-launcher.exe" },
-            [pscustomobject]@{ Portable = "reasonix-cli.exe"; Payload = "reasonix-cli.exe" },
-            [pscustomobject]@{ Portable = (Join-Path $activeDir "reasonix-desktop.exe"); Payload = "reasonix-desktop.exe" },
-            [pscustomobject]@{ Portable = (Join-Path $activeDir "reasonix-update-helper.exe"); Payload = "reasonix-update-helper.exe" },
-            [pscustomobject]@{ Portable = (Join-Path $activeDir "reasonix-cli.exe"); Payload = "reasonix-cli.exe" }
+            [pscustomobject]@{ Portable = "inx-launcher.exe"; Payload = "inx-launcher.exe" },
+            [pscustomobject]@{ Portable = "Inx.exe"; Payload = "inx-launcher.exe" },
+            [pscustomobject]@{ Portable = "inx-cli.exe"; Payload = "inx-cli.exe" },
+            [pscustomobject]@{ Portable = (Join-Path $activeDir "inx-desktop.exe"); Payload = "inx-desktop.exe" },
+            [pscustomobject]@{ Portable = (Join-Path $activeDir "inx-update-helper.exe"); Payload = "inx-update-helper.exe" },
+            [pscustomobject]@{ Portable = (Join-Path $activeDir "inx-cli.exe"); Payload = "inx-cli.exe" }
         )
     }
     else {
         $portableSources = @(
-            [pscustomobject]@{ Portable = "reasonix-desktop.exe"; Payload = "reasonix-desktop.exe" },
-            [pscustomobject]@{ Portable = "reasonix-guard.exe"; Payload = "reasonix-guard.exe" },
-            [pscustomobject]@{ Portable = "reasonix-launcher.exe"; Payload = "reasonix-launcher.exe" },
-            [pscustomobject]@{ Portable = "Reasonix.exe"; Payload = "reasonix-launcher.exe" },
-            [pscustomobject]@{ Portable = "reasonix-update-helper.exe"; Payload = "reasonix-update-helper.exe" },
-            [pscustomobject]@{ Portable = "reasonix-cli.exe"; Payload = "reasonix-cli.exe" }
+            [pscustomobject]@{ Portable = "inx-desktop.exe"; Payload = "inx-desktop.exe" },
+            [pscustomobject]@{ Portable = "inx-guard.exe"; Payload = "inx-guard.exe" },
+            [pscustomobject]@{ Portable = "inx-launcher.exe"; Payload = "inx-launcher.exe" },
+            [pscustomobject]@{ Portable = "Inx.exe"; Payload = "inx-launcher.exe" },
+            [pscustomobject]@{ Portable = "inx-update-helper.exe"; Payload = "inx-update-helper.exe" },
+            [pscustomobject]@{ Portable = "inx-cli.exe"; Payload = "inx-cli.exe" }
         )
     }
 

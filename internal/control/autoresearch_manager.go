@@ -15,8 +15,8 @@ import (
 	"strings"
 	"time"
 
-	"reasonix/internal/agent"
-	"reasonix/internal/autoresearch"
+	"inx/internal/agent"
+	"inx/internal/autoresearch"
 )
 
 type autoResearchSetup struct {

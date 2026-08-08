@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"reasonix/internal/provider"
-	"reasonix/internal/store"
+	"inx/internal/provider"
+	"inx/internal/store"
 )
 
 func sessionWithTurns(t *testing.T, path string, turns int) *Session {

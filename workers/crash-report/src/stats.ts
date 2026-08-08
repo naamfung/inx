@@ -787,7 +787,7 @@ ${filters}
   };
 
   return page(
-    "Reasonix · Crash & Telemetry",
+    "Inx · Crash & Telemetry",
     "health",
     `${dashboardNav}
 <div id="top" class="hero-line"><div><h1>${i18n("Crash & Telemetry", "客户端健康看板")}</h1><p class="sub">${i18nHTML(
@@ -967,7 +967,7 @@ export function renderGroup(
     .join("");
 
   return page(
-    `Reasonix · ${group.fingerprint.slice(0, 8)}`,
+    `Inx · ${group.fingerprint.slice(0, 8)}`,
     `stats / ${group.fingerprint.slice(0, 8)}`,
     `<section class="group-hero"><div class="group-nav"><a class="back" href="/stats">${i18n("Back to stats", "返回统计")}</a><button class="btn ghost sm copy-btn" type="button" data-copy="${esc(group.fingerprint)}"><span class="copy-label">${i18n("Copy fingerprint", "复制指纹")}</span></button></div>
 <div class="group-title"><span class="pill ${group.kind === "crash" ? "crash" : ""}">${esc(group.kind)}</span><h1>${esc(group.fingerprint.slice(0, 8))}</h1>${status}</div>

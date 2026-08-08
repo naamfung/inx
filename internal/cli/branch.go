@@ -6,9 +6,9 @@ import (
 
 	"github.com/charmbracelet/x/ansi"
 
-	"reasonix/internal/agent"
-	"reasonix/internal/control"
-	"reasonix/internal/provider"
+	"inx/internal/agent"
+	"inx/internal/control"
+	"inx/internal/provider"
 )
 
 func (m *chatTUI) showBranchTree() {

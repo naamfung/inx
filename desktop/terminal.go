@@ -15,8 +15,8 @@ import (
 	"sync"
 	"time"
 
-	"reasonix/internal/config"
-	"reasonix/internal/secrets"
+	"inx/internal/config"
+	"inx/internal/secrets"
 )
 
 const (

@@ -201,7 +201,7 @@ export function SettingsPanel({
       const result = await fn();
       const next = await reload();
       onChanged(next);
-      window.dispatchEvent(new Event("reasonix:model-catalog-changed"));
+      window.dispatchEvent(new Event("inx:model-catalog-changed"));
       if (typeof result === "string" && result.trim()) {
         setWarning(result.trim());
       }
@@ -220,7 +220,7 @@ export function SettingsPanel({
       await fn();
       const next = await reload();
       onChanged(next);
-      window.dispatchEvent(new Event("reasonix:model-catalog-changed"));
+      window.dispatchEvent(new Event("inx:model-catalog-changed"));
     } catch (e) {
       setErr(formatSettingsError(e, t));
     }
@@ -1096,7 +1096,7 @@ function defaultBotSettings(): BotSettingsView {
     control: {
       enabled: false,
       addr: "127.0.0.1:37913",
-      tokenEnv: "REASONIX_BOT_CONTROL_TOKEN",
+      tokenEnv: "INX_BOT_CONTROL_TOKEN",
     },
     pairing: {
       enabled: true,
@@ -7360,7 +7360,7 @@ function UpdatesSection({
         label={t("changelog.title")}
         hint={t("changelog.subtitle")}
       >
-        <button className="btn btn--small" onClick={() => void openExternal("https://reasonix.io/changelog/")}>
+        <button className="btn btn--small" onClick={() => void openExternal("https://inx.io/changelog/")}>
           {t("changelog.openWeb")}
           <ExternalLink size={14} aria-hidden="true" />
         </button>
@@ -7373,14 +7373,14 @@ function UpdatesSection({
         <div className="settings-inline-controls">
           <button
             className="btn btn--small"
-            onClick={() => void openExternal("https://github.com/esengine/DeepSeek-Reasonix/issues/new/choose")}
+            onClick={() => void openExternal("https://github.com/esengine/DeepSeek-Inx/issues/new/choose")}
           >
             {t("feedback.submitIssue")}
             <ExternalLink size={14} aria-hidden="true" />
           </button>
           <button
             className="btn btn--small"
-            onClick={() => void openExternal("https://github.com/esengine/DeepSeek-Reasonix/issues")}
+            onClick={() => void openExternal("https://github.com/esengine/DeepSeek-Inx/issues")}
           >
             {t("feedback.viewIssues")}
             <ExternalLink size={14} aria-hidden="true" />

@@ -6,10 +6,10 @@ import (
 	"log/slog"
 	"sync"
 
-	"reasonix/internal/event"
-	"reasonix/internal/eventwire"
-	"reasonix/internal/extension"
-	"reasonix/internal/extension/dispatch"
+	"inx/internal/event"
+	"inx/internal/eventwire"
+	"inx/internal/extension"
+	"inx/internal/extension/dispatch"
 )
 
 // Extension dispatch wiring (Extension Protocol v1, stage 6b1). The

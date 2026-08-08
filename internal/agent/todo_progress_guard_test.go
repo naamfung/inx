@@ -6,13 +6,13 @@ import (
 	"fmt"
 	"testing"
 
-	"reasonix/internal/agent/testutil"
-	"reasonix/internal/event"
-	"reasonix/internal/evidence"
-	"reasonix/internal/provider"
-	"reasonix/internal/tool"
+	"inx/internal/agent/testutil"
+	"inx/internal/event"
+	"inx/internal/evidence"
+	"inx/internal/provider"
+	"inx/internal/tool"
 
-	_ "reasonix/internal/tool/builtin"
+	_ "inx/internal/tool/builtin"
 )
 
 func TestTodoProgressGuardPausesSemanticToolDrift(t *testing.T) {

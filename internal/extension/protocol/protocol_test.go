@@ -7,7 +7,7 @@ import (
 )
 
 func TestProtocolConstants(t *testing.T) {
-	if ProtocolID != "reasonix.extension.v1" {
+	if ProtocolID != "inx.extension.v1" {
 		t.Fatalf("ProtocolID = %q", ProtocolID)
 	}
 	if ProtocolMajor != 1 || ProtocolVersion != "1" {
@@ -25,7 +25,7 @@ func TestCompareProtocolVersion(t *testing.T) {
 		version string
 		reason  ErrorReason
 	}{
-		{"wrong id", "reasonix.extension.v2", "1", ErrUnsupportedVersion},
+		{"wrong id", "inx.extension.v2", "1", ErrUnsupportedVersion},
 		{"empty id", "", "1", ErrUnsupportedVersion},
 		{"wrong major", ProtocolID, "2", ErrUnsupportedVersion},
 		{"zero major", ProtocolID, "0", ErrUnsupportedVersion},

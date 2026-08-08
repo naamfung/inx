@@ -5,10 +5,10 @@ import (
 	"path/filepath"
 	"testing"
 
-	"reasonix/internal/agent"
-	"reasonix/internal/control"
-	"reasonix/internal/event"
-	"reasonix/internal/tool"
+	"inx/internal/agent"
+	"inx/internal/control"
+	"inx/internal/event"
+	"inx/internal/tool"
 )
 
 // TestRestoredTabGoalFollowsSessionGoalState pins the restart half of the

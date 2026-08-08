@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"testing"
 
-	"reasonix/internal/agent"
+	"inx/internal/agent"
 )
 
 func TestClassifyRunCompletionNamesTheFailureClass(t *testing.T) {

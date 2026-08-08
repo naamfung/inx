@@ -11,21 +11,21 @@ import (
 	"strings"
 	"time"
 
-	"reasonix/internal/ablation"
-	"reasonix/internal/acp"
-	"reasonix/internal/boot"
-	"reasonix/internal/config"
-	"reasonix/internal/control"
-	"reasonix/internal/extension/providerext"
-	"reasonix/internal/i18n"
-	"reasonix/internal/netclient"
-	"reasonix/internal/provider"
-	"reasonix/internal/sandbox"
-	"reasonix/internal/tool"
-	"reasonix/internal/tool/builtin"
+	"inx/internal/ablation"
+	"inx/internal/acp"
+	"inx/internal/boot"
+	"inx/internal/config"
+	"inx/internal/control"
+	"inx/internal/extension/providerext"
+	"inx/internal/i18n"
+	"inx/internal/netclient"
+	"inx/internal/provider"
+	"inx/internal/sandbox"
+	"inx/internal/tool"
+	"inx/internal/tool/builtin"
 )
 
-// acpCommand runs Reasonix as an Agent Client Protocol agent: a stdio JSON-RPC
+// acpCommand runs Inx as an Agent Client Protocol agent: a stdio JSON-RPC
 // server that editors and other host clients drive (initialize, session/new,
 // session/prompt, session/cancel). It keeps v2 wire-compatible with the many
 // tools that integrated with v1 over ACP.
@@ -82,7 +82,7 @@ func acpCommand(args []string, version string) int {
 		networkOverride: networkOverride, workspaceOnly: *workspaceOnly,
 		bashOverride: bashMode, requireSandbox: bashMode == "enforce",
 	}
-	info := acp.AgentInfo{Name: "reasonix", Version: version}
+	info := acp.AgentInfo{Name: "inx", Version: version}
 	if err := acp.Serve(ctx, os.Stdin, os.Stdout, factory, info); err != nil {
 		fmt.Fprintln(os.Stderr, i18n.M.ErrorPrefix, err)
 		return 1
@@ -130,7 +130,7 @@ func (f *acpFactory) NewSession(ctx context.Context, p acp.SessionParams) (*cont
 
 // RebuildSession implements acp.SessionRebuilder: the replacement controller
 // comes from boot.Rebuild with the same boot.Options NewSession would use, so
-// _reasonix.io/session/reloadExtensions refreshes tool/skill/command/hook/
+// _inx.io/session/reloadExtensions refreshes tool/skill/command/hook/
 // MCP/provider discovery while the session state migrates inside the boot
 // layer. ACP sessions hold no SharedHost — each controller owns its plugin
 // host, and the service releases the outgoing one only after the swap.

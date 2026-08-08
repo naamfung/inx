@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	"reasonix/internal/agent"
-	"reasonix/internal/event"
+	"inx/internal/agent"
+	"inx/internal/event"
 )
 
 // A checkpoint opens with the composed turn, so its stored prompt carries the

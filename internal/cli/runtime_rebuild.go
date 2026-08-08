@@ -6,9 +6,9 @@ import (
 
 	tea "charm.land/bubbletea/v2"
 
-	"reasonix/internal/boot"
-	"reasonix/internal/control"
-	"reasonix/internal/i18n"
+	"inx/internal/boot"
+	"inx/internal/control"
+	"inx/internal/i18n"
 )
 
 // runtimeRebuilder builds the /reload replacement controller through

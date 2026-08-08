@@ -11,8 +11,8 @@ import (
 	"strings"
 	"testing"
 
-	"reasonix/internal/bot"
-	"reasonix/internal/config"
+	"inx/internal/bot"
+	"inx/internal/config"
 )
 
 func TestHandleDispatchDirectMessageUsesDirectChatType(t *testing.T) {
